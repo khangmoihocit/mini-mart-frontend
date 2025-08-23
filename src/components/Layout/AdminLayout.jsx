@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-const MainLayout = ({ children }) => {
+const AdminLayout = ({ children }) => {
     const { wrapLayout, containerMain } = styles;
 
     return (
@@ -11,4 +11,4 @@ const MainLayout = ({ children }) => {
     );
 };
 
-export default MainLayout;
+export default AdminLayout;
