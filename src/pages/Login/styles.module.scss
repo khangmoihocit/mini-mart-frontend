@@ -1,0 +1,43 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.group{
+    position: relative;
+    margin-top: 130px;
+
+    .input{
+        font-size: 14px;
+        padding: 10px 10px 10px 5px;
+        display: block;
+        width: 200px;
+        outline: none;
+        background: transparent;
+        position: absolute;
+        border: none;
+        border-bottom: 1px solid $color-foreground;
+
+        &:focus{
+            border-width: 2px;
+            border-bottom-color: $color-primary;
+        }
+
+        &:focus~.labelInput,
+        &:valid~.labelInput{ //:valid khi ô input có giá trị
+            top: -20px;
+            font-size: 16px;
+            color: $color-primary;
+        }
+    }
+
+    .labelInput{
+        position: absolute;
+        left: 5px;
+        top: 10px;
+        color: $color-price-compare;
+        font-size: 14px;
+        transition: top 300ms;
+    }
+
+
+    
+}
