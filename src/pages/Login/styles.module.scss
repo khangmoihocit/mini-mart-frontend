@@ -1,43 +1,90 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
 
-.group{
-    position: relative;
-    margin-top: 130px;
+.container {
+    @include flex_box_custom(center, center, 0px);
+    background-color: $color-background-body;
 
-    .input{
+    .containerContent {
+        @include flex_box_custom(center, center, 15px);
+        flex-direction: column;
+        width: 648px;
+        padding: 10px;
+        background-color: #fff;
+        box-sizing: border-box;
+
+
+        h2 {
+            text-align: center;
+        }
+
+        span {
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                color: $color-primary;
+            }
+        }
+
+        .containerInput {
+            width: 500px; 
+        }
+    }
+
+    .textSpec{
+        color: $color-secondary;
+    }
+}
+
+
+//inputcommon
+.boxIcon{
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.group {
+    position: relative;
+    height: 50px;
+    margin-bottom: 30px;
+
+    .input {
         font-size: 14px;
         padding: 10px 10px 10px 5px;
         display: block;
-        width: 200px;
+        width: 100%;
         outline: none;
         background: transparent;
         position: absolute;
         border: none;
         border-bottom: 1px solid $color-foreground;
+        box-sizing: border-box;
 
-        &:focus{
+        &:focus {
             border-width: 2px;
             border-bottom-color: $color-primary;
         }
 
         &:focus~.labelInput,
-        &:valid~.labelInput{ //:valid khi ô input có giá trị
+        &:not(:placeholder-shown)~.labelInput {
+            //:valid khi ô input có giá trị
             top: -20px;
             font-size: 16px;
             color: $color-primary;
         }
     }
 
-    .labelInput{
+    .labelInput {
         position: absolute;
         left: 5px;
         top: 10px;
         color: $color-price-compare;
         font-size: 14px;
         transition: top 300ms;
+        white-space: nowrap;
     }
-
-
-    
 }
