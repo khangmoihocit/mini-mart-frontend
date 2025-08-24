@@ -3,18 +3,30 @@ import styles from '../styles.module.scss';
 import { HiOutlineEye } from 'react-icons/hi';
 import { HiOutlineEyeOff } from 'react-icons/hi';
 
-const InputCommon = ({ label, type }) => {
+const InputCommon = ({ label, type, ...props}) => {
     const { group, labelInput, input, boxIcon} = styles;
 
     const [isShowPassword, setIsShowPassword] = useState(false);
-    const [value, setValue] = useState('');
+    const {loginRequest, setLoginRequest} = props;
 
     const isPassword = type === 'password';
     const showTextPassword =
         type === 'password' && isShowPassword ? 'text' : type;
 
+    
+
     const handleShowPassword = ()=>{
         setIsShowPassword(!isShowPassword);
+    }
+
+    const handleInputChange = (e)=>{
+        const name = e.target.name;
+        const value = e.target.value;
+        
+        // Chỉ cập nhật khi name tồn tại và không rỗng
+        if (name && name.trim() !== '') {
+            setLoginRequest({...loginRequest, [name]: value});
+        }
     }
 
     return (
@@ -23,9 +35,10 @@ const InputCommon = ({ label, type }) => {
                 <input
                     type={showTextPassword}
                     className={input}
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
                     placeholder=" "
+                    name={props.name}
+                    value={props.value}
+                    onChange={handleInputChange}
                 />
                 {isPassword && (
                     <div className={boxIcon} onClick={handleShowPassword}>

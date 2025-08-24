@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../styles.module.scss';
 import InputCommon from '@/pages/Login/components/InputCommon';
 import Button from '@/components/Button/Button';
+import { login } from '@/apis/authService';
 
 const FormLogin = () => {
     const {
@@ -11,6 +12,22 @@ const FormLogin = () => {
         containerContent,
         textSpec
     } = styles;
+
+    const [loginRequest, setLoginRequest] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleLogin = async () => {
+        await login(loginRequest)
+            .then(response => {
+                console.log('login success: ', response.data);
+            })
+            .catch(error => {
+                console.error('loi login: ', error.response.data);
+            });
+    };
+
     return (
         <div className={container}>
             <div className={containerContent}>
@@ -21,14 +38,28 @@ const FormLogin = () => {
                     </p>
                 </div>
                 <div className={containerInput}>
-                    <InputCommon label={'Email'} type={'email'} />
-                    <InputCommon label={'Mật khẩu'} type={'password'} />
+                    <InputCommon
+                        label={'Email'}
+                        type={'email'}
+                        name="email"
+                        value={loginRequest.email}
+                        loginRequest={loginRequest}
+                        setLoginRequest={setLoginRequest}
+                    />
+                    <InputCommon
+                        label={'Mật khẩu'}
+                        type={'password'}
+                        name="password"
+                        value={loginRequest.password}
+                        loginRequest={loginRequest}
+                        setLoginRequest={setLoginRequest}
+                    />
                 </div>
                 <p>
                     Quên mật khẩu? <span>Nhấn vào đây</span>
                 </p>
                 <div style={{ width: '320px' }}>
-                    <Button content={'Đăng nhập'} />
+                    <Button content={'Đăng nhập'} onClick={handleLogin}/>
                 </div>
 
                 <div className={textSpec}>Hoặc đăng nhập bằng</div>
