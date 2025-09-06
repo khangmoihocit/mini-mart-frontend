@@ -52,6 +52,7 @@
     height: 50px;
     margin-bottom: 30px;
 
+
     .input {
         font-size: 14px;
         padding: 10px 10px 10px 5px;
@@ -86,5 +87,7 @@
         font-size: 14px;
         transition: top 300ms;
         white-space: nowrap;
+
+        pointer-events: none;
     }
 }

@@ -16,16 +16,25 @@ const FormLogin = () => {
     const [loginRequest, setLoginRequest] = useState({
         email: '',
         password: ''
-    })
+    });
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = async () => {
-        await login(loginRequest)
-            .then(response => {
-                console.log('login success: ', response.data);
-            })
-            .catch(error => {
-                console.error('loi login: ', error.response.data);
-            });
+        setIsLoading(true);
+        try {
+            await login(loginRequest)
+                .then(response => {
+                    console.log('login success: ', response.data);
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    console.error('loi login: ', error.response.data);
+                    setIsLoading(false);
+                });
+        } catch (err) {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -41,7 +50,7 @@ const FormLogin = () => {
                     <InputCommon
                         label={'Email'}
                         type={'email'}
-                        name="email"
+                        name='email'
                         value={loginRequest.email}
                         loginRequest={loginRequest}
                         setLoginRequest={setLoginRequest}
@@ -49,7 +58,7 @@ const FormLogin = () => {
                     <InputCommon
                         label={'Mật khẩu'}
                         type={'password'}
-                        name="password"
+                        name='password'
                         value={loginRequest.password}
                         loginRequest={loginRequest}
                         setLoginRequest={setLoginRequest}
@@ -59,7 +68,10 @@ const FormLogin = () => {
                     Quên mật khẩu? <span>Nhấn vào đây</span>
                 </p>
                 <div style={{ width: '320px' }}>
-                    <Button content={'Đăng nhập'} onClick={handleLogin}/>
+                    <Button
+                        content={isLoading ? 'Loading...' : 'Đăng nhập'}
+                        onClick={handleLogin}
+                    />
                 </div>
 
                 <div className={textSpec}>Hoặc đăng nhập bằng</div>
