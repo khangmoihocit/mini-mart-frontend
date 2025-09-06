@@ -39,6 +39,7 @@ const FormLogin = () => {
                 // Lỗi do server trả về (4xx, 5xx)
                 if(error.response.data.code === 2003 || error.response.data.code === 2004){
                     setErrorMessage("Thông tin đăng nhập không hợp lệ.");
+                    return;
                 }
                 console.log(error.response.data);
                 // Lấy message từ API và set vào state để hiển thị
