@@ -1,7 +1,7 @@
-import api from '@apis/axiosClient';
+import { apiPublic } from '@apis/axiosClient';
 
-const login = async body => {
-    return await api.post('/auth/log-in', body);
-};
-
-export { login };
+export default class authService {
+    static login = async body => {
+        return await apiPublic.post('/api/v1/auth/log-in', body);
+    };
+}
