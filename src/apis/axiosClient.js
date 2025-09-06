@@ -1,7 +1,15 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const axiosClient = axios.create({
+const apiPublic = axios.create({
+    baseURL: 'http://localhost:8081',
+    timeout: 10000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
+const apiPrivate = axios.create({
     baseURL: 'http://localhost:8081',
     timeout: 10000,
     headers: {
@@ -10,7 +18,7 @@ const axiosClient = axios.create({
 });
 
 //config gửi token lên server
-axiosClient.interceptors.request.use(
+apiPrivate.interceptors.request.use(
     async config => {
         const token = Cookies.get('token');
         if (token) {
@@ -24,7 +32,7 @@ axiosClient.interceptors.request.use(
 );
 
 //config lỗi khi token hết hạn refresh token
-axiosClient.interceptors.response.use(
+apiPrivate.interceptors.response.use(
     res => {
         return res;
     },
@@ -69,4 +77,4 @@ axiosClient.interceptors.response.use(
     }
 );
 
-export default axiosClient;
+export {apiPublic, apiPrivate};

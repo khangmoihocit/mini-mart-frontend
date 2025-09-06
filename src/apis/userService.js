@@ -1,6 +1,6 @@
-import axiosClient from '@apis/axiosClient';
+import { apiPublic } from '@apis/axiosClient';
 
 export default class userService {
-    static add = async body => await axiosClient.post('/api/v1/users', body);
+    static add = async body => await apiPublic.post('/api/v1/users', body);
 
 }

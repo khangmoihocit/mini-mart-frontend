@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import userService from '@/apis/userService';
 
 const FormLogin = () => {
     const {
@@ -68,13 +69,22 @@ const FormLogin = () => {
 
         onSubmit: async values => {
             if (isLoading) return;
-            const { fullName, numberOfPhone, email, password } = values;
+            const {
+                fullName,
+                numberOfPhone: phoneNumber,
+                email,
+                password
+            } = values;
             setIsLoading(true);
             setErrorMessage('');
 
+            //sự kiện đăng nhập
             if (!isRegister) {
                 try {
-                    const response = await authService.login({ email, password });
+                    const response = await authService.login({
+                        email,
+                        password
+                    });
 
                     const token = response.data.result.token;
                     Cookies.set('token', token);
@@ -83,21 +93,36 @@ const FormLogin = () => {
                 } catch (error) {
                     if (error.response) {
                         // Lỗi do server trả về (4xx, 5xx)
-                        if (
-                            error.response.data.code === 2003 ||
-                            error.response.data.code === 2004
-                        ) {
-                            setErrorMessage(
-                                'Thông tin đăng nhập không hợp lệ.'
-                            );
-                            return;
-                        }
+                        setErrorMessage('Thông tin đăng nhập không hợp lệ.');
                         console.log(error.response.data);
-                        // Lấy message từ API và set vào state để hiển thị
-                        setErrorMessage(error.response.data.message);
                     } else {
                         // Lỗi mạng hoặc các lỗi khác
                         console.error('Lỗi kết nối:', error.message);
+                        setErrorMessage('Không thể kết nối đến máy chủ.');
+                    }
+                } finally {
+                    setIsLoading(false);
+                    setTimeout(() => {
+                        setErrorMessage('');
+                    }, 5000);
+                }
+            }
+
+            //sự kiện đăng ký
+            if (isRegister) {
+                try {
+                    const response = await userService.add({
+                        fullName,
+                        phoneNumber,
+                        email,
+                        password
+                    });
+
+                    console.log(response.data);
+                } catch (error) {
+                    if (error.response) {
+                        setErrorMessage(error.response.data.message);
+                    } else {
                         setErrorMessage('Không thể kết nối đến máy chủ.');
                     }
                 } finally {
