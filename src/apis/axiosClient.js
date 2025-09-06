@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8081/mini-mart',
+    baseURL: 'http://localhost:8081',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
@@ -43,7 +43,7 @@ axiosClient.interceptors.response.use(
             }
 
             try {
-                const res = await axiosClient.post('/auth/refresh', {
+                const res = await axiosClient.post('/api/v1/auth/refresh', {
                     token: refreshToken
                 });
 

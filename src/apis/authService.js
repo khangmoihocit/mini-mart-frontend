@@ -1,7 +1,8 @@
 import axiosClient from '@apis/axiosClient';
 
-const login = async body => {
-    return await axiosClient.post('/auth/log-in', body);
-};
-
-export { login };
+export default class authService {
+    static login = async body => {
+        console.log(body);
+        return await axiosClient.post('/api/v1/auth/log-in', body);
+    };
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles.module.scss';
 import InputCommon from '@/pages/Login/components/InputCommon';
 import Button from '@/components/Button/Button';
-import { login } from '@/apis/authService';
+import authService from '@/apis/authService';
 import Cookies from 'js-cookie';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -20,15 +20,41 @@ const FormLogin = () => {
         textLink
     } = styles;
 
-    const [loginRequest, setLoginRequest] = useState({
-        email: '',
-        password: ''
-    });
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const navigate = useNavigate();
+
+    // Schema cho đăng nhập
+    const loginSchema = Yup.object({
+        email: Yup.string()
+            .email('Email không đúng định dạng.')
+            .required('Email không được để trống.'),
+        password: Yup.string().required('Mật khẩu không được để trống.')
+    });
+
+    // Schema cho  đăng ký
+    const registerSchema = Yup.object({
+        fullName: Yup.string()
+            .min(2, 'Họ và tên phải có ít nhất 2 ký tự.')
+            .required('Họ và tên không được để trống.'),
+        numberOfPhone: Yup.string()
+            .matches(
+                /^(0[3|5|7|8|9])+([0-9]{8})\b/,
+                'Số điện thoại không hợp lệ.'
+            )
+            .required('Số điện thoại không được để trống.'),
+        email: Yup.string()
+            .email('Email không đúng định dạng.')
+            .required('Email không được để trống.'),
+        password: Yup.string()
+            .min(8, 'Mật khẩu phải có ít nhất 8 ký tự.')
+            .required('Mật khẩu không được để trống.'),
+        cfmpassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Mật khẩu xác nhận không khớp.')
+            .required('Vui lòng xác nhận lại mật khẩu.')
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -38,78 +64,51 @@ const FormLogin = () => {
             password: '',
             cfmpassword: ''
         },
-        validationSchema: Yup.object({
-            fullName: Yup.string()
-                .min(2, 'Họ và tên phải có ít nhất 2 ký tự.')
-                .required('Họ và tên không được để trống.'),
-
-            numberOfPhone: Yup.string()
-                .matches(
-                    /^(0[3|5|7|8|9])+([0-9]{8})\b/,
-                    'Số điện thoại không hợp lệ.'
-                )
-                .required('Số điện thoại không được để trống.'),
-
-            email: Yup.string()
-                .email('Email không đúng định dạng.')
-                .required('Email không được để trống.'),
-
-            password: Yup.string()
-                .min(8, 'Mật khẩu phải có ít nhất 8 ký tự.')
-                .required('Mật khẩu không được để trống.'),
-
-            cfmpassword: Yup.string()
-                .oneOf(
-                    [Yup.ref('password'), null],
-                    'Mật khẩu xác nhận không khớp.'
-                )
-                .required('Vui lòng xác nhận lại mật khẩu.')
-        }),
+        validationSchema: isRegister ? registerSchema : loginSchema,
 
         onSubmit: async values => {
             if (isLoading) return;
-
             const { fullName, numberOfPhone, email, password } = values;
-            console.log(values);
+            setIsLoading(true);
+            setErrorMessage('');
+
+            if (!isRegister) {
+                try {
+                    const response = await authService.login({ email, password });
+
+                    const token = response.data.result.token;
+                    Cookies.set('token', token);
+
+                    setErrorMessage('Đăng nhập thành công!');
+                } catch (error) {
+                    if (error.response) {
+                        // Lỗi do server trả về (4xx, 5xx)
+                        if (
+                            error.response.data.code === 2003 ||
+                            error.response.data.code === 2004
+                        ) {
+                            setErrorMessage(
+                                'Thông tin đăng nhập không hợp lệ.'
+                            );
+                            return;
+                        }
+                        console.log(error.response.data);
+                        // Lấy message từ API và set vào state để hiển thị
+                        setErrorMessage(error.response.data.message);
+                    } else {
+                        // Lỗi mạng hoặc các lỗi khác
+                        console.error('Lỗi kết nối:', error.message);
+                        setErrorMessage('Không thể kết nối đến máy chủ.');
+                    }
+                } finally {
+                    setIsLoading(false);
+                    setTimeout(() => {
+                        setErrorMessage('');
+                    }, 5000);
+                }
+            }
         }
     });
-
-    const handleLogin = async () => {
-        setIsLoading(true);
-        setErrorMessage('');
-
-        try {
-            const response = await login(loginRequest);
-
-            const token = response.data.result.token;
-            Cookies.set('token', token);
-
-            setErrorMessage('Đăng nhập thành công!');
-        } catch (error) {
-            if (error.response) {
-                // Lỗi do server trả về (4xx, 5xx)
-                if (
-                    error.response.data.code === 2003 ||
-                    error.response.data.code === 2004
-                ) {
-                    setErrorMessage('Thông tin đăng nhập không hợp lệ.');
-                    return;
-                }
-                console.log(error.response.data);
-                // Lấy message từ API và set vào state để hiển thị
-                setErrorMessage(error.response.data.message);
-            } else {
-                // Lỗi mạng hoặc các lỗi khác
-                console.error('Lỗi kết nối:', error.message);
-                setErrorMessage('Không thể kết nối đến máy chủ.');
-            }
-        } finally {
-            setIsLoading(false);
-            setTimeout(() => {
-                setErrorMessage('');
-            }, 5000);
-        }
-    };
 
     return (
         <div className={container}>
