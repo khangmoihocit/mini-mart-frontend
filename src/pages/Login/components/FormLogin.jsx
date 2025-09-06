@@ -18,12 +18,14 @@ const FormLogin = () => {
         textSpec,
         textMessageError,
         containerButton,
-        textLink
+        textLink,
+        textMessageSuccess
     } = styles;
 
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -77,6 +79,7 @@ const FormLogin = () => {
             } = values;
             setIsLoading(true);
             setErrorMessage('');
+            setSuccessMessage('');
 
             //sự kiện đăng nhập
             if (!isRegister) {
@@ -89,12 +92,12 @@ const FormLogin = () => {
                     const token = response.data.result.token;
                     Cookies.set('token', token);
 
-                    setErrorMessage('Đăng nhập thành công!');
+                    setSuccessMessage('Đăng nhập thành công!');
                 } catch (error) {
                     if (error.response) {
                         // Lỗi do server trả về (4xx, 5xx)
                         setErrorMessage('Thông tin đăng nhập không hợp lệ.');
-                        console.log(error.response.data);
+                        // console.log(error.response.data);
                     } else {
                         // Lỗi mạng hoặc các lỗi khác
                         console.error('Lỗi kết nối:', error.message);
@@ -104,6 +107,7 @@ const FormLogin = () => {
                     setIsLoading(false);
                     setTimeout(() => {
                         setErrorMessage('');
+                        setSuccessMessage('');
                     }, 5000);
                 }
             }
@@ -117,8 +121,8 @@ const FormLogin = () => {
                         email,
                         password
                     });
-
-                    console.log(response.data);
+                    setSuccessMessage('Đăng ký thành công!');
+                    setIsRegister(false);
                 } catch (error) {
                     if (error.response) {
                         setErrorMessage(error.response.data.message);
@@ -129,6 +133,7 @@ const FormLogin = () => {
                     setIsLoading(false);
                     setTimeout(() => {
                         setErrorMessage('');
+                        setSuccessMessage('');
                     }, 5000);
                 }
             }
@@ -169,6 +174,9 @@ const FormLogin = () => {
                     </p>
                     {errorMessage && (
                         <p className={textMessageError}>{errorMessage}</p>
+                    )}
+                    {successMessage && (
+                        <p className={textMessageSuccess}>{successMessage}</p>
                     )}
                 </div>
                 <form onSubmit={formik.handleSubmit}>
