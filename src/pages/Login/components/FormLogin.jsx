@@ -4,6 +4,9 @@ import InputCommon from '@/pages/Login/components/InputCommon';
 import Button from '@/components/Button/Button';
 import { login } from '@/apis/authService';
 import Cookies from 'js-cookie';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 const FormLogin = () => {
     const {
@@ -12,16 +15,64 @@ const FormLogin = () => {
         containerBox,
         containerContent,
         textSpec,
-        textMessageError
+        textMessageError,
+        containerButton,
+        textLink
     } = styles;
 
     const [loginRequest, setLoginRequest] = useState({
         email: '',
         password: ''
     });
-
+    const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const navigate = useNavigate();
+
+    const formik = useFormik({
+        initialValues: {
+            fullName: '',
+            numberOfPhone: '',
+            email: '',
+            password: '',
+            cfmpassword: ''
+        },
+        validationSchema: Yup.object({
+            fullName: Yup.string()
+                .min(2, 'Họ và tên phải có ít nhất 2 ký tự.')
+                .required('Họ và tên không được để trống.'),
+
+            numberOfPhone: Yup.string()
+                .matches(
+                    /^(0[3|5|7|8|9])+([0-9]{8})\b/,
+                    'Số điện thoại không hợp lệ.'
+                )
+                .required('Số điện thoại không được để trống.'),
+
+            email: Yup.string()
+                .email('Email không đúng định dạng.')
+                .required('Email không được để trống.'),
+
+            password: Yup.string()
+                .min(8, 'Mật khẩu phải có ít nhất 8 ký tự.')
+                .required('Mật khẩu không được để trống.'),
+
+            cfmpassword: Yup.string()
+                .oneOf(
+                    [Yup.ref('password'), null],
+                    'Mật khẩu xác nhận không khớp.'
+                )
+                .required('Vui lòng xác nhận lại mật khẩu.')
+        }),
+
+        onSubmit: async values => {
+            if (isLoading) return;
+
+            const { fullName, numberOfPhone, email, password } = values;
+            console.log(values);
+        }
+    });
 
     const handleLogin = async () => {
         setIsLoading(true);
@@ -37,8 +88,11 @@ const FormLogin = () => {
         } catch (error) {
             if (error.response) {
                 // Lỗi do server trả về (4xx, 5xx)
-                if(error.response.data.code === 2003 || error.response.data.code === 2004){
-                    setErrorMessage("Thông tin đăng nhập không hợp lệ.");
+                if (
+                    error.response.data.code === 2003 ||
+                    error.response.data.code === 2004
+                ) {
+                    setErrorMessage('Thông tin đăng nhập không hợp lệ.');
                     return;
                 }
                 console.log(error.response.data);
@@ -63,39 +117,95 @@ const FormLogin = () => {
                 <div>
                     <h2>Đăng nhập tài khoản</h2>
                     <p style={{ textAlign: 'center', fontSize: '14px' }}>
-                        Bạn chưa có tài khoản ? <span>Đăng ký tại đây</span>{' '}
+                        {!isRegister ? (
+                            <div>
+                                Bạn chưa có tài khoản ?{' '}
+                                <span
+                                    className={textLink}
+                                    onClick={() => {
+                                        setIsRegister(true);
+                                    }}
+                                >
+                                    Đăng ký tại đây
+                                </span>{' '}
+                            </div>
+                        ) : (
+                            <div>
+                                Bạn đã có tài khoản ?{' '}
+                                <span
+                                    className={textLink}
+                                    onClick={() => {
+                                        setIsRegister(false);
+                                    }}
+                                >
+                                    Đăng nhập tại đây
+                                </span>{' '}
+                            </div>
+                        )}
                     </p>
                     {errorMessage && (
                         <p className={textMessageError}>{errorMessage}</p>
                     )}
                 </div>
-                <div className={containerInput}>
-                    <InputCommon
-                        label={'Email'}
-                        type={'email'}
-                        name='email'
-                        value={loginRequest.email}
-                        request={loginRequest}
-                        setRequest={setLoginRequest}
-                    />
-                    <InputCommon
-                        label={'Mật khẩu'}
-                        type={'password'}
-                        name='password'
-                        value={loginRequest.password}
-                        request={loginRequest}
-                        setRequest={setLoginRequest}
-                    />
-                </div>
-                <p>
-                    Quên mật khẩu? <span>Nhấn vào đây</span>
-                </p>
-                <div style={{ width: '320px' }}>
-                    <Button
-                        content={isLoading ? 'Loading...' : 'Đăng nhập'}
-                        onClick={handleLogin}
-                    />
-                </div>
+                <form onSubmit={formik.handleSubmit}>
+                    <div className={containerInput}>
+                        {isRegister && (
+                            <InputCommon
+                                id='fullName'
+                                label={'Họ và tên'}
+                                type={'text'}
+                                formik={formik}
+                            />
+                        )}
+                        {isRegister && (
+                            <InputCommon
+                                id='numberOfPhone'
+                                label={'Số điện thoại'}
+                                type={'text'}
+                                formik={formik}
+                            />
+                        )}
+                        <InputCommon
+                            id='email'
+                            label={'Email'}
+                            type={'email'}
+                            formik={formik}
+                        />
+                        <InputCommon
+                            id='password'
+                            label={'Mật khẩu'}
+                            type={'password'}
+                            formik={formik}
+                        />
+                        {isRegister && (
+                            <InputCommon
+                                id='cfmpassword'
+                                label={'Xác nhận mật khẩu'}
+                                type={'password'}
+                                formik={formik}
+                            />
+                        )}
+                    </div>
+                    {!isRegister && (
+                        <p style={{ textAlign: 'center' }}>
+                            Quên mật khẩu? <span>Nhấn vào đây</span>
+                        </p>
+                    )}
+                    <div className={containerButton}>
+                        <div style={{ width: '320px' }}>
+                            <Button
+                                content={
+                                    isLoading
+                                        ? 'Loading...'
+                                        : isRegister
+                                        ? 'Đăng ký'
+                                        : 'Đăng nhập'
+                                }
+                                type='submit'
+                            />
+                        </div>
+                    </div>
+                </form>
 
                 <div className={textSpec}>Hoặc đăng nhập bằng</div>
                 <div className={containerBox}>

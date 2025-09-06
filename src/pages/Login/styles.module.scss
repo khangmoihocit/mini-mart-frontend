@@ -17,7 +17,7 @@
             text-align: center;
         }
 
-        span {
+        .textLink {
             text-decoration: underline;
             cursor: pointer;
 
@@ -56,6 +56,12 @@
             opacity: 0.1;
         }
     }
+
+    .containerButton {
+        @include flex_box_custom(center, unset, 0px);
+
+        width: 100%;
+    }
 }
 
 //inputcommon
@@ -70,7 +76,7 @@
 .group {
     position: relative;
     height: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 
     .input {
         font-size: 14px;
@@ -108,5 +114,14 @@
         white-space: nowrap;
 
         pointer-events: none;
+    }
+
+    .errorMessage {
+        position: absolute;
+        color: $color-error;
+        font-size: 13px;
+        height: 10px;
+        bottom: -5px;
+        left: 10px;
     }
 }
