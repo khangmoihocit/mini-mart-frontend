@@ -7,7 +7,7 @@ const InputCommon = ({ label, type, ...props}) => {
     const { group, labelInput, input, boxIcon} = styles;
 
     const [isShowPassword, setIsShowPassword] = useState(false);
-    const {loginRequest, setLoginRequest} = props;
+    const {request, setRequest, } = props;
 
     const isPassword = type === 'password';
     const showTextPassword =
@@ -25,7 +25,7 @@ const InputCommon = ({ label, type, ...props}) => {
         
         // Chỉ cập nhật khi name tồn tại và không rỗng
         if (name && name.trim() !== '') {
-            setLoginRequest({...loginRequest, [name]: value});
+            setRequest({...request, [name]: value});
         }
     }
 

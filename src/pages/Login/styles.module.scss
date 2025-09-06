@@ -13,7 +13,6 @@
         background-color: #fff;
         box-sizing: border-box;
 
-
         h2 {
             text-align: center;
         }
@@ -28,18 +27,39 @@
         }
 
         .containerInput {
-            width: 500px; 
+            width: 500px;
         }
     }
 
-    .textSpec{
+    .textSpec {
         color: $color-secondary;
+        display: block;
+        height: 19px;
+    }
+
+    .textMessageError {
+        width: 500px;
+        font-size: 14px;
+        color: $color-error;
+        position: relative;
+        padding: 8px;
+        border-radius: 10px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            opacity: 0.1;
+        }
     }
 }
 
-
 //inputcommon
-.boxIcon{
+.boxIcon {
     position: absolute;
     right: 10px;
     top: 15px;
@@ -51,7 +71,6 @@
     position: relative;
     height: 50px;
     margin-bottom: 30px;
-
 
     .input {
         font-size: 14px;
@@ -70,8 +89,8 @@
             border-bottom-color: $color-primary;
         }
 
-        &:focus~.labelInput,
-        &:not(:placeholder-shown)~.labelInput {
+        &:focus ~ .labelInput,
+        &:not(:placeholder-shown) ~ .labelInput {
             //:valid khi ô input có giá trị
             top: -20px;
             font-size: 16px;
