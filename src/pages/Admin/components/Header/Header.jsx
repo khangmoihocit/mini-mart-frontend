@@ -118,7 +118,11 @@ const Header = () => {
                     </div>
                     <div>
                         <IoSettingsOutline
-                            style={{ width: '36px', height: '26px' }}
+                            style={{
+                                width: '36px',
+                                height: '26px',
+                                cursor: 'pointer'
+                            }}
                         />
                     </div>
                 </div>

@@ -55,6 +55,7 @@
 
     .containerLanguage {
         position: relative;
+        cursor: pointer;
 
         .boxLanguage {
             @include flex_box_custom(center, center, 5px);
@@ -78,7 +79,7 @@
             padding: 20px 5px 0px 15px;
             width: 222px;
 
-            b{
+            b {
                 font-size: 14px;
             }
 
@@ -97,6 +98,7 @@
         border-radius: 50px;
         width: 36px;
         height: 36px;
+        cursor: pointer;
 
         .icon {
             font-size: 18px;
