@@ -1,0 +1,129 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 280px);
+    height: 80px;
+    padding: 15px 13px 15px 30px;
+    background: $--bs-white;
+    box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
+    z-index: 19;
+    transition: all 0.3s ease;
+}
+
+.containerHeader {
+    @include flex_box_custom(space-between, center, 0px);
+
+    height: 100%;
+}
+
+.containerSearch {
+    @include flex_box_custom(unset, center, 15px);
+    width: 100%;
+    max-width: 612px;
+    position: relative;
+
+    input {
+        min-width: 612px;
+        width: 100%;
+        outline: 0;
+        padding: 14px 22px;
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 12px;
+        border: 1px solid #ecf0f4;
+
+        &:focus {
+            border: 1px solid $--bs-cyan;
+        }
+    }
+
+    .icon {
+        position: absolute;
+        right: 10px;
+        color: $--bs-gray-dark;
+        font-size: 20px;
+        cursor: pointer;
+    }
+}
+
+.listIcon {
+    @include flex_box_custom(center, center, 15px);
+
+    .containerLanguage {
+        position: relative;
+        cursor: pointer;
+
+        .boxLanguage {
+            @include flex_box_custom(center, center, 5px);
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+
+            p {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+
+        .menuLanguage {
+            position: absolute;
+            left: 10px;
+            box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.077);
+            border-radius: 10px;
+            padding: 20px 5px 0px 15px;
+            width: 222px;
+
+            b {
+                font-size: 14px;
+            }
+
+            .wrapLanguage {
+                margin-left: 10px;
+                font-size: 12px;
+                font-weight: 300;
+            }
+        }
+    }
+
+    .iconItem {
+        @include flex_box_custom(center, center, 0px);
+
+        background-color: rgba(203, 213, 225, 0.3);
+        border-radius: 50px;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+
+        .icon {
+            font-size: 18px;
+            color: #000;
+        }
+    }
+
+    .containerInfo {
+        @include flex_box_custom(center, center, 10px);
+        .boxName {
+            @include flex_box_custom(center, unset, 0px);
+            flex-direction: column;
+
+            h3 {
+                font-size: 16px;
+                padding: 0;
+                margin: 0;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                color: $--bs-gray;
+            }
+        }
+    }
+}

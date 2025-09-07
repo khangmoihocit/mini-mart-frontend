@@ -1,0 +1,134 @@
+import React, { useEffect, useState } from 'react';
+import styles from './styles.module.scss';
+import { LuSearch } from 'react-icons/lu';
+import { IoMoonOutline } from 'react-icons/io5';
+import { FaRegBell } from 'react-icons/fa';
+import { FiMessageSquare } from 'react-icons/fi';
+import { LuLayoutGrid } from 'react-icons/lu';
+import { IoScan } from 'react-icons/io5';
+import { IoSettingsOutline } from 'react-icons/io5';
+import LogoVN from '@icons/svgs/vn.svg';
+import LogoENG from '@icons/svgs/eng.svg';
+import LogoJP from '@icons/svgs/japan.svg';
+import dataLanguage from '@/pages/Admin/components/MenuLanguage/constants';
+import MenuLanguage from '@/pages/Admin/components/MenuLanguage/MenuLanguage';
+
+const Header = () => {
+    const {
+        containerHeader,
+        containerSearch,
+        icon,
+        listIcon,
+        iconItem,
+        containerInfo,
+        imgAvatar,
+        boxName,
+        container,
+        boxLanguage,
+        menuLanguage,
+        containerLanguage,
+        wrapLanguage
+    } = styles;
+
+    const [isShowLanguage, setIsShowLanguage] = useState(false);
+    const [typeLanguage, setTypeLanguage] = useState('VN');
+    const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
+
+    useEffect(() => {
+        switch (typeLanguage) {
+            case 'VN':
+                setLanguage({ src: LogoVN, content: 'VN' });
+                break;
+            case 'ENG':
+                setLanguage({ src: LogoENG, content: 'ENG' });
+                break;
+            case 'JP':
+                setLanguage({ src: LogoJP, content: 'JP' });
+                break;
+            default:
+                setLanguage({ src: LogoVN, content: 'VN' });
+        }
+    }, [typeLanguage]);
+
+    const handleHover = () => {
+        setIsShowLanguage(true);
+    };
+
+    return (
+        <div className={container}>
+            <div className={containerHeader}>
+                <div className={containerSearch}>
+                    <input type='text' placeholder='Tìm kiếm tại đây...' />
+                    <LuSearch className={icon} />
+                </div>
+                <div className={listIcon}>
+                    <div
+                        className={containerLanguage}
+                        onMouseEnter={handleHover}
+                        onMouseLeave={() => setIsShowLanguage(false)}
+                    >
+                        <div className={boxLanguage}>
+                            <img src={language.src} alt='icon vn' />
+                            <p>{language.content}</p>
+                        </div>
+                        {isShowLanguage && (
+                            <div className={menuLanguage}>
+                                <b>Languages</b>
+                                <div className={wrapLanguage}>
+                                    {dataLanguage.map(item => (
+                                        <MenuLanguage
+                                            setTypeLanguage={setTypeLanguage}
+                                            value={item.value}
+                                            src={item.src}
+                                            content={item.content}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className={iconItem}>
+                        <IoMoonOutline className={icon} />
+                    </div>
+                    <div className={iconItem}>
+                        <FaRegBell className={icon} />
+                    </div>
+                    <div className={iconItem}>
+                        <FiMessageSquare className={icon} />
+                    </div>
+                    <div className={iconItem}>
+                        <IoScan className={icon} />
+                    </div>
+                    <div className={iconItem}>
+                        <LuLayoutGrid className={icon} />
+                    </div>
+                    <div className={containerInfo}>
+                        <div className={imgAvatar}>
+                            <img
+                                src='https://cdn-icons-png.flaticon.com/512/3781/3781986.png'
+                                alt='avatar'
+                                width={'36px'}
+                                height={'36px'}
+                            />
+                        </div>
+                        <div className={boxName}>
+                            <h3>Pham Van Khang</h3>
+                            <p>Admin</p>
+                        </div>
+                    </div>
+                    <div>
+                        <IoSettingsOutline
+                            style={{
+                                width: '36px',
+                                height: '26px',
+                                cursor: 'pointer'
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Header;
