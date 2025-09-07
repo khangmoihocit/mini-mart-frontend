@@ -92,7 +92,8 @@ const FormLogin = () => {
                     const token = response.data.result.token;
                     Cookies.set('token', token);
 
-                    setSuccessMessage('Đăng nhập thành công!');
+                    navigate('/admin');
+                    
                 } catch (error) {
                     if (error.response) {
                         // Lỗi do server trả về (4xx, 5xx)

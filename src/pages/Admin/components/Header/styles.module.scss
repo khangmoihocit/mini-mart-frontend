@@ -1,0 +1,88 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 280px);
+    height: 80px;
+    padding: 15px 13px 15px 30px;
+    background: $--bs-white;
+    box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
+    z-index: 19;
+    transition: all 0.3s ease;
+}
+
+.containerHeader {
+    @include flex_box_custom(space-between, center, 0px);
+
+    height: 100%;
+}
+
+.containerSearch {
+    @include flex_box_custom(unset, center, 15px);
+    width: 100%;
+    max-width: 612px;
+    position: relative;
+
+    input {
+        width: 612px;
+        outline: 0;
+        padding: 14px 22px;
+        font-size: 14px;
+        font-weight: 400;
+        border-radius: 12px;
+        border: 1px solid #ecf0f4;
+
+        &:focus {
+            border: 1px solid $--bs-cyan;
+        }
+    }
+
+    .icon {
+        position: absolute;
+        right: 10px;
+        color: $--bs-gray-dark;
+        font-size: 20px;
+    }
+}
+
+.listIcon {
+    @include flex_box_custom(center, center, 15px);
+
+    .iconItem {
+        @include flex_box_custom(center, center, 0px);
+
+        background-color: rgba(203, 213, 225, 0.3);
+        border-radius: 50px;
+        width: 36px;
+        height: 36px;
+
+        .icon {
+            font-size: 18px;
+            color: #000;
+        }
+    }
+
+    .containerInfo {
+        @include flex_box_custom(center, center, 10px);
+        .boxName {
+            @include flex_box_custom(center, unset, 0px);
+            flex-direction: column;
+
+            h3 {
+                font-size: 16px;
+                padding: 0;
+                margin: 0;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                color: $--bs-gray;
+            }
+        }
+    }
+}
