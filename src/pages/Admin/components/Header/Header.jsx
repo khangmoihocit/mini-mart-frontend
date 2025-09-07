@@ -25,7 +25,9 @@ const Header = () => {
         boxName,
         container,
         boxLanguage,
-        menuLanguage
+        menuLanguage,
+        containerLanguage,
+        wrapLanguage
     } = styles;
 
     const [isShowLanguage, setIsShowLanguage] = useState(false);
@@ -60,19 +62,20 @@ const Header = () => {
                     <LuSearch className={icon} />
                 </div>
                 <div className={listIcon}>
-                    <div className={boxLanguage}>
-                        <div onMouseEnter={handleHover}>
+                    <div
+                        className={containerLanguage}
+                        onMouseEnter={handleHover}
+                        onMouseLeave={() => setIsShowLanguage(false)}
+                    >
+                        <div className={boxLanguage}>
                             <img src={language.src} alt='icon vn' />
                             <p>{language.content}</p>
                         </div>
                         {isShowLanguage && (
-                            <div
-                                className={menuLanguage}
-                                onMouseLeave={() => setIsShowLanguage(false)}
-                            >
+                            <div className={menuLanguage}>
                                 <b>Languages</b>
-                                <div>
-                                    {dataLanguage.map((item) => (
+                                <div className={wrapLanguage}>
+                                    {dataLanguage.map(item => (
                                         <MenuLanguage
                                             setTypeLanguage={setTypeLanguage}
                                             value={item.value}

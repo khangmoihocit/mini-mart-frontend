@@ -53,7 +53,42 @@
 .listIcon {
     @include flex_box_custom(center, center, 15px);
 
+    .containerLanguage {
+        position: relative;
 
+        .boxLanguage {
+            @include flex_box_custom(center, center, 5px);
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+
+            p {
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+
+        .menuLanguage {
+            position: absolute;
+            left: 10px;
+            box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.077);
+            border-radius: 10px;
+            padding: 20px 5px 0px 15px;
+            width: 222px;
+
+            b{
+                font-size: 14px;
+            }
+
+            .wrapLanguage {
+                margin-left: 10px;
+                font-size: 12px;
+                font-weight: 300;
+            }
+        }
+    }
 
     .iconItem {
         @include flex_box_custom(center, center, 0px);
