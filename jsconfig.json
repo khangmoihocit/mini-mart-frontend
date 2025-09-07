@@ -7,7 +7,11 @@
             "@assets/*": ["src/assets/*"],
             "@icons/*": ["src/assets/icons/*"],
             "@pages/*": ["src/pages/*"],
-            "@apis/*": ["src/apis/*"]
+            "@apis/*": ["src/apis/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@utils/*": ["src/utils/*"],
+            "@constants/*": ["src/constants/*"],
+            "@validations/*": ["src/validations/*"]
         }
     },
     "include": ["src/**/*"]
