@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../styles.module.scss';
-import InputCommon from './InputCommon';
+import InputCommon from './InputCommon/InputCommon';
 import Button from '@/components/Button/Button';
 import AuthHeader from './AuthHeader/AuthHeader';
 import SocialLogin from './SocialLogin/SocialLogin';

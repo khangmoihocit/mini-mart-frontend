@@ -77,6 +77,7 @@ const Header = () => {
                                 <div className={wrapLanguage}>
                                     {dataLanguage.map(item => (
                                         <MenuLanguage
+                                            key={item.value}
                                             setTypeLanguage={setTypeLanguage}
                                             value={item.value}
                                             src={item.src}

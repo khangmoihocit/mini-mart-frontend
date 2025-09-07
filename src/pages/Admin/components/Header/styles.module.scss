@@ -12,6 +12,10 @@
     box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
     z-index: 19;
     transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .containerHeader {

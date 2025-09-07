@@ -26,7 +26,7 @@ export const VALIDATION_MESSAGES = {
 export const API_MESSAGES = {
     LOGIN: {
         INVALID_CREDENTIALS: 'Thông tin đăng nhập không hợp lệ.',
-        CONNECTION_ERROR: 'Không thể kết nối đến máy chủ.'
+        CONNECTION_ERROR: 'Không thể kết nối đến server.'
     },
     REGISTER: {
         SUCCESS: 'Đăng ký thành công!'
