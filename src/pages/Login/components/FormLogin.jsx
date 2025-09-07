@@ -29,6 +29,7 @@ const FormLogin = () => {
 
     const navigate = useNavigate();
 
+    //fix lỗi: khi ấn login mà kèm theo check schema bên register => lỗi
     // Schema cho đăng nhập
     const loginSchema = Yup.object({
         email: Yup.string()
@@ -93,7 +94,6 @@ const FormLogin = () => {
                     Cookies.set('token', token);
 
                     navigate('/admin');
-                    
                 } catch (error) {
                     if (error.response) {
                         // Lỗi do server trả về (4xx, 5xx)
@@ -139,7 +139,25 @@ const FormLogin = () => {
                 }
             }
         }
-    });
+    }); //end useFormik
+
+    const handleSwitchToRegister = () => {
+        formik.resetForm();
+        setIsRegister(true);
+    };
+
+    const handleSwitchToLogin = () => {
+        formik.resetForm({
+            values: {
+                email: formik.values.email,
+                password: formik.values.password,
+                fullName: '',
+                numberOfPhone: '',
+                cfmpassword: ''
+            }
+        });
+        setIsRegister(false);
+    };
 
     return (
         <div className={container}>
@@ -152,9 +170,7 @@ const FormLogin = () => {
                                 Bạn chưa có tài khoản ?{' '}
                                 <span
                                     className={textLink}
-                                    onClick={() => {
-                                        setIsRegister(true);
-                                    }}
+                                    onClick={handleSwitchToRegister}
                                 >
                                     Đăng ký tại đây
                                 </span>{' '}
@@ -164,9 +180,7 @@ const FormLogin = () => {
                                 Bạn đã có tài khoản ?{' '}
                                 <span
                                     className={textLink}
-                                    onClick={() => {
-                                        setIsRegister(false);
-                                    }}
+                                    onClick={handleSwitchToLogin}
                                 >
                                     Đăng nhập tại đây
                                 </span>{' '}
@@ -221,7 +235,7 @@ const FormLogin = () => {
                     </div>
                     {!isRegister && (
                         <p style={{ textAlign: 'center' }}>
-                            Quên mật khẩu? <span>Nhấn vào đây</span>
+                            Quên mật khẩu? <span className={textLink} >Nhấn vào đây</span>
                         </p>
                     )}
                     <div className={containerButton}>
