@@ -27,7 +27,8 @@
     position: relative;
 
     input {
-        width: 612px;
+        min-width: 612px;
+        width: 100%;
         outline: 0;
         padding: 14px 22px;
         font-size: 14px;
@@ -45,11 +46,14 @@
         right: 10px;
         color: $--bs-gray-dark;
         font-size: 20px;
+        cursor: pointer;
     }
 }
 
 .listIcon {
     @include flex_box_custom(center, center, 15px);
+
+
 
     .iconItem {
         @include flex_box_custom(center, center, 0px);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { LuSearch } from 'react-icons/lu';
 import { IoMoonOutline } from 'react-icons/io5';
@@ -7,6 +7,11 @@ import { FiMessageSquare } from 'react-icons/fi';
 import { LuLayoutGrid } from 'react-icons/lu';
 import { IoScan } from 'react-icons/io5';
 import { IoSettingsOutline } from 'react-icons/io5';
+import LogoVN from '@icons/svgs/vn.svg';
+import LogoENG from '@icons/svgs/eng.svg';
+import LogoJP from '@icons/svgs/japan.svg';
+import dataLanguage from '@/pages/Admin/components/MenuLanguage/constants';
+import MenuLanguage from '@/pages/Admin/components/MenuLanguage/MenuLanguage';
 
 const Header = () => {
     const {
@@ -18,8 +23,34 @@ const Header = () => {
         containerInfo,
         imgAvatar,
         boxName,
-        container
+        container,
+        boxLanguage,
+        menuLanguage
     } = styles;
+
+    const [isShowLanguage, setIsShowLanguage] = useState(false);
+    const [typeLanguage, setTypeLanguage] = useState('VN');
+    const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
+
+    useEffect(() => {
+        switch (typeLanguage) {
+            case 'VN':
+                setLanguage({ src: LogoVN, content: 'VN' });
+                break;
+            case 'ENG':
+                setLanguage({ src: LogoENG, content: 'ENG' });
+                break;
+            case 'JP':
+                setLanguage({ src: LogoJP, content: 'JP' });
+                break;
+            default:
+                setLanguage({ src: LogoVN, content: 'VN' });
+        }
+    }, [typeLanguage]);
+
+    const handleHover = () => {
+        setIsShowLanguage(true);
+    };
 
     return (
         <div className={container}>
@@ -29,10 +60,30 @@ const Header = () => {
                     <LuSearch className={icon} />
                 </div>
                 <div className={listIcon}>
-                    <select name='switchlanguage' id='switch'>
-                        <option value='ENG'>ENG</option>
-                        <option value='VIE'>VIE</option>
-                    </select>
+                    <div className={boxLanguage}>
+                        <div onMouseEnter={handleHover}>
+                            <img src={language.src} alt='icon vn' />
+                            <p>{language.content}</p>
+                        </div>
+                        {isShowLanguage && (
+                            <div
+                                className={menuLanguage}
+                                onMouseLeave={() => setIsShowLanguage(false)}
+                            >
+                                <b>Languages</b>
+                                <div>
+                                    {dataLanguage.map((item) => (
+                                        <MenuLanguage
+                                            setTypeLanguage={setTypeLanguage}
+                                            value={item.value}
+                                            src={item.src}
+                                            content={item.content}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <div className={iconItem}>
                         <IoMoonOutline className={icon} />
                     </div>
