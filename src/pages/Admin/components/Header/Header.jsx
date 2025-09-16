@@ -50,10 +50,6 @@ const Header = () => {
         }
     }, [typeLanguage]);
 
-    const handleHover = () => {
-        setIsShowLanguage(true);
-    };
-
     return (
         <div className={container}>
             <div className={containerHeader}>
@@ -64,8 +60,8 @@ const Header = () => {
                 <div className={listIcon}>
                     <div
                         className={containerLanguage}
-                        onMouseEnter={handleHover}
-                        onMouseLeave={() => setIsShowLanguage(false)}
+                        onMouseEnter={() => setIsShowLanguage(!isShowLanguage)}
+                        onMouseLeave={() => setIsShowLanguage(!isShowLanguage)}
                     >
                         <div className={boxLanguage}>
                             <img src={language.src} alt='icon vn' />
