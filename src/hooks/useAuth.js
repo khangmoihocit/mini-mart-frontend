@@ -8,13 +8,14 @@ import userService from '@/apis/userService';
 import { loginSchema, registerSchema } from '@/validations/authSchemas';
 import { API_MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
+import { formatErrorMessage } from '@/utils/helpers';
 
 export const useAuth = () => {
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    
+
     const navigate = useNavigate();
 
     const clearMessages = () => {
@@ -24,25 +25,25 @@ export const useAuth = () => {
         }, 5000);
     };
 
-    const handleLogin = async (credentials) => {
+    const handleLogin = async credentials => {
         try {
             const response = await authService.login(credentials);
             const token = response.data.result.token;
             Cookies.set('token', token);
             navigate(ROUTES.ADMIN);
         } catch (error) {
-            if (error.response) {
-                setErrorMessage(API_MESSAGES.LOGIN.INVALID_CREDENTIALS);
-            } else {
-                console.error('Lỗi kết nối:', error.message);
-                setErrorMessage(API_MESSAGES.LOGIN.CONNECTION_ERROR);
-            }
+            setErrorMessage(formatErrorMessage(error));
         }
     };
 
-    const handleRegister = async (userData) => {
+    const handleRegister = async userData => {
         try {
-            const { fullName, numberOfPhone: phoneNumber, email, password } = userData;
+            const {
+                fullName,
+                numberOfPhone: phoneNumber,
+                email,
+                password
+            } = userData;
             await userService.add({
                 fullName,
                 phoneNumber,
@@ -52,11 +53,7 @@ export const useAuth = () => {
             setSuccessMessage(API_MESSAGES.REGISTER.SUCCESS);
             setIsRegister(false);
         } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.message);
-            } else {
-                setErrorMessage(API_MESSAGES.LOGIN.CONNECTION_ERROR);
-            }
+            setErrorMessage(formatErrorMessage(error));
         }
     };
 
@@ -69,9 +66,9 @@ export const useAuth = () => {
             cfmpassword: ''
         },
         validationSchema: isRegister ? registerSchema : loginSchema,
-        onSubmit: async (values) => {
+        onSubmit: async values => {
             if (isLoading) return;
-            
+
             setIsLoading(true);
             setErrorMessage('');
             setSuccessMessage('');

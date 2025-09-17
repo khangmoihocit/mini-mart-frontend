@@ -1,2 +1,32 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
+
+.sectionTop {
+    @include flex_box_custom(space-between, center, 0px);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    padding: 14px 20px 13px;
+    width: 280px;
+    background-color: #fff;
+    border-bottom: 1px solid #f2f7fb;
+    transition: all 0.3s ease;
+
+    a {
+        position: relative;
+    }
+
+    .iconToggle {
+        position: relative;
+        font-size: 24px;
+        color: #94a3b8;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        .icon {
+            font-size: 30px;
+        }
+    }
+}

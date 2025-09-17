@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
-body{
+// Universal box-sizing reset
+*, 
+*::before, 
+*::after {
+    box-sizing: border-box;
+}
+
+// Reset default margins and paddings
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: "Quicksand", sans-serif;
+    line-height: 1.5;
 }
