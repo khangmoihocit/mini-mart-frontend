@@ -1,2 +1,11 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
+
+.containerAdmin1{
+    @include flex_box_custom(space-between, center, 0px);
+}
+
+.containerRight{
+    @include flex_box_custom(space-between, unset, 0px);
+    flex-direction: column;
+}

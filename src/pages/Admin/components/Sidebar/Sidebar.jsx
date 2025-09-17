@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './.styles.module.scss';
+import styles from './styles.module.scss';
 import { BiChevronsLeft } from "react-icons/bi";
 import { BiChevronsRight } from "react-icons/bi";
 
@@ -8,7 +8,7 @@ const Sidebar = () => {
 
     return (
         <div>
-            <div className={containerHead}>
+            <div >
                 <img src="" alt="" />
                 <BiChevronsLeft />
                 <BiChevronsRight />

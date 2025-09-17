@@ -2,11 +2,11 @@ import React from 'react';
 import styles from './styles.module.scss';
 
 const AdminLayout = ({ children }) => {
-    const { wrapLayout, containerMain } = styles;
+    const { wrapLayout, containerAdmin } = styles;
 
     return (
         <main className={wrapLayout}>
-            <div className={containerMain}>{children}</div>
+            <div className={containerAdmin}>{children}</div>
         </main>
     );
 };
