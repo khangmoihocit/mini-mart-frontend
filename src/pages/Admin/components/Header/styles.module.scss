@@ -7,7 +7,7 @@
     right: 0;
     width: calc(100% - 280px);
     height: 80px;
-    // padding: 15px 13px 15px 30px;
+    padding: 15px 13px 15px 30px;
     background: $--bs-white;
     box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
     z-index: 19;
@@ -25,7 +25,6 @@
     width: 100%;
     max-width: 612px;
     position: relative;
-    padding-left: 30px;
 
     input {
         min-width: 500px;
