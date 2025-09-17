@@ -39,4 +39,3 @@ src/
 ├── validations/       # Form validation schemas
 ├── App.jsx
 └── main.jsx
-```
