@@ -12,10 +12,6 @@
     box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
     z-index: 19;
     transition: all 0.3s ease;
-    
-    @media (max-width: 768px) {
-        width: 100%;
-    }
 }
 
 .containerHeader {
@@ -29,9 +25,10 @@
     width: 100%;
     max-width: 612px;
     position: relative;
+    padding-left: 30px;
 
     input {
-        min-width: 612px;
+        min-width: 500px;
         width: 100%;
         outline: 0;
         padding: 14px 22px;

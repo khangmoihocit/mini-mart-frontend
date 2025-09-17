@@ -1,11 +1,30 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
 
-.containerAdmin1{
+.containerAdmin1 {
     @include flex_box_custom(space-between, center, 0px);
 }
 
-.containerRight{
-    @include flex_box_custom(space-between, unset, 0px);
+.containerRight {
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.containerSidebar {
+    position: fixed;
+    width: 280px;
+    min-width: 280px;
+    height: 100%;
+    left: 0;
+    overflow-y: auto;
+    z-index: 20;
+    background-color: #fff;
+    box-shadow: 0 0 24px 2px rgba(20, 25, 38, 0.05);
+    padding-top: 81px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
     flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
 }
