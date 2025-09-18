@@ -1,6 +1,20 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
 
+.containerMainContent {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-left: 280px;
+    background: #f2f7fb;
+    transition: all 0.5s ease;
+}
+
+.sliceContainerMainContent{
+    padding-left: 0px;
+}
+
 .container {
     padding: 20px;
     flex-grow: 1;

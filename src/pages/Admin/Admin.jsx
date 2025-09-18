@@ -6,19 +6,15 @@ import React from 'react';
 import styles from './styles.module.scss';
 
 const Admin = () => {
-    const { containerAdmin1, containerSidebar, containerRight, containerMainContent } = styles;
+    const { containerAdmin1, containerRight } = styles;
 
     return (
         <AdminProvider>
             <div className={containerAdmin1}>
-                <div className={containerSidebar}>
-                    <Sidebar />
-                </div>
+                <Sidebar />
                 <div className={containerRight}>
                     <Header />
-                    <div className={containerMainContent}>
-                        <MainContent />
-                    </div>
+                    <MainContent />
                 </div>
             </div>
         </AdminProvider>

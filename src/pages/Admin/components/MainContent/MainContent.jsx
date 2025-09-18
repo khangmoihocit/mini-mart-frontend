@@ -4,10 +4,19 @@ import DashBoard from '@/pages/Admin/components/DashBoard/DashBoard';
 import React, { useContext } from 'react';
 import styles from './styles.module.scss';
 import { CiHeart } from 'react-icons/ci';
+import classNames from 'classnames';
 
 const MainContent = () => {
-    const { container, bottomContent, bodyText, iconHeart } = styles;
-    const { type } = useContext(AdminContext);
+    const {
+        container,
+        bottomContent,
+        bodyText,
+        iconHeart,
+        containerMainContent,
+        sliceContainerMainContent
+    } = styles;
+
+    const { type, isOpenSidebar } = useContext(AdminContext);
 
     const handleRenderContext = () => {
         switch (type) {
@@ -18,7 +27,7 @@ const MainContent = () => {
 
     return (
         <>
-            <div>
+            <div className={classNames(containerMainContent, {[sliceContainerMainContent]: !isOpenSidebar})}>
                 <div className={container}>{handleRenderContext()}</div>
                 <div className={bottomContent}>
                     <div className={bodyText}>
@@ -30,7 +39,7 @@ const MainContent = () => {
                         <a href='https://github.com/khangmoihocit'>
                             khangmoihocit
                         </a>{' '}
-                         All rights reserved.
+                        All rights reserved.
                     </div>
                 </div>
             </div>
