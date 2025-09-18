@@ -6,6 +6,7 @@ import { CiHeart } from 'react-icons/ci';
 import classNames from 'classnames';
 import ProductList from '@/pages/Admin/components/Product/ProductList/ProductList';
 import UserList from '@/pages/Admin/components/User/UserList/UserList';
+import Login from '@/pages/Login/Login';
 
 const MainContent = () => {
     const {
@@ -27,6 +28,8 @@ const MainContent = () => {
                 return <ProductList />;
             case 'user-list':
                 return <UserList />;
+            case 'user-login':
+                return <Login />;
             default:
                 return <DashBoard />;
         }

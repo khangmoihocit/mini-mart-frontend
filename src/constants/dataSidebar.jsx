@@ -74,6 +74,10 @@ export const sidebarMenu = [
                     {
                         id: 'user-list',
                         label: 'Danh sách người dùng'
+                    },
+                    {
+                        id: 'user-login',
+                        label: 'Login'
                     }
                 ]
             },

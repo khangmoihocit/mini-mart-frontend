@@ -17,11 +17,7 @@ const Sidebar = () => {
         sidebarContent, 
         sectionTitle
     } = styles;
-    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
-
-    const handleToggleSidebar = () => {
-        setIsOpenSidebar(!isOpenSidebar);
-    };
+    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
 
     return (
         <div
@@ -37,7 +33,7 @@ const Sidebar = () => {
                     {isOpenSidebar && (
                         <BiArrowToLeft
                             className={icon}
-                            onClick={handleToggleSidebar}
+                            onClick={toggleSidebar}
                         />
                     )}
                 </div>
