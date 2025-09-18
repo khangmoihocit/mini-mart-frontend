@@ -1,0 +1,87 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.tableContainer {
+    background-color: $--bs-white;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.productTable {
+    width: 100%;
+    border-collapse: collapse;
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    thead {
+        th {
+            font-size: 12px;
+            font-weight: 800;
+            color: $--bs-gray;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e0e0e0;
+        }
+    }
+    tbody {
+        tr {
+            border-bottom: 1px solid #f5f5f5;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        td {
+            font-size: 14px;
+            color: $--bs-gray-dark;
+            .productInfo {
+                @include flex_box_custom(flex-start, center, 15px);
+                .thumbnail {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 6px;
+                    object-fit: cover;
+                }
+                span {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    &.inStock {
+        background-color: rgba($--bs-success, 0.1);
+        color: $--bs-success;
+    }
+    &.outOfStock {
+        background-color: rgba($--bs-danger, 0.1);
+        color: $--bs-danger;
+    }
+}
+
+.actions {
+    @include flex_box_custom(flex-start, center, 10px);
+    button {
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    .editBtn {
+        background-color: rgba($--bs-blue, 0.1);
+        color: $--bs-blue;
+    }
+    .deleteBtn {
+        background-color: rgba($--bs-danger, 0.1);
+        color: $--bs-danger;
+    }
+}

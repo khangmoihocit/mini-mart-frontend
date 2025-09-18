@@ -10,7 +10,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import LogoVN from '@icons/svgs/vn.svg';
 import LogoENG from '@icons/svgs/eng.svg';
 import LogoJP from '@icons/svgs/japan.svg';
-import dataLanguage from '@/pages/Admin/components/MenuLanguage/constants';
+import dataLanguage from '@/constants/dataLanguage';
 import MenuLanguage from '@/pages/Admin/components/MenuLanguage/MenuLanguage';
 import { AdminContext } from '@/contexts/AdminProvider';
 import { BiArrowToRight } from 'react-icons/bi';

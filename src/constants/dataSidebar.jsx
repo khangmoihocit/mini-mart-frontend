@@ -121,7 +121,7 @@ export const sidebarMenu = [
             {
                 id: 'report',
                 label: 'Báo cáo & Thống kê',
-                icon: <LuTrendingUp /> // Sử dụng icon mới tại đây
+                icon: <LuTrendingUp />
             },
             {
                 id: 'setting',

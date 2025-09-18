@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
-import {
-    LuPlus,
-    LuSearch,
-    LuChevronLeft,
-    LuChevronRight
-} from 'react-icons/lu';
-import Button from '@pages/Admin/components/Button/Button';
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
+import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
 
-// Dữ liệu giả lập dựa trên cấu trúc bảng `products` của bạn
 const mockProducts = [
     {
         id: 7712309,
@@ -133,10 +127,6 @@ const mockProducts = [
 const ProductList = () => {
     const {
         productListContainer,
-        toolbar,
-        searchBox,
-        searchIcon,
-        addButton,
         tableContainer,
         productTable,
         productInfo,
@@ -150,7 +140,7 @@ const ProductList = () => {
         pagination,
         paginationInfo,
         paginationControls,
-        activePage,showing,wrapToolbar
+        activePage
     } = styles;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -178,33 +168,7 @@ const ProductList = () => {
             />
 
             {/* Toolbar */}
-            <div className={toolbar}>
-                <div className={wrapToolbar}>
-                    <div className={showing}>
-                        <p>Hiển thị</p>
-                        <select name="showing" id="">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                        </select>
-                    </div>
-                    <div className={searchBox}>
-                        <input type='text' placeholder='Tìm kiếm sản phẩm...' />
-                        <LuSearch className={searchIcon} />
-                    </div>
-                </div>
-                <div style={{ width: '150px' }}>
-                    <Button
-                        isPrimary={false}
-                        content={
-                            <div className={addButton}>
-                                <LuPlus />
-                                Thêm mới
-                            </div>
-                        }
-                    />
-                </div>
-            </div>
+            <Toolbar />
 
             {/* Bảng sản phẩm */}
             <div className={tableContainer}>

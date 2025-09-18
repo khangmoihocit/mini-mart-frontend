@@ -4,7 +4,8 @@ import React, { useContext } from 'react';
 import styles from './styles.module.scss';
 import { CiHeart } from 'react-icons/ci';
 import classNames from 'classnames';
-import ProductList from '@/pages/Admin/components/ProductList/ProductList';
+import ProductList from '@/pages/Admin/components/Product/ProductList/ProductList';
+import UserList from '@/pages/Admin/components/User/UserList/UserList';
 
 const MainContent = () => {
     const {
@@ -24,6 +25,8 @@ const MainContent = () => {
                 return <DashBoard />;
             case 'product-list':
                 return <ProductList />;
+            case 'user-list':
+                return <UserList />;
             default:
                 return <DashBoard />;
         }
