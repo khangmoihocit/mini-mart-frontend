@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const apiPublic = axios.create({
-    baseURL: 'http://localhost:8081',
+    baseURL: 'http://localhost:8081/api/v1',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
@@ -10,7 +10,7 @@ const apiPublic = axios.create({
 });
 
 const apiPrivate = axios.create({
-    baseURL: 'http://localhost:8081',
+    baseURL: 'http://localhost:8081/api/v1',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
@@ -51,28 +51,29 @@ apiPrivate.interceptors.response.use(
             }
 
             try {
-                const res = await axiosClient.post('/api/v1/auth/refresh', {
+                const res = await apiPublic.post('/auth/refresh', {
                     token: refreshToken
                 });
-
-                const newAccessToken = res.data.result.token; // Cập nhật đường dẫn đến token mới
+                
+                // Giả sử API trả về token mới trong res.data.token
+                const newAccessToken = res.data.result.token; 
 
                 Cookies.set('token', newAccessToken);
 
+                // Cập nhật header cho request ban đầu
+                apiPrivate.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
                 // Thực hiện lại request ban đầu với token mới
-                return axiosClient(originalRequest);
+                return apiPrivate(originalRequest);
 
             } catch (error) {
                 // Nếu refresh token thất bại (hết hạn, không hợp lệ), xóa cookie và báo lỗi
                 Cookies.remove('token');
-                Cookies.remove('refreshToken');
                 return Promise.reject(error);
             }
         }
-        // Với TẤT CẢ các lỗi khác không phải là 401 (như 400, 500, lỗi mạng...),
-        // chúng ta phải "ném" (reject) lỗi đó ra ngoài để khối .catch()
+        // Với TẤT CẢ các lỗi khác không phải là 401
         return Promise.reject(err);
     }
 );
