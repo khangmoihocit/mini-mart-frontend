@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
-import { LuPlus, LuSearch, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import {
+    LuPlus,
+    LuSearch,
+    LuChevronLeft,
+    LuChevronRight
+} from 'react-icons/lu';
 import Button from '@pages/Admin/components/Button/Button';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 
@@ -8,9 +13,10 @@ import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/Header
 const mockProducts = [
     {
         id: 7712309,
-        name: 'Milk-Bone Mini\'s Flavor Snacks Dog Treats, 15 Ounce',
+        name: "Milk-Bone Mini's Flavor Snacks Dog Treats, 15 Ounce",
         price: 1452500,
-        thumbnail: 'https://via.placeholder.com/150/FFC0CB/000000?Text=Product1',
+        thumbnail:
+            'https://via.placeholder.com/150/FFC0CB/000000?Text=Product1',
         stock_quantity: 20,
         category_id: 1
     },
@@ -18,7 +24,8 @@ const mockProducts = [
         id: 7712310,
         name: 'Weruva Pumpkin Patch Up! Dog & Cat Food...',
         price: 1452500,
-        thumbnail: 'https://via.placeholder.com/150/ADD8E6/000000?Text=Product2',
+        thumbnail:
+            'https://via.placeholder.com/150/ADD8E6/000000?Text=Product2',
         stock_quantity: 15,
         category_id: 1
     },
@@ -26,7 +33,8 @@ const mockProducts = [
         id: 7712311,
         name: 'Grain Free Dry Dog Food | Rachael Ray® Nutrish®',
         price: 2100000,
-        thumbnail: 'https://via.placeholder.com/150/90EE90/000000?Text=Product3',
+        thumbnail:
+            'https://via.placeholder.com/150/90EE90/000000?Text=Product3',
         stock_quantity: 0,
         category_id: 2
     },
@@ -34,7 +42,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -42,7 +51,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -50,7 +60,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -58,7 +69,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -66,7 +78,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -74,7 +87,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -82,7 +96,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -90,7 +105,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -98,7 +114,8 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
     },
@@ -106,10 +123,11 @@ const mockProducts = [
         id: 7712312,
         name: 'Pedigree Adult Dry Dog Food, Chicken & Steak',
         price: 980000,
-        thumbnail: 'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
+        thumbnail:
+            'https://via.placeholder.com/150/FFFF00/000000?Text=Product4',
         stock_quantity: 50,
         category_id: 1
-    },
+    }
 ];
 
 const ProductList = () => {
@@ -132,7 +150,7 @@ const ProductList = () => {
         pagination,
         paginationInfo,
         paginationControls,
-        activePage
+        activePage,showing,wrapToolbar
     } = styles;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -154,17 +172,30 @@ const ProductList = () => {
     return (
         <div className={productListContainer}>
             {/* Header */}
-            <HeaderMainContent title={'Danh sách sản phẩm'} navigate={'Dashboard > Sản phẩm > Danh sách sản phẩm'}/>
+            <HeaderMainContent
+                title={'Danh sách sản phẩm'}
+                navigate={'Dashboard > Sản phẩm > Danh sách sản phẩm'}
+            />
 
             {/* Toolbar */}
             <div className={toolbar}>
-                <div className={searchBox}>
-                    <input type='text' placeholder='Tìm kiếm sản phẩm...' />
-                    <LuSearch className={searchIcon} />
+                <div className={wrapToolbar}>
+                    <div className={showing}>
+                        <p>Hiển thị</p>
+                        <select name="showing" id="">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+                    <div className={searchBox}>
+                        <input type='text' placeholder='Tìm kiếm sản phẩm...' />
+                        <LuSearch className={searchIcon} />
+                    </div>
                 </div>
                 <div style={{ width: '150px' }}>
                     <Button
-                    isPrimary={false}
+                        isPrimary={false}
                         content={
                             <div className={addButton}>
                                 <LuPlus />
@@ -226,7 +257,9 @@ const ProductList = () => {
                                 <td>
                                     <div className={actions}>
                                         <button className={editBtn}>Sửa</button>
-                                        <button className={deleteBtn}>Xóa</button>
+                                        <button className={deleteBtn}>
+                                            Xóa
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -249,7 +282,9 @@ const ProductList = () => {
                     {[...Array(totalPages).keys()].map(number => (
                         <button
                             key={number + 1}
-                            className={currentPage === number + 1 ? activePage : ''}
+                            className={
+                                currentPage === number + 1 ? activePage : ''
+                            }
                         >
                             {number + 1}
                         </button>
