@@ -6,6 +6,8 @@
 
     padding-left: 10px;
     border-radius: 10px;
+    width: calc(100% - 20px);
+
     &:hover {
         background-color: #33748116;
         cursor: pointer;
@@ -17,7 +19,7 @@
     }
 
     p {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 600;
     }
 }

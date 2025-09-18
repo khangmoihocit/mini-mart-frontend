@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { LuSearch } from 'react-icons/lu';
 import { IoMoonOutline } from 'react-icons/io5';
@@ -12,6 +12,9 @@ import LogoENG from '@icons/svgs/eng.svg';
 import LogoJP from '@icons/svgs/japan.svg';
 import dataLanguage from '@/pages/Admin/components/MenuLanguage/constants';
 import MenuLanguage from '@/pages/Admin/components/MenuLanguage/MenuLanguage';
+import { AdminContext } from '@/contexts/AdminProvider';
+import { BiArrowToRight } from 'react-icons/bi';
+import classNames from 'classnames';
 
 const Header = () => {
     const {
@@ -27,12 +30,16 @@ const Header = () => {
         boxLanguage,
         menuLanguage,
         containerLanguage,
-        wrapLanguage
+        wrapLanguage,
+        iconToggle,
+        sliceContainer,
+        sliceContainerSearch
     } = styles;
 
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
+    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
 
     useEffect(() => {
         switch (typeLanguage) {
@@ -51,9 +58,17 @@ const Header = () => {
     }, [typeLanguage]);
 
     return (
-        <div className={container}>
+        <div className={classNames(container, {[sliceContainer]: !isOpenSidebar})}>
             <div className={containerHeader}>
-                <div className={containerSearch}>
+                {!isOpenSidebar && (
+                    <div className={iconToggle}>
+                        <BiArrowToRight
+                            className={icon}
+                            onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+                        />
+                    </div>
+                )}
+                <div className={classNames(containerSearch, {[sliceContainerSearch]: !isOpenSidebar})}>
                     <input type='text' placeholder='Tìm kiếm tại đây...' />
                     <LuSearch className={icon} />
                 </div>

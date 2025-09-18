@@ -11,7 +11,11 @@
     background: $--bs-white;
     box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.05);
     z-index: 19;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
+}
+
+.sliceContainer {
+    width: 100%;
 }
 
 .containerHeader {
@@ -20,11 +24,27 @@
     height: 100%;
 }
 
+.iconToggle {
+    @include flex_box_custom(center, center, 0px);
+
+    position: relative;
+    font-size: 24px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    .icon {
+        font-size: 30px;
+        color: $--bs-primary;
+    }
+}
+
 .containerSearch {
     @include flex_box_custom(unset, center, 15px);
     width: 100%;
     max-width: 612px;
     position: relative;
+    transition: all 0.3s ease;
 
     input {
         min-width: 500px;
@@ -48,6 +68,10 @@
         font-size: 20px;
         cursor: pointer;
     }
+}
+
+.sliceContainerSearch {
+    max-width: 812px;
 }
 
 .listIcon {
@@ -74,9 +98,10 @@
         .menuLanguage {
             position: absolute;
             left: 10px;
+            top: 20px;
             box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.077);
             border-radius: 10px;
-            padding: 20px 5px 0px 15px;
+            padding: 30px 5px 8px 15px;
             width: 222px;
 
             b {
@@ -84,6 +109,10 @@
             }
 
             .wrapLanguage {
+                @include flex_box_custom(center, flex-start, 10px);
+                flex-direction: column;
+
+                margin-top: 5px;
                 margin-left: 10px;
                 font-size: 12px;
                 font-weight: 300;
