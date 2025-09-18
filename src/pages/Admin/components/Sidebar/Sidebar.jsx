@@ -2,12 +2,21 @@ import React, { useContext } from 'react';
 import styles from './styles.module.scss';
 import logo from '@icons/images/logo.png';
 import { BiArrowToLeft } from 'react-icons/bi';
-import { BiArrowToRight } from 'react-icons/bi';
 import { AdminContext } from '@/contexts/AdminProvider';
 import classNames from 'classnames';
+import { sidebarMenu } from './constants.jsx'; // Import dữ liệu menu
+import MenuItem from '../MenuItem/MenuItem'; // Import MenuItem component
 
 const Sidebar = () => {
-    const { sectionTop, icon, iconToggle, containerSidebarMain, sliceSideBar } = styles;
+    const {
+        sectionTop,
+        icon,
+        iconToggle,
+        containerSidebarMain,
+        sliceSideBar,
+        sidebarContent, 
+        sectionTitle
+    } = styles;
     const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
 
     const handleToggleSidebar = () => {
@@ -15,7 +24,11 @@ const Sidebar = () => {
     };
 
     return (
-        <div className={classNames(containerSidebarMain, {[sliceSideBar]: !isOpenSidebar})}>
+        <div
+            className={classNames(containerSidebarMain, {
+                [sliceSideBar]: !isOpenSidebar
+            })}
+        >
             <div className={sectionTop}>
                 <a href='/admin'>
                     <img src={logo} alt='logo' width={154} height={52} />
@@ -29,7 +42,18 @@ const Sidebar = () => {
                     )}
                 </div>
             </div>
-            <div></div>
+
+            
+            <div className={sidebarContent}>
+                {sidebarMenu.map((section, index) => (
+                    <div key={index}>
+                        <h3 className={sectionTitle}>{section.title}</h3>
+                        {section.items.map(item => (
+                            <MenuItem key={item.id} item={item} />
+                        ))}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

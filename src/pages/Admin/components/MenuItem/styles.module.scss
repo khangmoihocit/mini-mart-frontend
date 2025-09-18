@@ -1,0 +1,108 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.menuItemWrapper {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.menuItem {
+    @include flex_box_custom(space-between, center, 10px);
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #5a6e88;
+    transition: all 0.3s ease;
+    font-weight: 600;
+
+    .labelIcon {
+        @include flex_box_custom(flex-start, center, 15px);
+        font-size: 14px;
+        font-weight: 700;
+
+        svg {
+            font-size: 20px;
+        }
+    }
+
+    .arrow {
+        transition: transform 0.3s ease;
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &:hover {
+        background-color: rgba($--bs-primary, 0.1);
+        color: $--bs-primary;
+    }
+}
+
+.active {
+    background-color: rgba($--bs-primary, 0.1);
+    color: $--bs-primary;
+
+    &:hover {
+        color: $--bs-primary;
+    }
+}
+
+.parentActive {
+    color: $--bs-primary;
+    background-color: rgba($--bs-primary, 0.1);
+}
+
+.submenu {
+    padding-left: 35px;
+    margin-top: 5px;
+
+    .submenuItem {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 8px;
+        color: #5a6e88;
+        font-weight: 500;
+        position: relative;
+        transition: color 0.3s ease;
+        font-size: 14px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border: 1px solid #c2c2c2;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            color: $--bs-primary;
+        }
+
+        &.active {
+            color: $--bs-primary;
+
+            &::before {
+                background-color: $--bs-primary;
+                border-color: $--bs-primary;
+            }
+        }
+    }
+
+    .active1 {
+        color: $--bs-primary;
+
+        &:hover {
+            color: $--bs-primary;
+        }
+
+        &::before {
+            background-color: $--bs-primary;
+            border-color: $--bs-primary;
+        }
+    }
+}
