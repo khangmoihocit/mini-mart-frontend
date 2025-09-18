@@ -7,19 +7,23 @@
     min-width: 280px;
     height: 100%;
     left: 0;
-    overflow-y: auto;
     z-index: 20;
     background-color: #fff;
     box-shadow: 0 0 24px 2px rgba(20, 25, 38, 0.05);
-    padding-top: 81px;
     display: flex;
     align-items: center;
     justify-content: start;
     flex-direction: column;
     flex-shrink: 0;
-    transition: all 0.5s ease;
-
+    transition: all 0.3s ease;
     transform: translateX(0);
+
+    //  ẩn thanh cuộn
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; // Ẩn scrollbar trên Chrome, Safari, Edge
+    }
+    scrollbar-width: none; // Ẩn scrollbar trên Firefox
 }
 
 .sliceSideBar {
@@ -29,18 +33,18 @@
 .sectionTop {
     @include flex_box_custom(space-between, center, 0px);
 
-    position: fixed;
     top: 0;
     left: 0;
     z-index: 30;
     padding: 14px 20px 13px;
-    width: 280px;
+    width: 100%;
     background-color: #fff;
     border-bottom: 1px solid #f2f7fb;
     transition: all 0.3s ease;
 
     a {
         position: relative;
+        width: 200px;
     }
 
     .iconToggle {
@@ -58,4 +62,26 @@
             }
         }
     }
+}
+
+.sidebarContent {
+    width: 100%;
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto; // Chỉ cho phép phần này cuộn
+    
+    // Ẩn thanh cuộn
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+    scrollbar-width: none;
+}
+
+.sectionTitle {
+    font-size: 12px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin: 20px 0 10px 20px;
 }

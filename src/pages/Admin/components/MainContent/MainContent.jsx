@@ -1,10 +1,10 @@
-import AdminLayout from '@/components/Layout/AdminLayout';
 import { AdminContext } from '@/contexts/AdminProvider';
 import DashBoard from '@/pages/Admin/components/DashBoard/DashBoard';
 import React, { useContext } from 'react';
 import styles from './styles.module.scss';
 import { CiHeart } from 'react-icons/ci';
 import classNames from 'classnames';
+import ProductList from '@/pages/Admin/components/ProductList/ProductList';
 
 const MainContent = () => {
     const {
@@ -22,12 +22,20 @@ const MainContent = () => {
         switch (type) {
             case 'dashboard':
                 return <DashBoard />;
+            case 'product-list':
+                return <ProductList />;
+            default:
+                return <DashBoard />;
         }
     };
 
     return (
         <>
-            <div className={classNames(containerMainContent, {[sliceContainerMainContent]: !isOpenSidebar})}>
+            <div
+                className={classNames(containerMainContent, {
+                    [sliceContainerMainContent]: !isOpenSidebar
+                })}
+            >
                 <div className={container}>{handleRenderContext()}</div>
                 <div className={bottomContent}>
                     <div className={bodyText}>
