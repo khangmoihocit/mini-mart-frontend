@@ -12,6 +12,9 @@ export const AdminRoutes = {
     // Product Management
     ProductList: lazy(() => import('@/pages/Admin/components/Product/ProductList/ProductList')),
     ProductAdd: lazy(() => import('@/pages/Admin/components/Product/ProductAdd/ProductAdd')),
+    
+    // Demo Components (Development only)
+    LoadingDemo: lazy(() => import('@/components/LoadingDemo/LoadingDemo')),
 };
 
 // Centralized loading component

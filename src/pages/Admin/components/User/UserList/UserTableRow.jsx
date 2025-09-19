@@ -1,8 +1,10 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import styles from './styles.module.scss';
+import { LoadingButton } from '@/components/LoadingOverlay/LoadingOverlay';
 
 const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
     const { actions, editBtn, deleteBtn } = styles;
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -12,6 +14,15 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
     const handleEdit = () => {
         // TODO: Implement edit functionality
         console.log('Edit user:', user.id);
+    };
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        try {
+            await onDelete();
+        } finally {
+            setIsDeleting(false);
+        }
     };
 
     return (
@@ -45,13 +56,23 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
                     >
                         Sửa
                     </button>
-                    <button 
+                    <LoadingButton
+                        loading={isDeleting}
+                        loadingText="Đang xóa..."
+                        onClick={handleDelete}
                         className={deleteBtn}
-                        onClick={onDelete}
-                        type="button"
+                        style={{
+                            background: '#ef4444',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            padding: '6px 12px',
+                            fontSize: '12px',
+                            cursor: 'pointer'
+                        }}
                     >
                         Xóa
-                    </button>
+                    </LoadingButton>
                 </div>
             </td>
         </tr>

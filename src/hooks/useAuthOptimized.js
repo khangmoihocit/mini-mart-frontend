@@ -9,6 +9,7 @@ import { loginSchema, registerSchema } from '@/validations/authSchemas';
 import { API_MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { formatErrorMessage } from '@/utils/helpers';
+import toast from '@/utils/toast';
 
 export const useAuthOptimized = () => {
     const [isRegister, setIsRegister] = useState(false);
@@ -33,10 +34,13 @@ export const useAuthOptimized = () => {
             const response = await authService.login(credentials);
             const token = response.data.result.token;
             Cookies.set('token', token, { expires: 7 }); // Set expire 7 ngày
+            
+            toast.success('Đăng nhập thành công! Chào mừng bạn quay trở lại.');
             navigate(ROUTES.ADMIN);
         } catch (error) {
             const errorMsg = formatErrorMessage(error);
             setErrorMessage(errorMsg);
+            toast.error(errorMsg || 'Đăng nhập thất bại. Vui lòng kiểm tra thông tin!');
             throw error;
         }
     }, [navigate]);
@@ -58,16 +62,19 @@ export const useAuthOptimized = () => {
             });
             
             setSuccessMessage(API_MESSAGES.REGISTER.SUCCESS);
+            toast.success('Đăng ký tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.');
             setIsRegister(false);
         } catch (error) {
             const errorMsg = formatErrorMessage(error);
             setErrorMessage(errorMsg);
+            toast.error(errorMsg || 'Đăng ký thất bại. Vui lòng kiểm tra thông tin!');
             throw error;
         }
     }, []);
 
     const handleLogout = useCallback(() => {
         Cookies.remove('token');
+        toast.info('Đã đăng xuất thành công. Hẹn gặp lại bạn!');
         navigate('/login');
     }, [navigate]);
 

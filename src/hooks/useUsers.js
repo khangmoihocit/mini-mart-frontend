@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import userService from '@/apis/userService';
 import { formatErrorMessage } from '@/utils/helpers';
+import toast from '@/utils/toast';
 
 export const useUsers = () => {
     const [users, setUsers] = useState([]);
@@ -28,6 +29,7 @@ export const useUsers = () => {
         } catch (error) {
             const errorMsg = formatErrorMessage(error);
             setError(errorMsg);
+            toast.error('Không thể tải danh sách người dùng. Vui lòng thử lại!');
             console.error('Error fetching users:', errorMsg);
         } finally {
             setLoading(false);
@@ -63,8 +65,8 @@ export const useUsers = () => {
     const toggleUserSelection = useCallback((userId) => {
         setSelectedUsers(prev => 
             prev.includes(userId) 
-                ? prev.filter(id => id !== userId)
-                : [...prev, userId]
+                ? prev.filter(id => id !== userId) //nếu có thì xóa (bỏ tích)
+                : [...prev, userId] //tích
         );
     }, []);
 

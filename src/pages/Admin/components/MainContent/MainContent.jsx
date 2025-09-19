@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import ProductList from '@/pages/Admin/components/Product/ProductList/ProductList';
 import UserList from '@/pages/Admin/components/User/UserList/UserList';
 import Login from '@/pages/Login/Login';
+import ToastDemo from '@/components/ToastDemo/ToastDemo';
+import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 
 const MainContent = () => {
     const {
@@ -30,6 +32,10 @@ const MainContent = () => {
                 return <UserList />;
             case 'user-login':
                 return <Login />;
+            case 'setting-toast':
+                return <ToastDemo />;
+            case 'setting-loading':
+                return <LoadingDemo />;
             default:
                 return <DashBoard />;
         }

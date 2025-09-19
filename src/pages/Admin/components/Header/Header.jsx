@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { LuSearch } from 'react-icons/lu';
 import { IoMoonOutline } from 'react-icons/io5';
@@ -15,6 +15,8 @@ import MenuLanguage from '@/pages/Admin/components/MenuLanguage/MenuLanguage';
 import { AdminContext } from '@/contexts/AdminProvider';
 import { BiArrowToRight } from 'react-icons/bi';
 import classNames from 'classnames';
+import userService from '@/apis/userService';
+import { formatErrorMessage } from '@/utils/helpers';
 
 const Header = () => {
     const {
@@ -36,10 +38,24 @@ const Header = () => {
         sliceContainerSearch
     } = styles;
 
+    const [userCurrent, setUserCurrent] = useState({});
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
-    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
+
+    const getMyInfo = useCallback(async () => {
+        try {
+            const response = await userService.getMyInfo();
+            setUserCurrent(response.data.result);
+        } catch (error) {
+            // formatErrorMessage(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        getMyInfo();
+    }, [getMyInfo]);
 
     useEffect(() => {
         switch (typeLanguage) {
@@ -58,17 +74,25 @@ const Header = () => {
     }, [typeLanguage]);
 
     return (
-        <div className={classNames(container, {[sliceContainer]: !isOpenSidebar})}>
+        <div
+            className={classNames(container, {
+                [sliceContainer]: !isOpenSidebar
+            })}
+        >
             <div className={containerHeader}>
                 {!isOpenSidebar && (
                     <div className={iconToggle}>
                         <BiArrowToRight
                             className={icon}
-                            onClick={() => setIsOpenSidebar(!isOpenSidebar)}
+                            onClick={toggleSidebar}
                         />
                     </div>
                 )}
-                <div className={classNames(containerSearch, {[sliceContainerSearch]: !isOpenSidebar})}>
+                <div
+                    className={classNames(containerSearch, {
+                        [sliceContainerSearch]: !isOpenSidebar
+                    })}
+                >
                     <input type='text' placeholder='Tìm kiếm tại đây...' />
                     <LuSearch className={icon} />
                 </div>
@@ -124,8 +148,8 @@ const Header = () => {
                             />
                         </div>
                         <div className={boxName}>
-                            <h3>Pham Van Khang</h3>
-                            <p>Admin</p>
+                            <h3>{userCurrent ? userCurrent.fullName : 'Khang default'}</h3>
+                            <p>{userCurrent && userCurrent.role ? userCurrent.role.name : 'Role default'}</p>
                         </div>
                     </div>
                     <div>

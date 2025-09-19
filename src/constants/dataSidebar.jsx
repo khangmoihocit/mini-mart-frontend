@@ -131,6 +131,20 @@ export const sidebarMenu = [
                 id: 'setting',
                 label: 'Cài đặt',
                 icon: <LuSettings />
+                
+            },{
+                id: 'feature-demo',
+                label: 'Demo Feature',
+                icon: <LuTrendingUp />,children: [
+                    {
+                        id: 'setting-toast',
+                        label: 'Demo toast'
+                    },
+                    {
+                        id: 'setting-loading',
+                        label: 'Demo loading'
+                    }
+                ]
             }
         ]
     }
