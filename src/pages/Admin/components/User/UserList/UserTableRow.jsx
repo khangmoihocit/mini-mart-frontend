@@ -56,23 +56,14 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
                     >
                         Sửa
                     </button>
-                    <LoadingButton
+                    <button
                         loading={isDeleting}
                         loadingText="Đang xóa..."
                         onClick={handleDelete}
                         className={deleteBtn}
-                        style={{
-                            background: '#ef4444',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            padding: '6px 12px',
-                            fontSize: '12px',
-                            cursor: 'pointer'
-                        }}
                     >
                         Xóa
-                    </LoadingButton>
+                    </button>
                 </div>
             </td>
         </tr>

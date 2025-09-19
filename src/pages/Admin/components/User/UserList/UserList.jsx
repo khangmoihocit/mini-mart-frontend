@@ -4,16 +4,13 @@ import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/Header
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
 import { useUsers } from '@/hooks/useUsers';
 import UserTableRow from './UserTableRow';
-import LoadingOverlay, { SkeletonLoader } from '@/components/LoadingOverlay/LoadingOverlay';
+import LoadingOverlay, {
+    SkeletonLoader
+} from '@/components/LoadingOverlay/LoadingOverlay';
 import toast from '@/utils/toast';
 
 const UserList = memo(() => {
-    const {
-        tableContainer,
-        productTable,
-        errorMessage,
-        emptyState
-    } = styles;
+    const { tableContainer, productTable, errorMessage, emptyState } = styles;
 
     const {
         users,
@@ -27,34 +24,36 @@ const UserList = memo(() => {
         refreshUsers
     } = useUsers();
 
-    const handleDeleteUser = useCallback(async (userId) => {
-        toast.action(
-            'Bạn có chắc chắn muốn xóa người dùng này?',
-            'Xác nhận',
-            async () => {
-                const loadingToast = toast.loading('Đang xóa người dùng...');
-                try {
-                    await deleteUser(userId);
-                    toast.updateToSuccess(loadingToast, 'Xóa người dùng thành công!');
-                } catch (error) {
-                    toast.updateToError(loadingToast, 'Không thể xóa người dùng. Vui lòng thử lại!');
-                    console.error('Failed to delete user:', error);
-                }
-            },
-            {
-                autoClose: 8000,
+    const handleDeleteUser = useCallback(
+        async userId => {
+            try {
+                await deleteUser(userId);
+                toast.updateToSuccess(
+                    loadingToast,
+                    'Xóa người dùng thành công!'
+                );
+            } catch (error) {
+                toast.updateToError(
+                    loadingToast,
+                    'Không thể xóa người dùng. Vui lòng thử lại!'
+                );
+                console.error('Failed to delete user:', error);
             }
-        );
-    }, [deleteUser]);
+        },
+        [deleteUser]
+    );
 
     const handleRefresh = useCallback(() => {
         const loadingToast = toast.loading('Đang tải dữ liệu...');
-        
+
         try {
-            refreshUsers();
+            refreshUsers(); //lấy lại danh sách user từ backend
             toast.updateToSuccess(loadingToast, 'Cập nhật dữ liệu thành công!');
         } catch (error) {
-            toast.updateToError(loadingToast, 'Không thể tải dữ liệu. Vui lòng thử lại!');
+            toast.updateToError(
+                loadingToast,
+                'Không thể tải dữ liệu. Vui lòng thử lại!'
+            );
         }
     }, [refreshUsers]);
 
@@ -65,10 +64,10 @@ const UserList = memo(() => {
                     title={'Danh sách người dùng'}
                     navigate={'Dashboard > Khách hàng > Danh sách người dùng'}
                 />
-                <LoadingOverlay 
-                    isLoading={true} 
-                    message="Đang tải danh sách người dùng..."
-                    size="large"
+                <LoadingOverlay
+                    isLoading={true}
+                    message='Đang tải danh sách người dùng...'
+                    size='large'
                 />
             </div>
         );
@@ -83,20 +82,19 @@ const UserList = memo(() => {
             />
 
             {/* Toolbar */}
-            <Toolbar onRefresh={handleRefresh} selectedCount={selectedUsers.length} />
+            <Toolbar
+                onRefresh={handleRefresh}
+                selectedCount={selectedUsers.length}
+            />
 
             {/* Error handling */}
-            {error && (
-                <div className={errorMessage}>
-                    {error}
-                </div>
-            )}
+            {error && <div className={errorMessage}>{error}</div>}
 
             {/* Bảng người dùng */}
-            <LoadingOverlay 
-                isLoading={loading && users.length > 0} 
-                message="Đang cập nhật dữ liệu..."
-                size="medium"
+            <LoadingOverlay
+                isLoading={loading && users.length > 0}
+                message='Đang cập nhật dữ liệu...'
+                size='medium'
             >
                 <div className={tableContainer}>
                     {users.length === 0 && !loading ? (
@@ -108,8 +106,8 @@ const UserList = memo(() => {
                             <thead>
                                 <tr>
                                     <th>
-                                        <input 
-                                            type='checkbox' 
+                                        <input
+                                            type='checkbox'
                                             checked={isAllSelected}
                                             onChange={toggleAllUsers}
                                         />
@@ -131,9 +129,15 @@ const UserList = memo(() => {
                                     <UserTableRow
                                         key={user.id}
                                         user={user}
-                                        isSelected={selectedUsers.includes(user.id)}
-                                        onToggleSelect={() => toggleUserSelection(user.id)}
-                                        onDelete={() => handleDeleteUser(user.id)}
+                                        isSelected={selectedUsers.includes(
+                                            user.id
+                                        )}
+                                        onToggleSelect={() =>
+                                            toggleUserSelection(user.id)
+                                        }
+                                        onDelete={() =>
+                                            handleDeleteUser(user.id)
+                                        }
                                     />
                                 ))}
                             </tbody>

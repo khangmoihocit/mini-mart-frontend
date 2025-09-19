@@ -134,7 +134,7 @@ export const sidebarMenu = [
                 
             },{
                 id: 'feature-demo',
-                label: 'Demo Feature',
+                label: 'Demo Component',
                 icon: <LuTrendingUp />,children: [
                     {
                         id: 'setting-toast',
