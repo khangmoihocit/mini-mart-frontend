@@ -74,6 +74,10 @@ export const sidebarMenu = [
                     {
                         id: 'user-list',
                         label: 'Danh sách người dùng'
+                    },
+                    {
+                        id: 'user-login',
+                        label: 'Login'
                     }
                 ]
             },
@@ -121,12 +125,26 @@ export const sidebarMenu = [
             {
                 id: 'report',
                 label: 'Báo cáo & Thống kê',
-                icon: <LuTrendingUp /> // Sử dụng icon mới tại đây
+                icon: <LuTrendingUp />
             },
             {
                 id: 'setting',
                 label: 'Cài đặt',
                 icon: <LuSettings />
+                
+            },{
+                id: 'feature-demo',
+                label: 'Demo Component',
+                icon: <LuTrendingUp />,children: [
+                    {
+                        id: 'setting-toast',
+                        label: 'Demo toast'
+                    },
+                    {
+                        id: 'setting-loading',
+                        label: 'Demo loading'
+                    }
+                ]
             }
         ]
     }

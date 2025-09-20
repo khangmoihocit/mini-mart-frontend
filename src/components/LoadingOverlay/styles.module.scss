@@ -1,0 +1,265 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+// Wrapper cho loading overlay
+.wrapper {
+    position: relative;
+    min-height: inherit;
+}
+
+// Overlay backdrop
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    
+    &.withBackground {
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(2px);
+    }
+}
+
+// Standalone loading (full container)
+.standalone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 40px 20px;
+}
+
+// Inline loading (horizontal)
+.inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+// Loading content container
+.loadingContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: center;
+}
+
+// Spinner animation
+.spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    
+    div {
+        border-radius: 50%;
+        background-color: #3b82f6;
+        animation: bounce 1.4s ease-in-out infinite both;
+    }
+    
+    .bounce1 {
+        animation-delay: -0.32s;
+    }
+    
+    .bounce2 {
+        animation-delay: -0.16s;
+    }
+    
+    .bounce3 {
+        animation-delay: 0s;
+    }
+}
+
+// Spinner sizes
+.small {
+    div {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+.medium {
+    div {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+.large {
+    div {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+// Loading messages
+.message {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.inlineMessage {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+// Loading button
+.loadingButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #3b82f6;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+    
+    &:hover:not(:disabled) {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    &:disabled {
+        background-color: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+// Skeleton loader styles
+.skeleton {
+    padding: 20px;
+    
+    .skeletonRow {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        align-items: center;
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    .skeletonItem {
+        height: 20px;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        border-radius: 4px;
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+// Animations
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+    .loadingContent {
+        background: #1e293b;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .message, .inlineMessage {
+        color: #cbd5e1;
+    }
+    
+    .overlay.withBackground {
+        background-color: rgba(30, 41, 59, 0.8);
+    }
+    
+    .skeleton .skeletonItem {
+        background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        background-size: 200% 100%;
+    }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+    .loadingContent {
+        padding: 20px;
+        margin: 0 16px;
+    }
+    
+    .message {
+        font-size: 13px;
+    }
+    
+    .skeleton {
+        padding: 16px;
+        
+        .skeletonRow {
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .skeletonItem {
+            height: 16px;
+        }
+    }
+}
+
+// Animation performance optimization
+.spinner, .skeleton {
+    will-change: transform, opacity;
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+    .spinner div {
+        animation: none;
+    }
+    
+    .skeleton .skeletonItem {
+        animation: none;
+        background: #f0f0f0;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .skeleton .skeletonItem {
+            background: #374151;
+        }
+    }
+}

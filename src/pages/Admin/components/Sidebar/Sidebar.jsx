@@ -4,7 +4,7 @@ import logo from '@icons/svgs/logo.svg';
 import { BiArrowToLeft } from 'react-icons/bi';
 import { AdminContext } from '@/contexts/AdminProvider';
 import classNames from 'classnames';
-import { sidebarMenu } from './constants.jsx'; // Import dữ liệu menu
+import { sidebarMenu } from '../../../../constants/dataSidebar.jsx'; // Import dữ liệu menu
 import MenuItem from '../MenuItem/MenuItem'; // Import MenuItem component
 
 const Sidebar = () => {
@@ -17,11 +17,7 @@ const Sidebar = () => {
         sidebarContent, 
         sectionTitle
     } = styles;
-    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
-
-    const handleToggleSidebar = () => {
-        setIsOpenSidebar(!isOpenSidebar);
-    };
+    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
 
     return (
         <div
@@ -37,7 +33,7 @@ const Sidebar = () => {
                     {isOpenSidebar && (
                         <BiArrowToLeft
                             className={icon}
-                            onClick={handleToggleSidebar}
+                            onClick={toggleSidebar}
                         />
                     )}
                 </div>

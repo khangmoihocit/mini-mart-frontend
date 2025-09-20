@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import routers from '@/routers/routers';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
@@ -31,6 +32,21 @@ function App() {
                         ))}
                     </Routes>
                 </Suspense>
+                
+                {/* Toast Container with custom configuration */}
+                <ToastContainer
+                    position="top-right"
+                    autoClose={4000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    className="custom-toast-container"
+                />
             </BrowserRouter>
         </ErrorBoundary>
     );

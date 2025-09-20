@@ -1,45 +1,6 @@
 @import '@styles/variables.module.scss';
 @import '@styles/mixins.module.scss';
 
-.productListContainer {
-    // padding: 20px;
-}
-
-.toolbar {
-    @include flex_box_custom(space-between, center, 20px);
-    background-color: $--bs-white;
-    padding: 20px;
-    border-radius: 8px 8px 0 0 ;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
-    .searchBox {
-        position: relative;
-        width: 300px;
-
-        input {
-            width: 100%;
-            padding: 10px 40px 10px 15px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            outline: none;
-        }
-
-        .searchIcon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: $--bs-gray;
-            cursor: pointer;
-        }
-    }
-
-    .addButton {
-        @include flex_box_custom(center, center, 8px);
-        font-weight: 600;
-    }
-}
-
 .tableContainer {
     background-color: $--bs-white;
     padding: 20px;
@@ -59,7 +20,7 @@
     thead {
         th {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 800;
             color: $--bs-gray;
             text-transform: uppercase;
             border-bottom: 1px solid #e0e0e0;
@@ -114,40 +75,66 @@
         border-radius: 6px;
         cursor: pointer;
         font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            // transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
     }
     .editBtn {
         background-color: rgba($--bs-blue, 0.1);
         color: $--bs-blue;
+        
+        &:hover {
+            background-color: rgba($--bs-blue, 0.2);
+        }
     }
     .deleteBtn {
         background-color: rgba($--bs-danger, 0.1);
         color: $--bs-danger;
+        
+        &:hover {
+            background-color: rgba($--bs-danger, 0.2);
+        }
     }
 }
 
-.pagination {
-    @include flex_box_custom(space-between, center, 20px);
-    margin-top: 20px;
-    .paginationInfo {
-        font-size: 14px;
-        color: $--bs-gray;
-    }
-    .paginationControls {
-        @include flex_box_custom(center, center, 5px);
-        button {
-            border: 1px solid #e0e0e0;
-            background-color: $--bs-white;
-            width: 36px;
-            height: 36px;
-            border-radius: 6px;
-            cursor: pointer;
-            @include flex_box_custom(center, center, 0px);
+.errorMessage {
+    background-color: rgba($--bs-danger, 0.1);
+    color: $--bs-danger;
+    padding: 12px 20px;
+    margin: 20px;
+    border-radius: 6px;
+    border-left: 4px solid $--bs-danger;
+    font-weight: 500;
+}
 
-            &.activePage {
-                background-color: $--bs-primary;
-                color: $--bs-white;
-                border-color: $--bs-primary;
-            }
-        }
-    }
+.emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    color: $--bs-gray;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+// Status cho user
+:global(.status-active) {
+    background-color: rgba($--bs-success, 0.1);
+    color: $--bs-success;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+:global(.status-inactive) {
+    background-color: rgba($--bs-danger, 0.1);
+    color: $--bs-danger;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
 }
