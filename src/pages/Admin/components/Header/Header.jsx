@@ -49,9 +49,17 @@ const Header = () => {
             const response = await userService.getMyInfo();
             setUserCurrent(response.data.result);
         } catch (error) {
-            // formatErrorMessage(error);
+            console.log(formatErrorMessage(error));
         }
     }, []);
+
+    const getNameRole = (user)=>{
+        let s = '';
+        user.roles.forEach(item => {
+            s += item.name + ' ';
+        });
+        return s;
+    }
 
     useEffect(() => {
         getMyInfo();
@@ -149,7 +157,7 @@ const Header = () => {
                         </div>
                         <div className={boxName}>
                             <h3>{userCurrent ? userCurrent.fullName : 'Khang default'}</h3>
-                            <p>{userCurrent && userCurrent.role ? userCurrent.role.name : 'Role default'}</p>
+                            <p>{userCurrent && userCurrent.roles ? getNameRole(userCurrent) : 'Role default'}</p>
                         </div>
                     </div>
                     <div>
