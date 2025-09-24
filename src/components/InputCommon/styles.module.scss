@@ -1,0 +1,12 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container{
+    @include flex_box_custom(center, flex-start, 5px);
+    flex-direction: column;
+    
+
+    .inputLabel{
+
+    }
+}

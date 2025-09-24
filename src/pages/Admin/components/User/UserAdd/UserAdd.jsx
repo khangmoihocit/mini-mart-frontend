@@ -1,7 +1,7 @@
 import InputCommon from '@/components/InputCommon/InputCommon';
 import React from 'react';
 
-const UserUpdate = () => {
+const UserAdd = () => {
     return (
         <div>
             <InputCommon />
@@ -9,4 +9,4 @@ const UserUpdate = () => {
     );
 };
 
-export default UserUpdate;
+export default UserAdd;
