@@ -4,8 +4,8 @@ import logo from '@icons/svgs/logo.svg';
 import { BiArrowToLeft } from 'react-icons/bi';
 import { AdminContext } from '@/contexts/AdminProvider';
 import classNames from 'classnames';
-import { sidebarMenu } from '../../../../constants/dataSidebar.jsx'; // Import dữ liệu menu
-import MenuItem from '../MenuItem/MenuItem'; // Import MenuItem component
+import { sidebarMenu } from '../../../../constants/dataSidebar.jsx';
+import MenuItem from '../MenuItem/MenuItem';
 
 const Sidebar = () => {
     const {
