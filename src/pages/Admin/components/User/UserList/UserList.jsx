@@ -1,61 +1,27 @@
-import React, { memo, useCallback } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
 import { useUsers } from '@/hooks/useUsers';
 import UserTableRow from './UserTableRow';
-import LoadingOverlay, {
-    SkeletonLoader
-} from '@/components/LoadingOverlay/LoadingOverlay';
-import toast from '@/utils/toast';
+import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
+import Message from '@/components/Message/Message';
 
-const UserList = memo(() => {
-    const { tableContainer, productTable, errorMessage, emptyState } = styles;
+const UserList = () => {
+    const { tableContainer, productTable, emptyState } = styles;
 
     const {
         users,
         loading,
-        error,
         selectedUsers,
         toggleUserSelection,
         toggleAllUsers,
-        isAllSelected,
         deleteUser,
-        refreshUsers
+        getAllUsers,
+        error
     } = useUsers();
 
-    const handleDeleteUser = useCallback(
-        async userId => {
-            try {
-                await deleteUser(userId);
-                toast.updateToSuccess(
-                    loadingToast,
-                    'Xóa người dùng thành công!'
-                );
-            } catch (error) {
-                toast.updateToError(
-                    loadingToast,
-                    'Không thể xóa người dùng. Vui lòng thử lại!'
-                );
-                console.error('Failed to delete user:', error);
-            }
-        },
-        [deleteUser]
-    );
-
-    const handleRefresh = useCallback(() => {
-        const loadingToast = toast.loading('Đang tải dữ liệu...');
-
-        try {
-            refreshUsers(); //lấy lại danh sách user từ backend
-            toast.updateToSuccess(loadingToast, 'Cập nhật dữ liệu thành công!');
-        } catch (error) {
-            toast.updateToError(
-                loadingToast,
-                'Không thể tải dữ liệu. Vui lòng thử lại!'
-            );
-        }
-    }, [refreshUsers]);
+    const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
     if (loading && users.length === 0) {
         return (
@@ -67,7 +33,6 @@ const UserList = memo(() => {
                 <LoadingOverlay
                     isLoading={true}
                     message='Đang tải danh sách người dùng...'
-                    size='large'
                 />
             </div>
         );
@@ -75,29 +40,24 @@ const UserList = memo(() => {
 
     return (
         <div>
-            {/* Header */}
             <HeaderMainContent
                 title={'Danh sách người dùng'}
                 navigate={'Dashboard > Khách hàng > Danh sách người dùng'}
             />
 
-            {/* Toolbar */}
             <Toolbar
-                onRefresh={handleRefresh}
+                onRefresh={getAllUsers}
                 selectedCount={selectedUsers.length}
             />
 
-            {/* Error handling */}
-            {error && <div className={errorMessage}>{error}</div>}
+            {error && <Message content={error} type='error' />}
 
-            {/* Bảng người dùng */}
             <LoadingOverlay
                 isLoading={loading && users.length > 0}
                 message='Đang cập nhật dữ liệu...'
-                size='medium'
             >
                 <div className={tableContainer}>
-                    {users.length === 0 && !loading ? (
+                    {users.length === 0 ? (
                         <div className={emptyState}>
                             Không có dữ liệu người dùng
                         </div>
@@ -120,7 +80,7 @@ const UserList = memo(() => {
                                     <th>Ngày sinh</th>
                                     <th>Quyền</th>
                                     <th>Ngày tạo</th>
-                                    <th>Cập nhật lần cuối</th>
+                                    <th>Cập nhật</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -129,15 +89,9 @@ const UserList = memo(() => {
                                     <UserTableRow
                                         key={user.id}
                                         user={user}
-                                        isSelected={selectedUsers.includes(
-                                            user.id
-                                        )}
-                                        onToggleSelect={() =>
-                                            toggleUserSelection(user.id)
-                                        }
-                                        onDelete={() =>
-                                            handleDeleteUser(user.id)
-                                        }
+                                        isSelected={selectedUsers.includes(user.id)}
+                                        onToggleSelect={() => toggleUserSelection(user.id)}
+                                        onDelete={() => deleteUser(user.id)}
                                     />
                                 ))}
                             </tbody>
@@ -147,8 +101,6 @@ const UserList = memo(() => {
             </LoadingOverlay>
         </div>
     );
-});
-
-UserList.displayName = 'UserList';
+};
 
 export default UserList;

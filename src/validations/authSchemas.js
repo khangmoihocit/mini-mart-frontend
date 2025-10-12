@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { VALIDATION_MESSAGES } from '@/constants/messages';
 
-// Schema cho đăng nhập
 export const loginSchema = Yup.object({
     email: Yup.string()
         .email(VALIDATION_MESSAGES.EMAIL.INVALID)
@@ -10,14 +9,13 @@ export const loginSchema = Yup.object({
         .required(VALIDATION_MESSAGES.PASSWORD.REQUIRED)
 });
 
-// Schema cho đăng ký
 export const registerSchema = Yup.object({
     fullName: Yup.string()
         .min(2, VALIDATION_MESSAGES.FULL_NAME.MIN_LENGTH)
         .required(VALIDATION_MESSAGES.FULL_NAME.REQUIRED),
     numberOfPhone: Yup.string()
         .matches(
-            /^(0[3|5|7|8|9])+([0-9]{8})\b/,
+            /^(0)+([0-9]{9})\b/,
             VALIDATION_MESSAGES.PHONE.INVALID
         )
         .required(VALIDATION_MESSAGES.PHONE.REQUIRED),

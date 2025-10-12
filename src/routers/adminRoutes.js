@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 
-// Lazy load các components admin
 export const AdminRoutes = {
     // Dashboard
     Dashboard: lazy(() => import('@/pages/Admin/components/DashBoard/DashBoard')),
@@ -17,7 +16,6 @@ export const AdminRoutes = {
     LoadingDemo: lazy(() => import('@/components/LoadingDemo/LoadingDemo')),
 };
 
-// Centralized loading component
 export const AdminLoadingFallback = () => (
     <div style={{
         display: 'flex',
