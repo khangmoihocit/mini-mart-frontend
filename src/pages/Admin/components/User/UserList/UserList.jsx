@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
@@ -6,9 +6,11 @@ import { useUsers } from '@/hooks/useUsers';
 import UserTableRow from './UserTableRow';
 import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 import Message from '@/components/Message/Message';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 const UserList = () => {
     const { tableContainer, productTable, emptyState } = styles;
+    const [modalState, setModalState] = useState({ isOpen: false, userIdToDelete: null });
 
     const {
         users,
@@ -21,7 +23,26 @@ const UserList = () => {
         error
     } = useUsers();
 
+    useEffect(() => {
+        getAllUsers();
+    }, []);
+
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
+
+    const openDeleteModal = (userId) => {
+        setModalState({ isOpen: true, userIdToDelete: userId });
+    };
+
+    const closeDeleteModal = () => {
+        setModalState({ isOpen: false, userIdToDelete: null });
+    };
+
+    const handleConfirmDelete = () => {
+        if (modalState.userIdToDelete) {
+            deleteUser(modalState.userIdToDelete);
+        }
+        closeDeleteModal();
+    };
 
     if (loading && users.length === 0) {
         return (
@@ -91,7 +112,7 @@ const UserList = () => {
                                         user={user}
                                         isSelected={selectedUsers.includes(user.id)}
                                         onToggleSelect={() => toggleUserSelection(user.id)}
-                                        onDelete={() => deleteUser(user.id)}
+                                        onDelete={() => openDeleteModal(user.id)}
                                     />
                                 ))}
                             </tbody>
@@ -99,6 +120,15 @@ const UserList = () => {
                     )}
                 </div>
             </LoadingOverlay>
+
+            <ConfirmationModal
+                isOpen={modalState.isOpen}
+                onClose={closeDeleteModal}
+                onConfirm={handleConfirmDelete}
+                title="Xác nhận xóa người dùng"
+                message="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa người dùng này không?"
+                confirmText="Xóa"
+            />
         </div>
     );
 };

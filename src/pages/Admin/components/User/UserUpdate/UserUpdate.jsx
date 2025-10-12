@@ -13,7 +13,7 @@ const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
     const { selectedUser, setType, setSelectedUser } = useContext(AdminContext);
     const [errorMessage, setErrorMessage] = useState('');
-    const {getAllUsers} = useUsers();
+    const { getAllUsers } = useUsers();
 
     const [userData, setUserData] = useState({
         fullName: '',
@@ -62,7 +62,7 @@ const UserUpdate = () => {
         }
     };
 
-        useEffect(() => {
+    useEffect(() => {
         if (selectedUser) {
             setUserData({
                 fullName: selectedUser.fullName || '',
@@ -94,26 +94,28 @@ const UserUpdate = () => {
                         <InputCommon label={'Số điện thoại'} name={'phoneNumber'} value={userData.phoneNumber} onChange={handleInputChange} />
                     </div>
 
-                    <div className={inputDate}>
-                        <label>Quyền</label>
-                        <select name="roleName" value={userData.roleName} onChange={handleInputChange}>
-                            <option value="USER">USER</option>
-                            <option value="ADMIN">ADMIN</option>
-                        </select>
-                    </div>
+                    <div className={wrapForm}>
+                        <div className={inputDate}>
+                            <label>Quyền</label>
+                            <select name="roleName" value={userData.roleName} onChange={handleInputChange}>
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                            </select>
+                        </div>
 
-                    <div className={inputDate}>
-                        <label style={{ marginRight: '10px' }}>Ngày sinh</label>
-                        <input type="date" name="dateOfBirth" value={userData.dateOfBirth} onChange={handleInputChange} />
+                        <div className={inputDate}>
+                            <label style={{ marginRight: '10px' }}>Ngày sinh</label>
+                            <input type="date" name="dateOfBirth" value={userData.dateOfBirth} onChange={handleInputChange} />
+                        </div>
                     </div>
 
                     {errorMessage && (<Message type="error" content={errorMessage} />)}
 
                     <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                        <div style={{width: '100px'}}>
+                        <div style={{ width: '100px' }}>
                             <Button content={"Lưu"} isPrimary={true} type="submit" onClick={handleSubmit} />
                         </div>
-                        <div style={{width: '100px'}}>
+                        <div style={{ width: '100px' }}>
                             <Button content={"Hủy"} isPrimary={false} onClick={handleCancel} />
                         </div>
                     </div>

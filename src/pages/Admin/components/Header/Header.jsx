@@ -17,6 +17,7 @@ import { BiArrowToRight } from 'react-icons/bi';
 import classNames from 'classnames';
 import userService from '@/apis/userService';
 import { formatErrorMessage } from '@/utils/helpers';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 const Header = () => {
     const {
@@ -41,7 +42,8 @@ const Header = () => {
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
-    const { isOpenSidebar, setIsOpenSidebar, userCurrent } = useContext(AdminContext);
+    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+    const { userCurrent } = useContext(UserInfoContext);
 
     const toggleSidebar = () => {
         setIsOpenSidebar(prev => !prev);
@@ -138,8 +140,8 @@ const Header = () => {
                             />
                         </div>
                         <div className={boxName}>
-                            <h3>{userCurrent?.fullName || 'Guest'}</h3>
-                            <p>{userCurrent?.role?.name || 'User'}</p>
+                            <h3>{userCurrent ? userCurrent.fullName : 'Guest'}</h3>
+                            <p>{userCurrent ? userCurrent.role.name : 'User'}</p>
                         </div>
                     </div>
                     <div>

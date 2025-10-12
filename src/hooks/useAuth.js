@@ -9,14 +9,14 @@ import { loginSchema, registerSchema } from '@/validations/authSchemas';
 import { API_MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { formatErrorMessage } from '@/utils/helpers';
-import { AdminContext } from '@/contexts/AdminProvider';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 export const useAuth = () => {
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const {setToken} = useContext(AdminContext);
+    const { setToken } = useContext(UserInfoContext);
 
     const navigate = useNavigate();
 
