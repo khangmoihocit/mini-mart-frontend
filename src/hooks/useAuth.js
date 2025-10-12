@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import Cookies from 'js-cookie';
@@ -9,12 +9,14 @@ import { loginSchema, registerSchema } from '@/validations/authSchemas';
 import { API_MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { formatErrorMessage } from '@/utils/helpers';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 export const useAuth = () => {
     const [isRegister, setIsRegister] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const { setToken } = useContext(UserInfoContext);
 
     const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ export const useAuth = () => {
             const token = response.data.result.token;
             Cookies.set('token', token);
             navigate(ROUTES.ADMIN);
+            setToken(token);
         } catch (error) {
             setErrorMessage(formatErrorMessage(error));
         }

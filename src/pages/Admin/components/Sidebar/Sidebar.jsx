@@ -17,7 +17,11 @@ const Sidebar = () => {
         sidebarContent, 
         sectionTitle
     } = styles;
-    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
+    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+
+    const toggleSidebar = () => {
+        setIsOpenSidebar(prev => !prev);
+    }
 
     return (
         <div

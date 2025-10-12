@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+// respone.data.result
 const apiPublic = axios.create({
     baseURL: 'http://localhost:8081/api/v1',
     timeout: 10000,
@@ -17,7 +18,6 @@ const apiPrivate = axios.create({
     }
 });
 
-// Biến để track refresh token request đang diễn ra
 let isRefreshing = false;
 let failedQueue = [];
 
@@ -55,10 +55,8 @@ apiPrivate.interceptors.response.use(
     async err => {
         const originalRequest = err.config;
 
-        // Chỉ xử lý logic đặc biệt cho lỗi 401 (refresh token)
         if (err.response && err.response.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
-                // Nếu đang refresh token, thêm request vào queue
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
                 }).then(token => {
@@ -75,7 +73,6 @@ apiPrivate.interceptors.response.use(
             const refreshToken = Cookies.get('token');
 
             if (!refreshToken) {
-                // Nếu không có refresh token, process queue với error
                 processQueue(err, null);
                 isRefreshing = false;
                 return Promise.reject(err);
@@ -90,21 +87,17 @@ apiPrivate.interceptors.response.use(
 
                 Cookies.set('token', newAccessToken);
 
-                // Cập nhật header cho tất cả request
                 apiPrivate.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-                // Process tất cả request trong queue với token mới
                 processQueue(null, newAccessToken);
 
                 return apiPrivate(originalRequest);
 
             } catch (error) {
-                // Nếu refresh token thất bại, process queue với error
                 processQueue(error, null);
                 Cookies.remove('token');
                 
-                // Redirect về login page
                 window.location.href = '/login';
                 
                 return Promise.reject(error);
@@ -112,7 +105,6 @@ apiPrivate.interceptors.response.use(
                 isRefreshing = false;
             }
         }
-        // Với TẤT CẢ các lỗi khác không phải là 401
         return Promise.reject(err);
     }
 );

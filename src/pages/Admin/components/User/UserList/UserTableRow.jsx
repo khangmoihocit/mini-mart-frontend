@@ -1,10 +1,11 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext, useState } from 'react';
 import styles from './styles.module.scss';
-import { LoadingButton } from '@/components/LoadingOverlay/LoadingOverlay';
+import { AdminContext } from '@/contexts/AdminProvider';
 
 const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
     const { actions, editBtn, deleteBtn } = styles;
     const [isDeleting, setIsDeleting] = useState(false);
+    const { type, setType, setSelectedUser } = useContext(AdminContext);
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -12,8 +13,8 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
     };
 
     const handleEdit = () => {
-        // TODO: Implement edit functionality
-        console.log('Edit user:', user.id);
+        setSelectedUser(user);
+        setType('user-update');
     };
 
     const handleDelete = async () => {
@@ -28,8 +29,8 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
     return (
         <tr>
             <td>
-                <input 
-                    type='checkbox' 
+                <input
+                    type='checkbox'
                     checked={isSelected}
                     onChange={onToggleSelect}
                 />
@@ -49,7 +50,7 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
             <td>{formatDate(user.updatedAt)}</td>
             <td>
                 <div className={actions}>
-                    <button 
+                    <button
                         className={editBtn}
                         onClick={handleEdit}
                         type="button"

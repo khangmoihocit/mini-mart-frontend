@@ -1,13 +1,12 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-const InputCommon = ({ isRequired = false}) => {
-    const {container, inputLabel} = styles;
-
+const InputCommon = ({ label, name, value, onChange }) => {
+    const { formGroup } = styles;
     return (
-        <div className={container}>
-            <div className={inputLabel}>Name {isRequired && <span>*</span>}</div>
-            <input type="text" placeholder='enter name'/>
+        <div className={formGroup}>
+            <label htmlFor={name}>{label}</label>
+            <input type="text" name={name} value={value} onChange={onChange} />
         </div>
     );
 };

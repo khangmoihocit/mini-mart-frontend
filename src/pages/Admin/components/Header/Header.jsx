@@ -17,6 +17,7 @@ import { BiArrowToRight } from 'react-icons/bi';
 import classNames from 'classnames';
 import userService from '@/apis/userService';
 import { formatErrorMessage } from '@/utils/helpers';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 const Header = () => {
     const {
@@ -38,32 +39,15 @@ const Header = () => {
         sliceContainerSearch
     } = styles;
 
-    const [userCurrent, setUserCurrent] = useState({});
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
-    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
+    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+    const { userCurrent } = useContext(UserInfoContext);
 
-    const getMyInfo = useCallback(async () => {
-        try {
-            const response = await userService.getMyInfo();
-            setUserCurrent(response.data.result);
-        } catch (error) {
-            console.log(formatErrorMessage(error));
-        }
-    }, []);
-
-    const getNameRole = (user)=>{
-        let s = '';
-        user.roles.forEach(item => {
-            s += item.name + ' ';
-        });
-        return s;
+    const toggleSidebar = () => {
+        setIsOpenSidebar(prev => !prev);
     }
-
-    useEffect(() => {
-        getMyInfo();
-    }, [getMyInfo]);
 
     useEffect(() => {
         switch (typeLanguage) {
@@ -156,8 +140,8 @@ const Header = () => {
                             />
                         </div>
                         <div className={boxName}>
-                            <h3>{userCurrent ? userCurrent.fullName : 'Khang default'}</h3>
-                            <p>{userCurrent && userCurrent.roles ? getNameRole(userCurrent) : 'Role default'}</p>
+                            <h3>{userCurrent ? userCurrent.fullName : 'Guest'}</h3>
+                            <p>{userCurrent ? userCurrent.role.name : 'User'}</p>
                         </div>
                     </div>
                     <div>

@@ -18,12 +18,11 @@
     transition: all 0.3s ease;
     transform: translateX(0);
 
-    //  ẩn thanh cuộn
     &::-webkit-scrollbar {
         width: 0px;
-        background: transparent; // Ẩn scrollbar trên Chrome, Safari, Edge
+        background: transparent;
     }
-    scrollbar-width: none; // Ẩn scrollbar trên Firefox
+    scrollbar-width: none; 
 }
 
 .sliceSideBar {
@@ -68,9 +67,8 @@
     width: 100%;
     padding: 20px;
     flex-grow: 1;
-    overflow-y: auto; // Chỉ cho phép phần này cuộn
+    overflow-y: auto; 
     
-    // Ẩn thanh cuộn
     &::-webkit-scrollbar {
         width: 0px;
         background: transparent;
