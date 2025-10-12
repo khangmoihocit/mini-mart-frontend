@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
@@ -7,25 +7,21 @@ import UserTableRow from './UserTableRow';
 import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 import Message from '@/components/Message/Message';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { AdminContext } from '@/contexts/AdminProvider';
 
 const UserList = () => {
     const { tableContainer, productTable, emptyState } = styles;
     const [modalState, setModalState] = useState({ isOpen: false, userIdToDelete: null });
 
-    const {
+     const {
         users,
-        loading,
-        selectedUsers,
-        toggleUserSelection,
-        toggleAllUsers,
+        userLoading,
+        userError,
         deleteUser,
-        getAllUsers,
-        error
-    } = useUsers();
+    } = useContext(AdminContext); //sẽ không re-render adminprovider sử dụng useContext
+    //component userlist sẽ re-render khi có sự thay đổi trong state adminprovider
 
-    useEffect(() => {
-        getAllUsers();
-    }, []);
+    const {selectedUsers, toggleUserSelection, toggleAllUsers} = useUsers();
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
@@ -44,7 +40,7 @@ const UserList = () => {
         closeDeleteModal();
     };
 
-    if (loading && users.length === 0) {
+    if (userLoading && users.length === 0) {
         return (
             <div>
                 <HeaderMainContent
@@ -67,14 +63,13 @@ const UserList = () => {
             />
 
             <Toolbar
-                onRefresh={getAllUsers}
                 selectedCount={selectedUsers.length}
             />
 
-            {error && <Message content={error} type='error' />}
+            {userError && <Message content={userError} type='error' />}
 
             <LoadingOverlay
-                isLoading={loading && users.length > 0}
+                isLoading={userLoading && users.length > 0}
                 message='Đang cập nhật dữ liệu...'
             >
                 <div className={tableContainer}>

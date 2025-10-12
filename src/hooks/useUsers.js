@@ -70,6 +70,7 @@
             updateUser,
             toggleUserSelection,
             toggleAllUsers,
-            error
+            error,
+            setUsers
         };
     };

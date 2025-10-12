@@ -11,9 +11,8 @@ import { useUsers } from '@/hooks/useUsers';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
-    const { selectedUser, setType, setSelectedUser } = useContext(AdminContext);
+    const { selectedUser, setType, setSelectedUser, setUsers } = useContext(AdminContext);
     const [errorMessage, setErrorMessage] = useState('');
-    const { getAllUsers } = useUsers();
 
     const [userData, setUserData] = useState({
         fullName: '',
@@ -56,7 +55,7 @@ const UserUpdate = () => {
             setType('user-list');
             setSelectedUser(null);
             setErrorMessage('');
-            getAllUsers();
+            setUsers(prevUsers => prevUsers.map(user => user.id === selectedUser.id ? response.data.result : user));
         } catch (error) {
             setErrorMessage(formatErrorMessage(error));
         }

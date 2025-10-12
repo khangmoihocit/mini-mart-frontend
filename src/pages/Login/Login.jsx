@@ -4,9 +4,7 @@ import React from 'react';
 
 const Login = () => {
     return (
-        <UserInfoProvider>
-            <FormLogin />
-        </UserInfoProvider>
+        <FormLogin />
     );
 };
 

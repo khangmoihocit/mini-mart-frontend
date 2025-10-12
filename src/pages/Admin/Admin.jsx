@@ -9,6 +9,7 @@ import { UserInfoProvider } from '@/contexts/UserInfoProvider';
 const Admin = () => {
     const { containerAdmin1, containerRight } = styles;
 
+    //adminprovider sẽ render lần đầu tiên khi component admin được mount
     return (
         <UserInfoProvider>
             <AdminProvider>
@@ -19,7 +20,7 @@ const Admin = () => {
                         <MainContent />
                     </div>
                 </div>
-            </AdminProvider>
+            </AdminProvider> 
         </UserInfoProvider>
     );
 };

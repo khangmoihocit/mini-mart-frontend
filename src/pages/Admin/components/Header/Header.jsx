@@ -43,7 +43,7 @@ const Header = () => {
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
     const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
-    const { userCurrent } = useContext(UserInfoContext);
+    const { userCurrent } = useContext(UserInfoContext); //khi token thay đổi sẽ gọi lại api getMyInfo
 
     const toggleSidebar = () => {
         setIsOpenSidebar(prev => !prev);
