@@ -42,7 +42,11 @@ const Header = () => {
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
-    const { isOpenSidebar, toggleSidebar } = useContext(AdminContext);
+    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+
+    const toggleSidebar = () => {
+        setIsOpenSidebar(prev => !prev);
+    }
 
     const getMyInfo = useCallback(async () => {
         try {
@@ -53,13 +57,6 @@ const Header = () => {
         }
     }, []);
 
-    const getNameRole = (user)=>{
-        let s = '';
-        user.roles.forEach(item => {
-            s += item.name + ' ';
-        });
-        return s;
-    }
 
     useEffect(() => {
         getMyInfo();
@@ -157,7 +154,7 @@ const Header = () => {
                         </div>
                         <div className={boxName}>
                             <h3>{userCurrent ? userCurrent.fullName : 'Khang default'}</h3>
-                            <p>{userCurrent && userCurrent.roles ? getNameRole(userCurrent) : 'Role default'}</p>
+                            <p>{userCurrent && userCurrent.role ? userCurrent.role.name : 'Role default'}</p>
                         </div>
                     </div>
                     <div>

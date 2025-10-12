@@ -1,32 +1,22 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useState } from 'react';
 
 export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
     const [type, setType] = useState('product-list');
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
+    const [selectedUser, setSelectedUser] = useState(null);
 
-    // Memoize callback functions để tránh re-render không cần thiết
-    const handleSetType = useCallback((newType) => {
-        setType(newType);
-    }, []);
-
-    const handleToggleSidebar = useCallback(() => {
-        setIsOpenSidebar(prev => !prev);
-    }, []);
-
-    const handleSetSidebar = useCallback((isOpen) => {
-        setIsOpenSidebar(isOpen);
-    }, []);
-
-    // Memoize context value để tránh re-render các consumer
-    const contextValue = useMemo(() => ({
+    // Đối tượng value giờ đây được tạo trực tiếp
+    // và chỉ được tạo lại khi một trong các giá trị state thay đổi.
+    const contextValue = {
         type,
-        setType: handleSetType,
+        setType,
         isOpenSidebar,
-        setIsOpenSidebar: handleSetSidebar,
-        toggleSidebar: handleToggleSidebar
-    }), [type, isOpenSidebar, handleSetType, handleSetSidebar, handleToggleSidebar]);
+        setIsOpenSidebar,
+        selectedUser,
+        setSelectedUser
+    };
 
     return (
         <AdminContext.Provider value={contextValue}>
