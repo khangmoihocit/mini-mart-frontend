@@ -7,8 +7,6 @@ export const AdminProvider = ({ children }) => {
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    // Đối tượng value giờ đây được tạo trực tiếp
-    // và chỉ được tạo lại khi một trong các giá trị state thay đổi.
     const contextValue = {
         type,
         setType,

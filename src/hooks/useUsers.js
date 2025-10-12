@@ -45,7 +45,7 @@ export const useUsers = () => {
             );
             toast.success('Cập nhật thành công!');
         } catch (error) {
-            toast.error(formatErrorMessage(error));
+            setError(formatErrorMessage(error));
         }
     };
 

@@ -48,15 +48,14 @@ const Header = () => {
         setIsOpenSidebar(prev => !prev);
     }
 
-    const getMyInfo = useCallback(async () => {
+    const getMyInfo = async() => {
         try {
             const response = await userService.getMyInfo();
             setUserCurrent(response.data.result);
         } catch (error) {
             console.log(formatErrorMessage(error));
         }
-    }, []);
-
+    }
 
     useEffect(() => {
         getMyInfo();

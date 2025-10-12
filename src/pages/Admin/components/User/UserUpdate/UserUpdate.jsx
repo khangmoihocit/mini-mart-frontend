@@ -3,17 +3,23 @@ import styles from './styles.module.scss';
 import InputCommon from '@/components/InputCommon/InputCommon';
 import { AdminContext } from '@/contexts/AdminProvider';
 import Button from '@/pages/Admin/components/Button/Button';
+import Message from '@/components/Message/Message';
+import { formatErrorMessage } from '@/utils/helpers';
+import userService from '@/apis/userService';
+import toast from '@/utils/toast';
+import { useUsers } from '@/hooks/useUsers';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
     const { selectedUser, setType, setSelectedUser } = useContext(AdminContext);
+    const [errorMessage, setErrorMessage] = useState('');
+    const {getAllUsers} = useUsers();
 
     const [userData, setUserData] = useState({
         fullName: '',
         email: '',
         phoneNumber: '',
         address: '',
-        isActive: true,
         dateOfBirth: '',
         roleName: 'USER'
     });
@@ -26,20 +32,6 @@ const UserUpdate = () => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
-
-    useEffect(() => {
-        if (selectedUser) {
-            setUserData({
-                fullName: selectedUser.fullName || '',
-                email: selectedUser.email || '',
-                phoneNumber: selectedUser.phoneNumber || '',
-                address: selectedUser.address || '',
-                isActive: selectedUser.isActive !== undefined ? selectedUser.isActive : true,
-                dateOfBirth: formatDateForInput(selectedUser.dateOfBirth),
-                roleName: selectedUser.role?.name || 'USER'
-            });
-        }
-    }, [selectedUser]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -55,10 +47,34 @@ const UserUpdate = () => {
 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log(selectedUser);
+        try {
+            const response = await userService.update(selectedUser.id, userData);
+            toast.success('Cập nhật người dùng thành công!');
+            setType('user-list');
+            setSelectedUser(null);
+            setErrorMessage('');
+            getAllUsers();
+        } catch (error) {
+            setErrorMessage(formatErrorMessage(error));
+        }
     };
+
+        useEffect(() => {
+        if (selectedUser) {
+            setUserData({
+                fullName: selectedUser.fullName || '',
+                email: selectedUser.email || '',
+                phoneNumber: selectedUser.phoneNumber || '',
+                address: selectedUser.address || '',
+                isActive: selectedUser.isActive !== undefined ? selectedUser.isActive : true,
+                dateOfBirth: formatDateForInput(selectedUser.dateOfBirth),
+                roleName: selectedUser.role?.name || 'USER'
+            });
+        }
+    }, [selectedUser]);
 
     return (
         <div className={container}>
@@ -87,17 +103,11 @@ const UserUpdate = () => {
                     </div>
 
                     <div className={inputDate}>
-                        <label>Trạng thái</label>
-                        <select name="isActive" value={userData.isActive} onChange={handleInputChange}>
-                            <option value={true}>Đang hoạt động</option>
-                            <option value={false}>Đã khóa</option>
-                        </select>
-                    </div>
-
-                    <div className={inputDate}>
                         <label style={{ marginRight: '10px' }}>Ngày sinh</label>
                         <input type="date" name="dateOfBirth" value={userData.dateOfBirth} onChange={handleInputChange} />
                     </div>
+
+                    {errorMessage && (<Message type="error" content={errorMessage} />)}
 
                     <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
                         <div style={{width: '100px'}}>
