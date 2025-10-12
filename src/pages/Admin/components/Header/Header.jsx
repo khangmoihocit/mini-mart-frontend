@@ -38,28 +38,14 @@ const Header = () => {
         sliceContainerSearch
     } = styles;
 
-    const [userCurrent, setUserCurrent] = useState({});
     const [isShowLanguage, setIsShowLanguage] = useState(false);
     const [typeLanguage, setTypeLanguage] = useState('VN');
     const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
-    const { isOpenSidebar, setIsOpenSidebar } = useContext(AdminContext);
+    const { isOpenSidebar, setIsOpenSidebar, userCurrent } = useContext(AdminContext);
 
     const toggleSidebar = () => {
         setIsOpenSidebar(prev => !prev);
     }
-
-    const getMyInfo = async() => {
-        try {
-            const response = await userService.getMyInfo();
-            setUserCurrent(response.data.result);
-        } catch (error) {
-            console.log(formatErrorMessage(error));
-        }
-    }
-
-    useEffect(() => {
-        getMyInfo();
-    }, [getMyInfo]);
 
     useEffect(() => {
         switch (typeLanguage) {
@@ -152,8 +138,8 @@ const Header = () => {
                             />
                         </div>
                         <div className={boxName}>
-                            <h3>{userCurrent ? userCurrent.fullName : 'Khang default'}</h3>
-                            <p>{userCurrent && userCurrent.role ? userCurrent.role.name : 'Role default'}</p>
+                            <h3>{userCurrent?.fullName || 'Guest'}</h3>
+                            <p>{userCurrent?.role?.name || 'User'}</p>
                         </div>
                     </div>
                     <div>
