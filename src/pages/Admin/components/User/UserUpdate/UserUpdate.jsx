@@ -4,10 +4,9 @@ import InputCommon from '@/components/InputCommon/InputCommon';
 import { AdminContext } from '@/contexts/AdminProvider';
 import Button from '@/pages/Admin/components/Button/Button';
 import Message from '@/components/Message/Message';
-import { formatErrorMessage } from '@/utils/helpers';
+import { formatDateForInput, formatErrorMessage } from '@/utils/helpers';
 import userService from '@/apis/userService';
 import toast from '@/utils/toast';
-import { useUsers } from '@/hooks/useUsers';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
@@ -22,15 +21,6 @@ const UserUpdate = () => {
         dateOfBirth: '',
         roleName: 'USER'
     });
-
-    const formatDateForInput = (dateString) => {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -48,7 +38,6 @@ const UserUpdate = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(selectedUser);
         try {
             const response = await userService.update(selectedUser.id, userData);
             toast.success('Cập nhật người dùng thành công!');

@@ -1,19 +1,24 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { useUsers } from '@/hooks/useUsers';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 export const AdminContext = createContext();
-
-//user
+//cung cấp các state cho các component con
 export const AdminProvider = ({ children }) => {
     const [type, setType] = useState('product-list');
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null); //user được click từ button sửa
 
-    const { users, loading, error, getAllUsers, deleteUser, setUsers } = useUsers();
+    const { token, userCurrent } = useContext(UserInfoContext);
+    const { users, loading, error, getAllUsers, setUsers, selectedUsers, toggleUserSelection, toggleAllUsers } = useUsers();
 
     useEffect(() => {
+        setUsers([]);
+
+        // if (token && userCurrent?.role?.name === 'ADMIN') {
         getAllUsers();
-    }, []);
+        // }
+    }, [token]);
 
     const contextValue = {
         type,
@@ -26,8 +31,11 @@ export const AdminProvider = ({ children }) => {
         userLoading: loading,
         userError: error,
         refreshUsers: getAllUsers,
-        deleteUser,
-        setUsers
+        deleteUser: useUsers().deleteUser,
+        setUsers,
+        selectedUsers,
+        toggleUserSelection,
+        toggleAllUsers
     };
 
     return (

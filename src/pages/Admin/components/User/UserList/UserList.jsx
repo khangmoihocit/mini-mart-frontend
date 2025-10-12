@@ -18,10 +18,11 @@ const UserList = () => {
         userLoading,
         userError,
         deleteUser,
+        selectedUsers,
+        toggleUserSelection,
+        toggleAllUsers
     } = useContext(AdminContext); //sẽ không re-render adminprovider sử dụng useContext
     //component userlist sẽ re-render khi có sự thay đổi trong state adminprovider
-
-    const {selectedUsers, toggleUserSelection, toggleAllUsers} = useUsers();
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
