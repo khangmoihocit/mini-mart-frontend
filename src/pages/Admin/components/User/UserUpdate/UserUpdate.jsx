@@ -78,7 +78,7 @@ const UserUpdate = () => {
                     </div>
 
                     <div className={wrapForm}>
-                        <InputCommon label={'Email'} name={'email'} value={userData.email} onChange={handleInputChange} />
+                        <InputCommon label={'Email'} name={'email'} value={userData.email} onChange={handleInputChange} disabled={true}/>
                         <InputCommon label={'Số điện thoại'} name={'phoneNumber'} value={userData.phoneNumber} onChange={handleInputChange} />
                     </div>
 

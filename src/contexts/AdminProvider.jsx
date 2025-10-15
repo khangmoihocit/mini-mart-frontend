@@ -3,7 +3,7 @@ import { useUsers } from '@/hooks/useUsers';
 import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 export const AdminContext = createContext();
-//cung cấp các state cho các component con
+//khởi tạo cung cấp các state cho các component con
 export const AdminProvider = ({ children }) => {
     const [type, setType] = useState('product-list');
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);

@@ -11,4 +11,9 @@ export default class userService {
     
     static update = async (id, body) => await apiPrivate.put(`/users/${id}`, body);
 
+    static search = async (pageNo, pageSize, keyword) => {
+        await apiPrivate.get('/users/search', null, {
+            params: { pageNo , pageSize, keyword }
+        });
+    };
 }

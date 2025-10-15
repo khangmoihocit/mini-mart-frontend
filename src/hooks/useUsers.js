@@ -13,8 +13,9 @@ export const useUsers = () => {
     const getAllUsers = async () => {
         setLoading(true);
         try {
-            const response = await userService.getAll();
-            setUsers(response.data.result);
+            // const response = await userService.getAll();
+            const response = await userService.search(1, 5, 1);
+            setUsers(response.data.result.content);
             setError(null);
         } catch (error) {
             setError(formatErrorMessage(error));
