@@ -5,8 +5,9 @@ import {
     LuSearch,
 } from 'react-icons/lu';
 import Button from '@/pages/Admin/components/Button/Button';
+import SelectCommon from '@/components/Pagination/SelectCommon';
 
-const Toolbar = () => {
+const Toolbar = ({ itemsPerPage, onItemsPerPageChange }) => {
     const { toolbar, searchBox, searchIcon, addButton, showing, wrapToolbar } =
         styles;
 
@@ -16,11 +17,7 @@ const Toolbar = () => {
                 <div className={wrapToolbar}>
                     <div className={showing}>
                         <p>Hiển thị</p>
-                        <select name='showing' id=''>
-                            <option value='10'>10</option>
-                            <option value='20'>20</option>
-                            <option value='30'>30</option>
-                        </select>
+                        <SelectCommon itemsPerPage={itemsPerPage} onItemsPerPageChange={onItemsPerPageChange} />
                     </div>
                     <div className={searchBox}>
                         <input type='text' placeholder='Tìm kiếm sản phẩm...' />

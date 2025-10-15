@@ -41,7 +41,7 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
             <td>{user.address || ''}</td>
             <td>
                 <span className={user.isActive ? 'status-active' : 'status-inactive'}>
-                    {user.isActive ? 'Đang hoạt động' : 'Đã khóa'}
+                    {user.isActive ? 'active' : 'locked'}
                 </span>
             </td>
             <td>{formatDate(user.dateOfBirth)}</td>

@@ -1,0 +1,65 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+    color: #666;
+}
+
+.paginationInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.itemsPerPageSelector {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.paginationControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover:not(:disabled) {
+            background-color: #f5f5f5;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+
+    .activePage {
+        background-color: $--bs-blue;
+        color: #fff;
+        border-color: $--bs-blue;
+
+        &:hover{
+            color: #666;
+        }
+    }
+}

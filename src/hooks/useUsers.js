@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 import userService from '@/apis/userService';
 import { formatErrorMessage } from '@/utils/helpers';
 
@@ -9,19 +9,44 @@ export const useUsers = () => {
     const [loading, setLoading] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [error, setError] = useState(null);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 10,
+        totalPages: 1,
+        totalItems: 0,
+    });
 
-    const getAllUsers = async () => {
+    const fetchUsers = async (page, limit) => {
         setLoading(true);
         try {
-            // const response = await userService.getAll();
-            const response = await userService.search(1, 5, 1);
-            setUsers(response.data.result.content);
+            const response = await userService.search(page, limit, '');
+            const { content, totalPages, totalElements, number } = response.data.result;
+
+            setUsers(content);
+            setPagination(prev => ({
+                ...prev,
+                page: number + 1,
+                totalPages,
+                totalItems: totalElements,
+            }));
             setError(null);
         } catch (error) {
             setError(formatErrorMessage(error));
         } finally {
             setLoading(false);
         }
+    };
+
+    useEffect(() => {
+        fetchUsers(pagination.page, pagination.limit);
+    }, [pagination.page, pagination.limit]);
+
+    const handlePageChange = (page) => {
+        setPagination(prev => ({ ...prev, page }));
+    };
+
+    const handleItemsPerPageChange = (limit) => {
+        setPagination(prev => ({ ...prev, page: 1, limit }));
     };
 
     const deleteUser = async (userId) => {
@@ -68,12 +93,15 @@ export const useUsers = () => {
         users,
         loading,
         selectedUsers,
-        getAllUsers,
+        error,
+        pagination,
+        fetchUsers,
         deleteUser,
         updateUser,
         toggleUserSelection,
         toggleAllUsers,
-        error,
-        setUsers
+        setUsers,
+        handlePageChange,
+        handleItemsPerPageChange
     };
 };

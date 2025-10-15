@@ -1,28 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
-import styles from './styles.module.scss';
-import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
-import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
+import Pagination from '@/components/Pagination/Pagination';
+import { AdminContext } from '@/contexts/AdminProvider';
 import { useUsers } from '@/hooks/useUsers';
-import UserTableRow from './UserTableRow';
+import React, { useState } from 'react';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 import Message from '@/components/Message/Message';
-import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
-import { AdminContext } from '@/contexts/AdminProvider';
+import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
+import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
+import styles from './styles.module.scss';
+import UserTableRow from './UserTableRow';
 
 const UserList = () => {
     const { tableContainer, productTable, emptyState } = styles;
     const [modalState, setModalState] = useState({ isOpen: false, userIdToDelete: null });
 
-     const {
+    const {
         users,
-        userLoading,
-        userError,
+        loading,
+        error,
+        pagination,
         deleteUser,
         selectedUsers,
         toggleUserSelection,
-        toggleAllUsers
-    } = useContext(AdminContext); //sẽ không re-render adminprovider sử dụng useContext
-    //component userlist sẽ re-render khi có sự thay đổi trong state adminprovider
+        toggleAllUsers,
+        handlePageChange,
+        handleItemsPerPageChange,
+        fetchUsers
+    } = useUsers();
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
@@ -37,11 +41,13 @@ const UserList = () => {
     const handleConfirmDelete = () => {
         if (modalState.userIdToDelete) {
             deleteUser(modalState.userIdToDelete);
+            // Optional: refetch users after deletion if the list isn't updated automatically
+            // fetchUsers(pagination.page, pagination.limit);
         }
         closeDeleteModal();
     };
 
-    if (userLoading && users.length === 0) {
+    if (loading && users.length === 0) {
         return (
             <div>
                 <HeaderMainContent
@@ -63,14 +69,12 @@ const UserList = () => {
                 navigate={'Dashboard > Khách hàng > Danh sách người dùng'}
             />
 
-            <Toolbar
-                selectedCount={selectedUsers.length}
-            />
+            <Toolbar itemsPerPage={pagination.limit} onItemsPerPageChange={handleItemsPerPageChange} />
 
-            {userError && <Message content={userError} type='error' />}
+            {error && <Message content={error} type='error' />}
 
             <LoadingOverlay
-                isLoading={userLoading && users.length > 0}
+                isLoading={loading && users.length > 0}
                 message='Đang cập nhật dữ liệu...'
             >
                 <div className={tableContainer}>
@@ -116,6 +120,15 @@ const UserList = () => {
                     )}
                 </div>
             </LoadingOverlay>
+
+            <Pagination
+                currentPage={pagination.page}
+                totalPages={pagination.totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={pagination.limit}
+                totalItems={pagination.totalItems}
+                onItemsPerPageChange={handleItemsPerPageChange}
+            />
 
             <ConfirmationModal
                 isOpen={modalState.isOpen}

@@ -10,14 +10,11 @@ export const AdminProvider = ({ children }) => {
     const [selectedUser, setSelectedUser] = useState(null); //user được click từ button sửa
 
     const { token, userCurrent } = useContext(UserInfoContext);
-    const { users, loading, error, getAllUsers, setUsers, selectedUsers, toggleUserSelection, toggleAllUsers } = useUsers();
+    const { users, loading, error, setUsers, selectedUsers, toggleUserSelection, toggleAllUsers, fetchUsers } = useUsers();
 
     useEffect(() => {
         setUsers([]);
-
-        // if (token && userCurrent?.role?.name === 'ADMIN') {
-        getAllUsers();
-        // }
+        fetchUsers();
     }, [token]);
 
     const contextValue = {
@@ -30,10 +27,10 @@ export const AdminProvider = ({ children }) => {
         users,
         userLoading: loading,
         userError: error,
-        refreshUsers: getAllUsers,
+        refreshUsers: fetchUsers,
         deleteUser: useUsers().deleteUser,
         setUsers,
-        selectedUsers,
+        selectedUsers,  
         toggleUserSelection,
         toggleAllUsers
     };
