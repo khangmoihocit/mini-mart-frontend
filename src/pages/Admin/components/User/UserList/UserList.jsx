@@ -19,6 +19,7 @@ const UserList = () => {
         loading,
         error,
         pagination,
+        keyword,
         deleteUser,
         selectedUsers,
         toggleUserSelection,
@@ -72,6 +73,7 @@ const UserList = () => {
                 itemsPerPage={pagination.limit}
                 onItemsPerPageChange={handleItemsPerPageChange}
                 onSearch={handleSearch}
+                placeholder='Tìm kiếm user theo tên, email, sđt, địa chỉ, ...'
             />
 
             {error && <Message content={error} type='error' />}
@@ -113,6 +115,7 @@ const UserList = () => {
                                     <UserTableRow
                                         key={user.id}
                                         user={user}
+                                        keyword={keyword}
                                         isSelected={selectedUsers.includes(user.id)}
                                         onToggleSelect={() => toggleUserSelection(user.id)}
                                         onDelete={() => openDeleteModal(user.id)}

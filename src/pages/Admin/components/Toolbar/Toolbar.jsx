@@ -7,7 +7,7 @@ import {
 import Button from '@/pages/Admin/components/Button/Button';
 import SelectCommon from '@/components/Pagination/SelectCommon';
 
-const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch }) => {
+const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch, placeholder = 'Tìm kiếm ...' }) => {
     const { toolbar, searchBox, searchIcon, addButton, showing, wrapToolbar } =
         styles;
 
@@ -36,7 +36,7 @@ const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch }) => {
                     <div className={searchBox}>
                         <input
                             type='text'
-                            placeholder='Tìm kiếm người dùng...'
+                            placeholder={placeholder}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyDown={handleKeyDown}
