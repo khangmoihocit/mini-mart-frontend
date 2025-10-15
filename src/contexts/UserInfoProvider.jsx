@@ -11,7 +11,7 @@ export const UserInfoProvider = ({ children }) => {
         if (token) {
             try {
                 const response = await userService.getMyInfo();
-                setUserCurrent(response.data.result);
+                setUserCurrent(response.data.result); 
             }
             catch (error) {
                 console.log(formatErrorMessage(error));
@@ -24,7 +24,7 @@ export const UserInfoProvider = ({ children }) => {
 
     useEffect(() => {
         getMyInfo();
-    }, []);
+    }, [token]);
 
     const contextValue = {
         userCurrent,

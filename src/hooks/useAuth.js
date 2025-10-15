@@ -30,7 +30,7 @@ export const useAuth = () => {
     const handleLogin = async credentials => {
         try {
             const response = await authService.login(credentials);
-            const token = response.data.result.token;
+            const token = response.data.result.accessToken;
             Cookies.set('token', token);
             navigate(ROUTES.ADMIN);
             setToken(token);

@@ -7,7 +7,8 @@ const apiPublic = axios.create({
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
-    }
+    },
+    withCredentials: true
 });
 
 const apiPrivate = axios.create({
@@ -15,23 +16,9 @@ const apiPrivate = axios.create({
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
-    }
+    },
+    withCredentials: true // gửi kèm cookie lên server(refresh token)
 });
-
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-    failedQueue.forEach(({ resolve, reject }) => {
-        if (error) {
-            reject(error);
-        } else {
-            resolve(token);
-        }
-    });
-    
-    failedQueue = [];
-};
 
 //config gửi token lên server
 apiPrivate.interceptors.request.use(
@@ -55,54 +42,20 @@ apiPrivate.interceptors.response.use(
     async err => {
         const originalRequest = err.config;
 
-        if (err.response && err.response.status === 401 && !originalRequest._retry) {
-            if (isRefreshing) {
-                return new Promise((resolve, reject) => {
-                    failedQueue.push({ resolve, reject });
-                }).then(token => {
-                    originalRequest.headers.Authorization = `Bearer ${token}`;
-                    return apiPrivate(originalRequest);
-                }).catch(err => {
-                    return Promise.reject(err);
-                });
-            }
-
+        if (err.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            isRefreshing = true;
-
-            const refreshToken = Cookies.get('token');
-
-            if (!refreshToken) {
-                processQueue(err, null);
-                isRefreshing = false;
-                return Promise.reject(err);
-            }
-
             try {
-                const res = await apiPublic.post('/auth/refresh', {
-                    token: refreshToken
-                });
-                
-                const newAccessToken = res.data.result.token; 
-
+                const res = await apiPublic.post('/auth/refresh');
+                const newAccessToken = res.data.result.accessToken;
                 Cookies.set('token', newAccessToken);
 
-                apiPrivate.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-                processQueue(null, newAccessToken);
-
                 return apiPrivate(originalRequest);
 
             } catch (error) {
-                processQueue(error, null);
+                console.log('Lỗi khi làm mới token:', error);
                 Cookies.remove('token');
-                
-                window.location.href = '/login';
-                
                 return Promise.reject(error);
-            } finally {
-                isRefreshing = false;
             }
         }
         return Promise.reject(err);

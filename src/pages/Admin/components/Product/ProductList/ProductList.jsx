@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import styles from './styles.module.scss';
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import Pagination from '@/components/Pagination/Pagination';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
+import React, { useState } from 'react';
+import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import styles from './styles.module.scss';
 
 const mockProducts = [
     {
@@ -136,15 +137,16 @@ const ProductList = () => {
         outOfStock,
         actions,
         editBtn,
-        deleteBtn,
-        pagination,
-        paginationInfo,
-        paginationControls,
-        activePage
+        deleteBtn
     } = styles;
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
+
+    const handleItemsPerPageChange = (number) => {
+        setItemsPerPage(number);
+        setCurrentPage(1); // Reset to first page when items per page changes
+    };
 
     // Logic phân trang
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -207,11 +209,10 @@ const ProductList = () => {
                                 <td>{product.stock_quantity}</td>
                                 <td>
                                     <span
-                                        className={`${status} ${
-                                            product.stock_quantity > 0
+                                        className={`${status} ${product.stock_quantity > 0
                                                 ? inStock
                                                 : outOfStock
-                                        }`}
+                                            }`}
                                     >
                                         {product.stock_quantity > 0
                                             ? 'Còn hàng'
@@ -233,31 +234,14 @@ const ProductList = () => {
             </div>
 
             {/* Phân trang */}
-            <div className={pagination}>
-                <div className={paginationInfo}>
-                    Hiển thị {indexOfFirstItem + 1} đến{' '}
-                    {Math.min(indexOfLastItem, mockProducts.length)} của{' '}
-                    {mockProducts.length} mục
-                </div>
-                <div className={paginationControls}>
-                    <button>
-                        <LuChevronLeft />
-                    </button>
-                    {[...Array(totalPages).keys()].map(number => (
-                        <button
-                            key={number + 1}
-                            className={
-                                currentPage === number + 1 ? activePage : ''
-                            }
-                        >
-                            {number + 1}
-                        </button>
-                    ))}
-                    <button>
-                        <LuChevronRight />
-                    </button>
-                </div>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={mockProducts.length}
+                onItemsPerPageChange={handleItemsPerPageChange}
+            />
         </div>
     );
 };

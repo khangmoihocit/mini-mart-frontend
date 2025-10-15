@@ -1,11 +1,15 @@
 import React, { memo, useContext, useState } from 'react';
 import styles from './styles.module.scss';
 import { AdminContext } from '@/contexts/AdminProvider';
+import { useHighlight } from '@/hooks/useHighlight';
+import { UserContext, UserProvider } from '@/contexts/UserProvider';
 
-const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
-    const { actions, editBtn, deleteBtn } = styles;
+const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete, keyword }) => {
+    const { actions, editBtn, deleteBtn, highlight } = styles;
     const [isDeleting, setIsDeleting] = useState(false);
-    const { type, setType, setSelectedUser } = useContext(AdminContext);
+    const { type, setType } = useContext(AdminContext);
+    const { setSelectedUser, selectedUser } = useContext(UserContext);
+    const { highlightText } = useHighlight();
 
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -35,13 +39,13 @@ const UserTableRow = memo(({ user, isSelected, onToggleSelect, onDelete }) => {
                     onChange={onToggleSelect}
                 />
             </td>
-            <td>{user.fullName || ''}</td>
-            <td>{user.email || ''}</td>
-            <td>{user.phoneNumber || ''}</td>
-            <td>{user.address || ''}</td>
+            <td>{highlightText(user.fullName, keyword, highlight)}</td>
+            <td>{highlightText(user.email, keyword, highlight)}</td>
+            <td>{highlightText(user.phoneNumber, keyword, highlight)}</td>
+            <td>{highlightText(user.address, keyword, highlight)}</td>
             <td>
                 <span className={user.isActive ? 'status-active' : 'status-inactive'}>
-                    {user.isActive ? 'Đang hoạt động' : 'Đã khóa'}
+                    {user.isActive ? 'active' : 'locked'}
                 </span>
             </td>
             <td>{formatDate(user.dateOfBirth)}</td>

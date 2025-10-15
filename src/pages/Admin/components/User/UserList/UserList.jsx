@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import styles from './styles.module.scss';
-import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
-import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
+import Pagination from '@/components/Pagination/Pagination';
+import { AdminContext } from '@/contexts/AdminProvider';
 import { useUsers } from '@/hooks/useUsers';
-import UserTableRow from './UserTableRow';
+import React, { useContext, useState } from 'react';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 import Message from '@/components/Message/Message';
-import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
+import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
+import styles from './styles.module.scss';
+import UserTableRow from './UserTableRow';
+import { UserContext } from '@/contexts/UserProvider';
 
 const UserList = () => {
     const { tableContainer, productTable, emptyState } = styles;
     const [modalState, setModalState] = useState({ isOpen: false, userIdToDelete: null });
 
     const {
-        users,
-        loading,
-        selectedUsers,
+        deleteUser,
         toggleUserSelection,
         toggleAllUsers,
-        deleteUser,
-        getAllUsers,
-        error
+        handlePageChange,
+        handleItemsPerPageChange,
+        handleSearch,
     } = useUsers();
 
-    useEffect(() => {
-        getAllUsers();
-    }, []);
+    const { users, loading, error, pagination, keyword, selectedUsers } = useContext(UserContext);
+    const {setType} = useContext(AdminContext);
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
@@ -67,8 +67,11 @@ const UserList = () => {
             />
 
             <Toolbar
-                onRefresh={getAllUsers}
-                selectedCount={selectedUsers.length}
+                itemsPerPage={pagination.limit}
+                onItemsPerPageChange={handleItemsPerPageChange}
+                onSearch={handleSearch}
+                placeholder='Tìm kiếm user theo tên, email, sđt, địa chỉ, ...'
+                onClick={() => setType('user-login')}
             />
 
             {error && <Message content={error} type='error' />}
@@ -110,6 +113,7 @@ const UserList = () => {
                                     <UserTableRow
                                         key={user.id}
                                         user={user}
+                                        keyword={keyword}
                                         isSelected={selectedUsers.includes(user.id)}
                                         onToggleSelect={() => toggleUserSelection(user.id)}
                                         onDelete={() => openDeleteModal(user.id)}
@@ -120,6 +124,15 @@ const UserList = () => {
                     )}
                 </div>
             </LoadingOverlay>
+
+            <Pagination
+                currentPage={pagination.page}
+                totalPages={pagination.totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={pagination.limit}
+                totalItems={pagination.totalItems}
+                onItemsPerPageChange={handleItemsPerPageChange}
+            />
 
             <ConfirmationModal
                 isOpen={modalState.isOpen}
