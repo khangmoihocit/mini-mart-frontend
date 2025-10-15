@@ -9,6 +9,7 @@ export const useUsers = () => {
     const [loading, setLoading] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [error, setError] = useState(null);
+    const [keyword, setKeyword] = useState('');
     const [pagination, setPagination] = useState({
         page: 1,
         limit: 10,
@@ -16,10 +17,10 @@ export const useUsers = () => {
         totalItems: 0,
     });
 
-    const fetchUsers = async (page, limit) => {
+    const fetchUsers = async (page, limit, searchKeyword) => {
         setLoading(true);
         try {
-            const response = await userService.search(page, limit, '');
+            const response = await userService.search(page, limit, searchKeyword);
             const { content, totalPages, totalElements, number } = response.data.result;
 
             setUsers(content);
@@ -38,8 +39,8 @@ export const useUsers = () => {
     };
 
     useEffect(() => {
-        fetchUsers(pagination.page, pagination.limit);
-    }, [pagination.page, pagination.limit]);
+        fetchUsers(pagination.page, pagination.limit, keyword);
+    }, [pagination.page, pagination.limit, keyword]);
 
     const handlePageChange = (page) => {
         setPagination(prev => ({ ...prev, page }));
@@ -47,6 +48,11 @@ export const useUsers = () => {
 
     const handleItemsPerPageChange = (limit) => {
         setPagination(prev => ({ ...prev, page: 1, limit }));
+    };
+
+    const handleSearch = (searchKeyword) => {
+        setKeyword(searchKeyword);
+        setPagination(prev => ({ ...prev, page: 1 })); // Reset về trang 1 khi tìm kiếm
     };
 
     const deleteUser = async (userId) => {
@@ -95,6 +101,7 @@ export const useUsers = () => {
         selectedUsers,
         error,
         pagination,
+        keyword,
         fetchUsers,
         deleteUser,
         updateUser,
@@ -102,6 +109,7 @@ export const useUsers = () => {
         toggleAllUsers,
         setUsers,
         handlePageChange,
-        handleItemsPerPageChange
+        handleItemsPerPageChange,
+        handleSearch
     };
 };

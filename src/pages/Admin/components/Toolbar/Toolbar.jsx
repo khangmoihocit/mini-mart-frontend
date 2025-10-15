@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import {
     LuPlus,
@@ -7,9 +7,23 @@ import {
 import Button from '@/pages/Admin/components/Button/Button';
 import SelectCommon from '@/components/Pagination/SelectCommon';
 
-const Toolbar = ({ itemsPerPage, onItemsPerPageChange }) => {
+const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch }) => {
     const { toolbar, searchBox, searchIcon, addButton, showing, wrapToolbar } =
         styles;
+
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && onSearch) {
+            onSearch(searchTerm);
+        }
+    };
+
+    const handleSearchIconClick = () => {
+        if (onSearch) {
+            onSearch(searchTerm);
+        }
+    };
 
     return (
         <>
@@ -20,8 +34,18 @@ const Toolbar = ({ itemsPerPage, onItemsPerPageChange }) => {
                         <SelectCommon itemsPerPage={itemsPerPage} onItemsPerPageChange={onItemsPerPageChange} />
                     </div>
                     <div className={searchBox}>
-                        <input type='text' placeholder='Tìm kiếm sản phẩm...' />
-                        <LuSearch className={searchIcon} />
+                        <input
+                            type='text'
+                            placeholder='Tìm kiếm người dùng...'
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                        <LuSearch
+                            className={searchIcon}
+                            onClick={handleSearchIconClick}
+                            style={{ cursor: 'pointer' }}
+                        />
                     </div>
                 </div>
                 <div style={{ width: '150px' }}>

@@ -7,6 +7,7 @@ import Message from '@/components/Message/Message';
 import { formatDateForInput, formatErrorMessage } from '@/utils/helpers';
 import userService from '@/apis/userService';
 import toast from '@/utils/toast';
+import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
@@ -66,6 +67,7 @@ const UserUpdate = () => {
 
     return (
         <div className={container}>
+            <HeaderMainContent title={"Cập nhật user"} navigate={'Dashboard > Khách hàng > Cập nhật người dùng'}/>
             {!selectedUser ? (
                 <div style={{ padding: '20px', textAlign: 'center' }}>
                     Không có dữ liệu người dùng để cập nhật

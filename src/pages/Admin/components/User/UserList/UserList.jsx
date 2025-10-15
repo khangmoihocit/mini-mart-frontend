@@ -25,6 +25,7 @@ const UserList = () => {
         toggleAllUsers,
         handlePageChange,
         handleItemsPerPageChange,
+        handleSearch,
         fetchUsers
     } = useUsers();
 
@@ -41,8 +42,6 @@ const UserList = () => {
     const handleConfirmDelete = () => {
         if (modalState.userIdToDelete) {
             deleteUser(modalState.userIdToDelete);
-            // Optional: refetch users after deletion if the list isn't updated automatically
-            // fetchUsers(pagination.page, pagination.limit);
         }
         closeDeleteModal();
     };
@@ -69,7 +68,11 @@ const UserList = () => {
                 navigate={'Dashboard > Khách hàng > Danh sách người dùng'}
             />
 
-            <Toolbar itemsPerPage={pagination.limit} onItemsPerPageChange={handleItemsPerPageChange} />
+            <Toolbar
+                itemsPerPage={pagination.limit}
+                onItemsPerPageChange={handleItemsPerPageChange}
+                onSearch={handleSearch}
+            />
 
             {error && <Message content={error} type='error' />}
 

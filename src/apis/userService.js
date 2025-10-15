@@ -13,7 +13,7 @@ export default class userService {
 
     static search = async (pageNo, pageSize, keyword) => {
         return await apiPrivate.get('/users/search', {
-            params: { 'pageNo': pageNo, 'pageSize': pageSize}
+            params: { 'pageNo': pageNo, 'pageSize': pageSize, 'keyword': keyword }
         });
     };
 }
