@@ -8,10 +8,12 @@ import { formatDateForInput, formatErrorMessage } from '@/utils/helpers';
 import userService from '@/apis/userService';
 import toast from '@/utils/toast';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
+import { UserContext } from '@/contexts/UserProvider';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
-    const { selectedUser, setType, setSelectedUser, setUsers } = useContext(AdminContext);
+    const { setType } = useContext(AdminContext);
+    const { selectedUser, setSelectedUser, setUsers } = useContext(UserContext);
     const [errorMessage, setErrorMessage] = useState('');
 
     const [userData, setUserData] = useState({

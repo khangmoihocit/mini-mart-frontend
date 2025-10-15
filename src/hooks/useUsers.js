@@ -1,46 +1,31 @@
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import userService from '@/apis/userService';
-import { formatErrorMessage } from '@/utils/helpers';
+import { useContext } from 'react';
+import { UserContext } from '@/contexts/UserProvider';
 
-//hook để quản lý stata và logic liên quan
+/**
+ * Hook để truy cập và xử lý các actions liên quan đến User
+ * Lấy dữ liệu từ UserContext
+ */
 export const useUsers = () => {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [selectedUsers, setSelectedUsers] = useState([]);
-    const [error, setError] = useState(null);
-    const [keyword, setKeyword] = useState('');
-    const [pagination, setPagination] = useState({
-        page: 1,
-        limit: 10,
-        totalPages: 1,
-        totalItems: 0,
-    });
+    const context = useContext(UserContext);
 
-    const fetchUsers = async (page, limit, searchKeyword) => {
-        setLoading(true);
-        try {
-            const response = await userService.search(page, limit, searchKeyword);
-            const { content, totalPages, totalElements, number } = response.data.result;
+    if (!context) {
+        throw new Error('useUsers must be used within UserProvider');
+    }
 
-            setUsers(content);
-            setPagination(prev => ({
-                ...prev,
-                page: number + 1,
-                totalPages,
-                totalItems: totalElements,
-            }));
-            setError(null);
-        } catch (error) {
-            setError(formatErrorMessage(error));
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchUsers(pagination.page, pagination.limit, keyword);
-    }, [pagination.page, pagination.limit, keyword]);
+    const {
+        users,
+        loading,
+        selectedUsers,
+        error,
+        keyword,
+        pagination,
+        fetchUsers,
+        deleteUser,
+        updateUser,
+        setSelectedUsers,
+        setKeyword,
+        setPagination
+    } = context;
 
     const handlePageChange = (page) => {
         setPagination(prev => ({ ...prev, page }));
@@ -52,31 +37,7 @@ export const useUsers = () => {
 
     const handleSearch = (searchKeyword) => {
         setKeyword(searchKeyword);
-        setPagination(prev => ({ ...prev, page: 1 })); // Reset về trang 1 khi tìm kiếm
-    };
-
-    const deleteUser = async (userId) => {
-        try {
-            await userService.delete(userId);
-            setUsers(currentUsers => currentUsers.filter(user => user.id !== userId));
-            toast.success('Xóa người dùng thành công!');
-        } catch (error) {
-            toast.error(formatErrorMessage(error));
-        }
-    };
-
-    const updateUser = async (userId, userData) => {
-        try {
-            const response = await userService.update(userId, userData);
-            setUsers(currentUsers =>
-                currentUsers.map(user =>
-                    user.id === userId ? response.data.result : user
-                )
-            );
-            toast.success('Cập nhật thành công!');
-        } catch (error) {
-            setError(formatErrorMessage(error));
-        }
+        setPagination(prev => ({ ...prev, page: 1 }));
     };
 
     const toggleUserSelection = (userId) => {
@@ -100,14 +61,13 @@ export const useUsers = () => {
         loading,
         selectedUsers,
         error,
-        pagination,
         keyword,
+        pagination,
         fetchUsers,
         deleteUser,
         updateUser,
         toggleUserSelection,
         toggleAllUsers,
-        setUsers,
         handlePageChange,
         handleItemsPerPageChange,
         handleSearch

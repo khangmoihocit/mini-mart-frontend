@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './styles.module.scss';
 import {
     LuPlus,
@@ -7,9 +7,8 @@ import {
 import Button from '@/pages/Admin/components/Button/Button';
 import SelectCommon from '@/components/Pagination/SelectCommon';
 
-const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch, placeholder = 'Tìm kiếm ...' }) => {
-    const { toolbar, searchBox, searchIcon, addButton, showing, wrapToolbar } =
-        styles;
+const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch, placeholder = 'Tìm kiếm ...', onClick }) => {
+    const { toolbar, searchBox, searchIcon, addButton, showing, wrapToolbar } = styles;
 
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -57,6 +56,7 @@ const Toolbar = ({ itemsPerPage, onItemsPerPageChange, onSearch, placeholder = '
                                 Thêm mới
                             </div>
                         }
+                        onClick={onClick}
                     />
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import Pagination from '@/components/Pagination/Pagination';
 import { AdminContext } from '@/contexts/AdminProvider';
 import { useUsers } from '@/hooks/useUsers';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 import Message from '@/components/Message/Message';
@@ -9,26 +9,23 @@ import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/Header
 import Toolbar from '@/pages/Admin/components/Toolbar/Toolbar';
 import styles from './styles.module.scss';
 import UserTableRow from './UserTableRow';
+import { UserContext } from '@/contexts/UserProvider';
 
 const UserList = () => {
     const { tableContainer, productTable, emptyState } = styles;
     const [modalState, setModalState] = useState({ isOpen: false, userIdToDelete: null });
 
     const {
-        users,
-        loading,
-        error,
-        pagination,
-        keyword,
         deleteUser,
-        selectedUsers,
         toggleUserSelection,
         toggleAllUsers,
         handlePageChange,
         handleItemsPerPageChange,
         handleSearch,
-        fetchUsers
     } = useUsers();
+
+    const { users, loading, error, pagination, keyword, selectedUsers } = useContext(UserContext);
+    const {setType} = useContext(AdminContext);
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
@@ -74,6 +71,7 @@ const UserList = () => {
                 onItemsPerPageChange={handleItemsPerPageChange}
                 onSearch={handleSearch}
                 placeholder='Tìm kiếm user theo tên, email, sđt, địa chỉ, ...'
+                onClick={() => setType('user-login')}
             />
 
             {error && <Message content={error} type='error' />}
