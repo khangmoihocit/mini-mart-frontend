@@ -10,6 +10,8 @@ import Login from '@/pages/Login/Login';
 import ToastDemo from '@/components/ToastDemo/ToastDemo';
 import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
+import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryAdd';
+import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
 
 const MainContent = () => {
     const {
@@ -35,6 +37,10 @@ const MainContent = () => {
                 return <UserUpdate />;
             case 'user-login':
                 return <Login />;
+            case 'category-add':
+                return <CategoryAdd />;
+            case 'category-list':
+                return <CategoryList />;
             case 'setting-toast':
                 return <ToastDemo />;
             case 'setting-loading':

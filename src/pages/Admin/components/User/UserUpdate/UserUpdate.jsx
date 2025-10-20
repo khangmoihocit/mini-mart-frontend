@@ -68,51 +68,53 @@ const UserUpdate = () => {
     }, [selectedUser]);
 
     return (
-        <div className={container}>
-            <HeaderMainContent title={"Cập nhật user"} navigate={'Dashboard > Khách hàng > Cập nhật người dùng'}/>
-            {!selectedUser ? (
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                    Không có dữ liệu người dùng để cập nhật
-                </div>
-            ) : (
-                <form onSubmit={handleSubmit}>
-                    <div className={wrapForm}>
-                        <InputCommon label={'Họ và tên'} name={'fullName'} value={userData.fullName} onChange={handleInputChange} />
-                        <InputCommon label={'Địa chỉ'} name={'address'} value={userData.address} onChange={handleInputChange} />
+        <div>
+            <HeaderMainContent title={"Cập nhật user"} navigate={'Dashboard > Khách hàng > Cập nhật người dùng'} />
+            <div className={container}>
+                {!selectedUser ? (
+                    <div style={{ padding: '20px', textAlign: 'center' }}>
+                        Không có dữ liệu người dùng để cập nhật
                     </div>
-
-                    <div className={wrapForm}>
-                        <InputCommon label={'Email'} name={'email'} value={userData.email} onChange={handleInputChange} disabled={true}/>
-                        <InputCommon label={'Số điện thoại'} name={'phoneNumber'} value={userData.phoneNumber} onChange={handleInputChange} />
-                    </div>
-
-                    <div className={wrapForm}>
-                        <div className={inputDate}>
-                            <label>Quyền</label>
-                            <select name="roleName" value={userData.roleName} onChange={handleInputChange}>
-                                <option value="USER">USER</option>
-                                <option value="ADMIN">ADMIN</option>
-                            </select>
+                ) : (
+                    <form onSubmit={handleSubmit}>
+                        <div className={wrapForm}>
+                            <InputCommon label={'Họ và tên'} name={'fullName'} value={userData.fullName} onChange={handleInputChange} />
+                            <InputCommon label={'Địa chỉ'} name={'address'} value={userData.address} onChange={handleInputChange} />
                         </div>
 
-                        <div className={inputDate}>
-                            <label style={{ marginRight: '10px' }}>Ngày sinh</label>
-                            <input type="date" name="dateOfBirth" value={userData.dateOfBirth} onChange={handleInputChange} />
+                        <div className={wrapForm}>
+                            <InputCommon label={'Email'} name={'email'} value={userData.email} onChange={handleInputChange} disabled={true} />
+                            <InputCommon label={'Số điện thoại'} name={'phoneNumber'} value={userData.phoneNumber} onChange={handleInputChange} />
                         </div>
-                    </div>
 
-                    {errorMessage && (<Message type="error" content={errorMessage} />)}
+                        <div className={wrapForm}>
+                            <div className={inputDate}>
+                                <label>Quyền</label>
+                                <select name="roleName" value={userData.roleName} onChange={handleInputChange}>
+                                    <option value="USER">USER</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                </select>
+                            </div>
 
-                    <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                        <div style={{ width: '100px' }}>
-                            <Button content={"Lưu"} isPrimary={true} type="submit" onClick={handleSubmit} />
+                            <div className={inputDate}>
+                                <label style={{ marginRight: '10px' }}>Ngày sinh</label>
+                                <input type="date" name="dateOfBirth" value={userData.dateOfBirth} onChange={handleInputChange} />
+                            </div>
                         </div>
-                        <div style={{ width: '100px' }}>
-                            <Button content={"Hủy"} isPrimary={false} onClick={handleCancel} />
+
+                        {errorMessage && (<Message type="error" content={errorMessage} />)}
+
+                        <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                            <div style={{ width: '100px' }}>
+                                <Button content={"Lưu"} isPrimary={true} type="submit" onClick={handleSubmit} />
+                            </div>
+                            <div style={{ width: '100px' }}>
+                                <Button content={"Hủy"} isPrimary={false} onClick={handleCancel} />
+                            </div>
                         </div>
-                    </div>
-                </form>
-            )}
+                    </form>
+                )}
+            </div>
         </div>
     );
 };

@@ -25,7 +25,7 @@ const UserList = () => {
     } = useUsers();
 
     const { users, loading, error, pagination, keyword, selectedUsers } = useContext(UserContext);
-    const {setType} = useContext(AdminContext);
+    const { setType } = useContext(AdminContext);
 
     const isAllSelected = users.length > 0 && selectedUsers.length === users.length;
 
@@ -76,6 +76,7 @@ const UserList = () => {
 
             {error && <Message content={error} type='error' />}
 
+
             <LoadingOverlay
                 isLoading={loading && users.length > 0}
                 message='Đang cập nhật dữ liệu...'
@@ -124,6 +125,7 @@ const UserList = () => {
                     )}
                 </div>
             </LoadingOverlay>
+
 
             <Pagination
                 currentPage={pagination.page}

@@ -63,7 +63,7 @@ export const UserProvider = ({ children }) => {
             );
             toast.success('Cập nhật thành công!');
         } catch (error) {
-            setError(formatErrorMessage(error));
+            toast.error(formatErrorMessage(error));
         }
     };
 
