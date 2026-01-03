@@ -10,8 +10,10 @@ import Login from '@/pages/Login/Login';
 import ToastDemo from '@/components/ToastDemo/ToastDemo';
 import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
+
 import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryAdd';
 import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
+
 
 const MainContent = () => {
     const {
@@ -31,6 +33,10 @@ const MainContent = () => {
                 return <DashBoard />;
             case 'product-list':
                 return <ProductList />;
+            case 'product-add':
+                return <ProductAdd />;
+            case 'product-update':
+                return <ProductUpdate />;
             case 'user-list':
                 return <UserList />;
             case 'user-update':

@@ -23,11 +23,7 @@ const LoadingOverlay = ({
                 {isLoading && (
                     <div className={`${styles.overlay} ${overlay ? styles.withBackground : ''}`}>
                         <div className={styles.loadingContent}>
-                            <div className={`${styles.spinner} ${sizeClass}`}>
-                                <div className={styles.bounce1}></div>
-                                <div className={styles.bounce2}></div>
-                                <div className={styles.bounce3}></div>
-                            </div>
+                            <div className={`${styles.spinner} ${sizeClass}`}></div>
                             <p className={styles.message}>{message}</p>
                         </div>
                     </div>
@@ -40,11 +36,7 @@ const LoadingOverlay = ({
     return (
         <div className={styles.standalone}>
             <div className={styles.loadingContent}>
-                <div className={`${styles.spinner} ${sizeClass}`}>
-                    <div className={styles.bounce1}></div>
-                    <div className={styles.bounce2}></div>
-                    <div className={styles.bounce3}></div>
-                </div>
+                <div className={`${styles.spinner} ${sizeClass}`}></div>
                 <p className={styles.message}>{message}</p>
             </div>
         </div>
@@ -60,11 +52,7 @@ export const InlineLoading = ({ message = 'Đang tải...', size = 'small' }) =>
 
     return (
         <div className={styles.inline}>
-            <div className={`${styles.spinner} ${sizeClass}`}>
-                <div className={styles.bounce1}></div>
-                <div className={styles.bounce2}></div>
-                <div className={styles.bounce3}></div>
-            </div>
+            <div className={`${styles.spinner} ${sizeClass}`}></div>
             <span className={styles.inlineMessage}>{message}</span>
         </div>
     );
@@ -87,11 +75,7 @@ export const LoadingButton = ({
         >
             {loading ? (
                 <>
-                    <div className={`${styles.spinner} ${styles.small}`}>
-                        <div className={styles.bounce1}></div>
-                        <div className={styles.bounce2}></div>
-                        <div className={styles.bounce3}></div>
-                    </div>
+                    <div className={`${styles.spinner} ${styles.small}`}></div>
                     <span>{loadingText}</span>
                 </>
             ) : (

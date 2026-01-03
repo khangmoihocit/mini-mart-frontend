@@ -9,4 +9,3 @@ export default class categoryService {
         return await apiPrivate.post('/categories', body);
     }
 }
-
