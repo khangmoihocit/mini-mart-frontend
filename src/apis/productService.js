@@ -8,4 +8,10 @@ export default class productService {
             },
         });
     };
+
+    static search = async (pageNo, pageSize, keyword) => {
+        return await apiPrivate.get('/products/search', {
+            params: { 'pageNo': pageNo, 'pageSize': pageSize, 'keyword': keyword }
+        });
+    };
 }

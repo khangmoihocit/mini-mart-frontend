@@ -15,12 +15,14 @@
 .productTable {
     width: 100%;
     border-collapse: collapse;
+
     th,
     td {
         padding: 15px;
         text-align: left;
         vertical-align: middle;
     }
+
     thead {
         th {
             font-size: 12px;
@@ -30,24 +32,38 @@
             border-bottom: 1px solid #e0e0e0;
         }
     }
+
     tbody {
         tr {
             border-bottom: 1px solid #f5f5f5;
+
             &:last-child {
                 border-bottom: none;
             }
         }
+
         td {
             font-size: 14px;
             color: $--bs-gray-dark;
+
             .productInfo {
                 @include flex_box_custom(flex-start, center, 15px);
+
                 .thumbnail {
                     width: 50px;
                     height: 50px;
                     border-radius: 6px;
-                    object-fit: cover;
+                    overflow: hidden;
+                    flex-shrink: 0;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    }
                 }
+
                 span {
                     font-weight: 600;
                 }
@@ -61,10 +77,12 @@
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+
     &.inStock {
         background-color: rgba($--bs-success, 0.1);
         color: $--bs-success;
     }
+
     &.outOfStock {
         background-color: rgba($--bs-danger, 0.1);
         color: $--bs-danger;
@@ -73,6 +91,7 @@
 
 .actions {
     @include flex_box_custom(flex-start, center, 10px);
+
     button {
         border: none;
         padding: 6px 12px;
@@ -80,25 +99,215 @@
         cursor: pointer;
         font-weight: 500;
     }
+
     .editBtn {
         background-color: rgba($--bs-blue, 0.1);
         color: $--bs-blue;
     }
+
     .deleteBtn {
         background-color: rgba($--bs-danger, 0.1);
         color: $--bs-danger;
     }
 }
 
+// Image Modal
+.imageModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modalContent {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.modalImage {
+    max-width: 90vw;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 10001;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+    }
+}
+
+.prevBtn,
+.nextBtn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 10001;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
+.prevBtn {
+    left: 20px;
+}
+
+.nextBtn {
+    right: 20px;
+}
+
+.imageCounter {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10001;
+}
+
+.imageThumbnails {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    max-width: 90vw;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    z-index: 10001;
+
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    }
+}
+
+.thumbnailItem {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s;
+    flex-shrink: 0;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &.active {
+        border-color: white;
+        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    }
+}
+
 .pagination {
     @include flex_box_custom(space-between, center, 20px);
     margin-top: 20px;
+
     .paginationInfo {
         font-size: 14px;
         color: $--bs-gray;
     }
+
     .paginationControls {
         @include flex_box_custom(center, center, 5px);
+
         button {
             border: 1px solid #e0e0e0;
             background-color: $--bs-white;
