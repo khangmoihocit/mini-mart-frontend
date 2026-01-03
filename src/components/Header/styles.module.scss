@@ -1,0 +1,114 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    @include flex_box_custom(center, center, 0px);
+    left: 0;
+    right: 0;
+}
+
+.topHeader {
+    position: absolute;
+    top: 0;
+}
+
+.fixedHeader {
+    position: fixed;
+    top: -83px;
+    z-index: 99;
+
+    background-color: #ffffffe6;
+    box-shadow: $shadow_md;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    transform: translateY(83px);
+    transition: transform 0.7s ease;
+}
+
+.containerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 83px;
+    width: 1250px;
+}
+
+.containerBoxIcon {
+    @include flex_box_custom(center, center, $spacing_lg);
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.containerBox {
+    @include flex_box_custom(center, center, $spacing_lg);
+}
+
+.containerMenu {
+    @include flex_box_custom(center, center, 40px);
+}
+
+.boxIcon {
+    @include radius_common(50%);
+    @include flex_box_custom(center, center, 0);
+    background-color: $primary_color;
+    width: 26px;
+    height: 26px;
+}
+
+.menu {
+    cursor: pointer;
+    padding-top: 9px;
+    font-size: 15px;
+    color: $primary_color;
+    position: relative;
+
+    .subMenu {
+        position: absolute;
+        background-color: $white_color;
+        width: 100%;
+        padding: 10px;
+        top: 40px;
+    }
+}
+
+.menu::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: $primary_color;
+    margin-top: 5px;
+
+    transform-origin: right;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 300ms, opacity 500ms;
+}
+
+.menu:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.boxCart {
+    position: relative;
+    
+    .quantity {
+        @include flex_box_custom(center, center, 0px);
+        @include radius_common(50%);
+
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: $primary_color;
+        color: $white_color;
+        width: 12px;
+        height: 12px;
+        padding: 3px;
+        font-size: 12px;
+    }
+}
+

@@ -10,13 +10,13 @@ export default class productService {
     };
 
     static search = async (pageNo, pageSize, keyword) => {
-        return await apiPrivate.get('/products/search', {
+        return await apiPublic.get('/products/search', {
             params: { 'pageNo': pageNo, 'pageSize': pageSize, 'keyword': keyword }
         });
     };
 
     static getById = async (id) => {
-        return await apiPrivate.get(`/products/${id}`);
+        return await apiPublic.get(`/products/${id}`);
     };
 
     static update = async (formData, id) => {

@@ -14,6 +14,7 @@ export default defineConfig({
             '@pages': path.resolve(__dirname, 'src/pages'),
             '@apis': path.resolve(__dirname, 'src/apis'),
             '@hooks': path.resolve(__dirname, 'src/hooks'),
+            '@contexts': path.resolve(__dirname, 'src/contexts'),
             '@utils': path.resolve(__dirname, 'src/utils'),
             '@constants': path.resolve(__dirname, 'src/constants'),
             '@validations': path.resolve(__dirname, 'src/validations')

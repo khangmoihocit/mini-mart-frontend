@@ -3,7 +3,8 @@
 
 .container {
     @include flex_box_custom(center, center, 0px);
-    background-color: $color-background-body;
+    height: 100vh;
+    // background-color: $color-background-body;
 
     .containerContent {
         @include flex_box_custom(center, center, 15px);

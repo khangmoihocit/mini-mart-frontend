@@ -14,6 +14,7 @@ import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryA
 import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
 import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
 import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
+import FormLogin from '@/pages/Login/components/FormLogin';
 
 
 const MainContent = () => {
@@ -43,7 +44,7 @@ const MainContent = () => {
             case 'user-update':
                 return <UserUpdate />;
             case 'user-login':
-                return <Login />;
+                return <FormLogin />;
             case 'category-add':
                 return <CategoryAdd />;
             case 'category-list':

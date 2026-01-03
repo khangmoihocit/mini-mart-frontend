@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
 
-const Button = ({ content, variant, disabled, ...props }) => {
-    const { btn } = styles;
+const Button = ({ content, variant = 'primary', disabled, isPrimary = true, ...props }) => {
+    const { btn, primaryBtn, seconddaryBtn} = styles;
 
     return (
         <button 
-            className={classNames(btn, styles[variant])}
+            className={classNames(btn, {
+                    [primaryBtn]: isPrimary,
+                    [seconddaryBtn]: !isPrimary
+                })}
             disabled={disabled}
             {...props}
         >

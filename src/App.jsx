@@ -4,6 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import routers from '@/routers/routers';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { AppProvider } from '@/contexts/AppProvider';
+import { ToastProvider } from '@/contexts/ToastProvider';
+import Sidebar from '@/components/Sidebar/Sidebar';
 
 const LoadingSpinner = () => (
     <div style={{
@@ -19,9 +21,11 @@ const LoadingSpinner = () => (
 
 function App() {
     return (
-        <AppProvider>
+        <ToastProvider>
+            <AppProvider>
             <ErrorBoundary>
                 <BrowserRouter>
+                <Sidebar />
                     <Suspense fallback={<LoadingSpinner />}>
                         <Routes>
                             {routers.map((item, index) => (
@@ -33,23 +37,10 @@ function App() {
                             ))}
                         </Routes>
                     </Suspense>
-
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={4000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="light"
-                        className="custom-toast-container"
-                    />
                 </BrowserRouter>
             </ErrorBoundary>
         </AppProvider>
+        </ToastProvider>
     );
 }
 

@@ -10,6 +10,7 @@ import { API_MESSAGES } from '@/constants/messages';
 import { ROUTES } from '@/constants/routes';
 import { formatErrorMessage } from '@/utils/helpers';
 import { UserInfoContext } from '@/contexts/UserInfoProvider';
+import { use } from 'react';
 
 export const useAuth = () => {
     const [isRegister, setIsRegister] = useState(false);
@@ -32,7 +33,13 @@ export const useAuth = () => {
             const response = await authService.login(credentials);
             const token = response.data.result.accessToken;
             Cookies.set('token', token);
-            navigate(ROUTES.ADMIN);
+            const user = (await userService.getMyInfo()).data.result;
+            Cookies.set('userId', user.id);
+            if(user.roleName === 'ADMIN'){
+                navigate(ROUTES.ADMIN);
+            }else{
+                navigate(ROUTES.HOME);
+            }
             setToken(token);
         } catch (error) {
             setErrorMessage(formatErrorMessage(error));

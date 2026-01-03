@@ -1,0 +1,67 @@
+@use '@styles/mixins.module.scss' as mixins;
+@use '@styles/variables.module.scss' as vars;
+
+.container {
+    @include mixins.flex_box_custom(space-between, center, 0px);
+    flex-direction: column;
+    padding: 30px 20px 0 20px;
+    height: 90%;
+    
+
+    .productList {
+        flex-grow: 1;
+        overflow-y: auto; /* Tự động hiển thị thanh cuộn khi nội dung quá dài */
+        overflow-x: hidden;
+    }
+
+    .boxButton {
+        @include mixins.flex_box_custom(center, unset, 10px);
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .boxTotal {
+        @include mixins.flex_box_custom(space-between, center, 0);
+    }
+
+    .containerListProductCart {
+        position: relative;
+
+        .overLoading {
+            @include mixins.flex_box_custom(center, center, 0px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    .boxEmpty{
+        text-align: center;
+        font-size: 14px;
+        color: vars.$four_color;
+        margin-top: 30px;
+
+        .textEmpty{
+            // margin-bottom: 20px;
+        }
+
+        .boxBtnEmpty{
+            width: 162px;
+            margin: 20px auto;
+        }
+    }
+
+    .containerListItem{
+        @include mixins.flex_box_custom(space-between, unset, 0px);
+        flex-direction: column;
+        flex-grow: 1;
+    }
+}
+
+.isEmpty{
+    justify-content: unset;
+}
