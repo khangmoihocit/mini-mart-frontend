@@ -16,9 +16,9 @@ const HeadlingListProduct = ({ data }) => {
                     {data.map(item => {
                         return (
                             <ProductItem
-                                key={item._id}
-                                src={item.images[0]}
-                                preSrc={item.images[1]}
+                                key={item.id}
+                                src={item.images[0].imageUrl}
+                                preSrc={item.images[1].imageUrl}
                                 name={item.name}
                                 price={item.price}
                                 details={item}

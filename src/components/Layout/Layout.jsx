@@ -3,11 +3,11 @@ import React from 'react';
 
 
 const MainLayout = ({children}) => {
-    const {wrapLayout, container} = styles;
+    const {wrapLayout, container, containerMain} = styles;
 
     return (
         <main className={wrapLayout}>
-            <div className={container}>{children}</div>
+            <div className={containerMain}>{children}</div>
         </main>
     );
 };

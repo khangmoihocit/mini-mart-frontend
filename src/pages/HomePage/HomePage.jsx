@@ -8,6 +8,9 @@ import HeadlingListProduct from '@components/HeadingListProduct/HeadingListProdu
 import PopularProduct from '@components/PopularProduct/PopularProduct';
 import SaleHomePage from '@components/SaleHomePage/SaleHomePage';
 import Footer from '@components/Footer/Footer';
+import productService from '@/apis/productService';
+import { toast } from 'react-toastify';
+import { formatErrorMessage } from '@/utils/helpers';
 
 const HomePage = () => {
     const { container } = styles;
@@ -15,7 +18,15 @@ const HomePage = () => {
     const query = {sortType: 0, page: 1, limit: 'all'};
 
     useEffect(() => {
-        
+        const fetchProducts = async () => {
+            try {
+                const response = await productService.getAll();
+                setListProducts(response.data.result);
+            } catch (error) {
+                toast.error(formatErrorMessage(error));
+            }
+        };
+        fetchProducts();
     }, []);
 
     return (

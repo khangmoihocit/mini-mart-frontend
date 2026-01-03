@@ -4,11 +4,13 @@ import { UserProvider } from '@/contexts/UserProvider';
 import { CategoryProvider } from '@/contexts/CategoryProvider';
 import { SideBarProvider } from '@/contexts/SidebarProvider';
 import { StoreProvider } from '@/contexts/StoreProvider';
+import { OurShopProvider } from '@/contexts/OurShopProvider';
 
 export const AppProvider = ({ children }) => {
     return (
         <StoreProvider>
-            <SideBarProvider>
+            <OurShopProvider>
+                <SideBarProvider>
                 <UserInfoProvider>
                     <CategoryProvider>
                         <UserProvider>
@@ -19,6 +21,7 @@ export const AppProvider = ({ children }) => {
                     </CategoryProvider>
                 </UserInfoProvider>
             </SideBarProvider>
+            </OurShopProvider>
         </StoreProvider>
     );
 };

@@ -9,6 +9,10 @@ export default class productService {
         });
     };
 
+    static getAll = async () => {
+        return await apiPublic.get(`/products`);
+    };
+
     static search = async (pageNo, pageSize, keyword) => {
         return await apiPublic.get('/products/search', {
             params: { 'pageNo': pageNo, 'pageSize': pageSize, 'keyword': keyword }

@@ -67,7 +67,7 @@ const ProductItem = ({
 
         const data = {
             userId,
-            productId: details._id,
+            productId: details.id,
             quantity: 1,
             size: sizeChoose
         };
@@ -87,14 +87,16 @@ const ProductItem = ({
             });
     };
 
+    const baseUrlImg = "http://localhost:8081/images/"
+
     return (
         <div
             className={isShowGrid ? '' : container}
             style={{ marginTop: '20px' }}
         >
             <div className={classNames(boxImg, { [largImg]: !isShowGrid })}>
-                <img src={src} alt='' />
-                <img src={preSrc} alt='' className={showImgWhenHover} />
+                <img src={`${baseUrlImg}${src}`} alt='' />
+                <img src={`${baseUrlImg}${preSrc}`} alt='' className={showImgWhenHover} />
                 <div className={showFuncWhenHover}>
                     <div className={boxIcon}>
                         <img src={cartIcon} alt='' />
