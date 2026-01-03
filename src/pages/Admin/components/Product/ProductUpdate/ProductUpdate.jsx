@@ -3,9 +3,9 @@ import styles from './styles.module.scss';
 import categoryService from '@apis/categoryService';
 import productService from '@apis/productService';
 import Button from '@components/Button/Button';
-import { showSuccess, showError } from '@utils/toast';
 import { formatErrorMessage } from '@/utils/helpers';
 import { AdminContext } from '@/contexts/AdminProvider';
+import { toast } from 'react-toastify';
 
 const ProductUpdate = () => {
     const { selectedProductId, setType } = useContext(AdminContext);
@@ -35,12 +35,12 @@ const ProductUpdate = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await categoryService.getAll();
+            const response = await categoryService.getAllCategories();
             if (response.data.code === 0) {
                 setCategories(response.data.result);
             }
         } catch (error) {
-            showError('Không thể tải danh mục');
+            toast.error('Không thể tải danh mục');
         }
     };
 
@@ -61,7 +61,7 @@ const ProductUpdate = () => {
                 setExistingImages(product.images || []);
             }
         } catch (error) {
-            showError(formatErrorMessage(error));
+            toast.error(formatErrorMessage(error));
         } finally {
             setLoadingData(false);
         }
@@ -100,19 +100,19 @@ const ProductUpdate = () => {
         e.preventDefault();
         
         if (!formData.name.trim()) {
-            showError('Tên sản phẩm không được để trống');
+            toast.error('Tên sản phẩm không được để trống');
             return;
         }
         if (!formData.price || formData.price < 0) {
-            showError('Giá sản phẩm phải lớn hơn hoặc bằng 0');
+            toast.error('Giá sản phẩm phải lớn hơn hoặc bằng 0');
             return;
         }
         if (!formData.description.trim()) {
-            showError('Mô tả sản phẩm không được để trống');
+            toast.error('Mô tả sản phẩm không được để trống');
             return;
         }
         if (!formData.categoryId) {
-            showError('Vui lòng chọn danh mục sản phẩm');
+            toast.error('Vui lòng chọn danh mục sản phẩm');
             return;
         }
 
@@ -149,10 +149,10 @@ const ProductUpdate = () => {
                 await productService.updateImages(imageData, selectedProductId);
             }
 
-            showSuccess('Cập nhật sản phẩm thành công');
+            toast.success('Cập nhật sản phẩm thành công');
             setType('product-list');
         } catch (error) {
-            showError(formatErrorMessage(error));
+            toast.error(formatErrorMessage(error));
         } finally {
             setLoading(false);
         }

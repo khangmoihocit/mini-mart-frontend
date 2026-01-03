@@ -141,10 +141,6 @@ export const sidebarMenu = [
                 label: 'Demo Component',
                 icon: <LuTrendingUp />,children: [
                     {
-                        id: 'setting-toast',
-                        label: 'Demo toast'
-                    },
-                    {
                         id: 'setting-loading',
                         label: 'Demo loading'
                     }

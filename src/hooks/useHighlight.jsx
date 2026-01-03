@@ -1,11 +1,6 @@
 import React from 'react';
 
-/**
- * Custom hook để highlight text dựa trên keyword
- * Không phân biệt chữ hoa/thường và dấu tiếng Việt
- */
 export const useHighlight = () => {
-    // Hàm loại bỏ dấu tiếng Việt
     const removeVietnameseTones = (str) => {
         return str
             .normalize('NFD')
@@ -14,13 +9,7 @@ export const useHighlight = () => {
             .replace(/Đ/g, 'D');
     };
 
-    /**
-     * Hàm highlight text dựa trên keyword
-     * @param {string} text - Text cần highlight
-     * @param {string} keyword - Từ khóa để tìm và highlight
-     * @param {string} highlightClass - CSS class cho phần highlight (optional)
-     * @returns {React.ReactNode} - Text đã được highlight
-     */
+   
     const highlightText = (text, keyword, highlightClass = '') => {
         if (!text || !keyword || keyword.trim() === '') {
             return text || '';
@@ -29,7 +18,6 @@ export const useHighlight = () => {
         const normalizedKeyword = removeVietnameseTones(keyword.toLowerCase());
         const normalizedText = removeVietnameseTones(String(text).toLowerCase());
 
-        // Tìm tất cả vị trí match trong text đã normalize
         const matches = [];
         let startIndex = 0;
 
@@ -49,17 +37,13 @@ export const useHighlight = () => {
             return text;
         }
 
-        // Tạo các phần từ text gốc dựa trên vị trí match
         const result = [];
         let lastIndex = 0;
 
         matches.forEach((match, index) => {
-            // Thêm phần text trước match
             if (match.start > lastIndex) {
                 result.push(String(text).substring(lastIndex, match.start));
             }
-
-            // Thêm phần match với highlight
             result.push(
                 <mark key={index} className={highlightClass}>
                     {String(text).substring(match.start, match.end)}
@@ -69,7 +53,6 @@ export const useHighlight = () => {
             lastIndex = match.end;
         });
 
-        // Thêm phần text còn lại
         if (lastIndex < text.length) {
             result.push(String(text).substring(lastIndex));
         }
