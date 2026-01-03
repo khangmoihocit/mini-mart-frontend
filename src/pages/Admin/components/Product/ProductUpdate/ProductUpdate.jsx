@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './styles.module.scss';
 import categoryService from '@apis/categoryService';
 import productService from '@apis/productService';
 import Button from '@components/Button/Button';
 import { showSuccess, showError } from '@utils/toast';
 import { formatErrorMessage } from '@/utils/helpers';
+import { AdminContext } from '@/contexts/AdminProvider';
 
-const ProductAdd = () => {
+const ProductUpdate = () => {
+    const { selectedProductId, setType } = useContext(AdminContext);
     const [formData, setFormData] = useState({
         name: '',
         price: '',
@@ -16,14 +18,20 @@ const ProductAdd = () => {
         categoryId: '',
     });
 
+    const [existingImages, setExistingImages] = useState([]);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingData, setLoadingData] = useState(true);
+    const baseUrlImg = "http://localhost:8081/images/";
 
     useEffect(() => {
         fetchCategories();
-    }, []);
+        if (selectedProductId) {
+            fetchProductData();
+        }
+    }, [selectedProductId]);
 
     const fetchCategories = async () => {
         try {
@@ -33,6 +41,29 @@ const ProductAdd = () => {
             }
         } catch (error) {
             showError('Không thể tải danh mục');
+        }
+    };
+
+    const fetchProductData = async () => {
+        try {
+            setLoadingData(true);
+            const response = await productService.getById(selectedProductId);
+            if (response.data.code === 0) {
+                const product = response.data.result;
+                setFormData({
+                    name: product.name,
+                    price: product.price,
+                    salePrice: product.salePrice || '',
+                    description: product.description,
+                    stockQuantity: product.stockQuantity,
+                    categoryId: product.category.id,
+                });
+                setExistingImages(product.images || []);
+            }
+        } catch (error) {
+            showError(formatErrorMessage(error));
+        } finally {
+            setLoadingData(false);
         }
     };
 
@@ -46,29 +77,28 @@ const ProductAdd = () => {
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        
-        // Thêm ảnh mới vào danh sách hiện có
         setImages(prev => [...prev, ...files]);
-
-        // Create previews cho ảnh mới và thêm vào danh sách preview
-        const newPreviews = files.map(file => URL.createObjectURL(file));
-        setImagePreviews(prev => [...prev, ...newPreviews]);
+        
+        const previews = files.map(file => URL.createObjectURL(file));
+        setImagePreviews(prev => [...prev, ...previews]);
         
         e.target.value = '';
     };
 
-    const removeImage = (index) => {
-        const newImages = images.filter((_, i) => i !== index);
-        const newPreviews = imagePreviews.filter((_, i) => i !== index);
-        setImages(newImages);
-        setImagePreviews(newPreviews);
-        URL.revokeObjectURL(imagePreviews[index]);
+    const removeExistingImage = (imageId) => {
+        setExistingImages(prev => prev.filter(img => img.id !== imageId));
+    };
+
+    const removeNewImage = (index) => {
+        setImages(prev => prev.filter((_, i) => i !== index));
+        const preview = imagePreviews[index];
+        setImagePreviews(prev => prev.filter((_, i) => i !== index));
+        URL.revokeObjectURL(preview);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Validation
         if (!formData.name.trim()) {
             showError('Tên sản phẩm không được để trống');
             return;
@@ -88,34 +118,39 @@ const ProductAdd = () => {
 
         try {
             setLoading(true);
-            const submitData = new FormData();
-            submitData.append('name', formData.name);
-            submitData.append('price', formData.price);
+            
+            // Update thông tin sản phẩm
+            const productData = new FormData();
+            productData.append('name', formData.name);
+            productData.append('price', formData.price);
             if (formData.salePrice) {
-                submitData.append('salePrice', formData.salePrice);
+                productData.append('salePrice', formData.salePrice);
             }
-            submitData.append('description', formData.description);
-            submitData.append('stockQuantity', formData.stockQuantity);
-            submitData.append('categoryId', formData.categoryId);
-            
-            images.forEach(image => {
-                submitData.append('images', image);
-            });
+            productData.append('description', formData.description);
+            productData.append('stockQuantity', formData.stockQuantity);
+            productData.append('categoryId', formData.categoryId);
 
-            await productService.create(submitData);
-            showSuccess('Thêm sản phẩm thành công');
+            await productService.update(productData, selectedProductId);
             
-            // Reset form
-            setFormData({
-                name: '',
-                price: '',
-                salePrice: '',
-                description: '',
-                stockQuantity: 0,
-                categoryId: '',
-            });
-            setImages([]);
-            setImagePreviews([]);
+            // Update ảnh nếu có thay đổi
+            if (images.length > 0 || existingImages.length > 0) {
+                const imageData = new FormData();
+                
+                // Thêm file ảnh mới
+                images.forEach(image => {
+                    imageData.append('files', image);
+                });
+                
+                // Thêm ID ảnh cũ cần giữ lại
+                existingImages.forEach(img => {
+                    imageData.append('keepImageIds', img.id);
+                });
+                
+                await productService.updateImages(imageData, selectedProductId);
+            }
+
+            showSuccess('Cập nhật sản phẩm thành công');
+            setType('product-list');
         } catch (error) {
             showError(formatErrorMessage(error));
         } finally {
@@ -123,9 +158,13 @@ const ProductAdd = () => {
         }
     };
 
+    if (loadingData) {
+        return <div className={styles.productUpdate}>Đang tải...</div>;
+    }
+
     return (
-            <div className={styles.productAdd}>
-            <h2 style={{textAlign: 'center'}}>Thêm sản phẩm mới</h2>
+        <div className={styles.productUpdate}>
+            <h2 style={{textAlign:'center'}}>Cập nhật sản phẩm</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
                     <label htmlFor="name">Tên sản phẩm <span className={styles.required}>*</span></label>
@@ -214,7 +253,39 @@ const ProductAdd = () => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label htmlFor="images">Hình ảnh</label>
+                    <label>Hình ảnh sản phẩm</label>
+                    {(existingImages.length > 0 || imagePreviews.length > 0) && (
+                        <div className={styles.imagePreviews}>
+                            {existingImages.map((image) => (
+                                <div key={image.id} className={styles.imagePreview}>
+                                    <img src={`${baseUrlImg}${image.imageUrl}`} alt="Product" />
+                                    <button
+                                        type="button"
+                                        className={styles.removeBtn}
+                                        onClick={() => removeExistingImage(image.id)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                            {imagePreviews.map((preview, index) => (
+                                <div key={`new-${index}`} className={styles.imagePreview}>
+                                    <img src={preview} alt={`New ${index + 1}`} />
+                                    <button
+                                        type="button"
+                                        className={styles.removeBtn}
+                                        onClick={() => removeNewImage(index)}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label htmlFor="images">Thêm hình ảnh</label>
                     <input
                         type="file"
                         id="images"
@@ -225,27 +296,10 @@ const ProductAdd = () => {
                     />
                 </div>
 
-                {imagePreviews.length > 0 && (
-                    <div className={styles.imagePreviews}>
-                        {imagePreviews.map((preview, index) => (
-                            <div key={index} className={styles.imagePreview}>
-                                <img src={preview} alt={`Preview ${index + 1}`} />
-                                <button
-                                    type="button"
-                                    className={styles.removeBtn}
-                                    onClick={() => removeImage(index)}
-                                >
-                                    ×
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
                 <div className={styles.formActions}>
                     <Button
                         type="submit"
-                        content={loading ? 'Đang xử lý...' : 'Thêm sản phẩm'}
+                        content={loading ? 'Đang xử lý...' : 'Cập nhật sản phẩm'}
                         variant="primary"
                         disabled={loading}
                     />
@@ -255,4 +309,4 @@ const ProductAdd = () => {
     );
 };
 
-export default ProductAdd;
+export default ProductUpdate;

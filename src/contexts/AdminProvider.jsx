@@ -5,12 +5,15 @@ export const AdminContext = createContext();
 export const AdminProvider = ({ children }) => {
     const [type, setType] = useState('product-list');
     const [isOpenSidebar, setIsOpenSidebar] = useState(true);
+    const [selectedProductId, setSelectedProductId] = useState(null);
     
     const contextValue = {
         type,
         setType,
         isOpenSidebar,
         setIsOpenSidebar,
+        selectedProductId,
+        setSelectedProductId,
     };
 
     return (

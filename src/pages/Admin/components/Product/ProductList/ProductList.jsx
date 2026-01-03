@@ -5,9 +5,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import styles from './styles.module.scss';
 import productService from '@/apis/productService';
-import { showError } from '@/utils/toast';
+import { showError, showSuccess } from '@/utils/toast';
 import { formatErrorMessage } from '@/utils/helpers';
 import { AdminContext } from '@/contexts/AdminProvider';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
 
 const ProductList = () => {
     const {
@@ -36,7 +37,12 @@ const ProductList = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentImages, setCurrentImages] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const {setType} = useContext(AdminContext);
+    
+    // Delete confirmation
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [productToDelete, setProductToDelete] = useState(null);
+    
+    const { setType, setSelectedProductId } = useContext(AdminContext);
 
     useEffect(() => {
         fetchProducts();
@@ -67,6 +73,35 @@ const ProductList = () => {
     const handleSearch = (searchKeyword) => {
         setKeyword(searchKeyword);
         setCurrentPage(1);
+    };
+
+    const handleEdit = (productId) => {
+        setSelectedProductId(productId);
+        setType('product-update');
+    };
+
+    const handleDeleteClick = (product) => {
+        setProductToDelete(product);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!productToDelete) return;
+        
+        try {
+            await productService.delete(productToDelete.id);
+            showSuccess('Xóa sản phẩm thành công');
+            setIsDeleteModalOpen(false);
+            setProductToDelete(null);
+            fetchProducts();
+        } catch (error) {
+            showError(formatErrorMessage(error));
+        }
+    };
+
+    const handleDeleteCancel = () => {
+        setIsDeleteModalOpen(false);
+        setProductToDelete(null);
     };
 
     const formatCurrency = value => {
@@ -223,8 +258,18 @@ const ProductList = () => {
                                     </td>
                                     <td>
                                         <div className={actions}>
-                                            <button className={editBtn}>Sửa</button>
-                                            <button className={deleteBtn}>Xóa</button>
+                                            <button 
+                                                className={editBtn} 
+                                                onClick={() => handleEdit(product.id)}
+                                            >
+                                                Sửa
+                                            </button>
+                                            <button 
+                                                className={deleteBtn}
+                                                onClick={() => handleDeleteClick(product)}
+                                            >
+                                                Xóa
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -290,6 +335,17 @@ const ProductList = () => {
                     </div>
                 </div>
             )}
+
+            {/* Delete Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={handleDeleteCancel}
+                onConfirm={handleDeleteConfirm}
+                title="Xác nhận xóa sản phẩm"
+                message={`Bạn có chắc chắn muốn xóa sản phẩm "${productToDelete?.name}"? Hành động này không thể hoàn tác.`}
+                confirmText="Xóa"
+                cancelText="Hủy"
+            />
         </div>
     );
 };

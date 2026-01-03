@@ -11,6 +11,7 @@ import ToastDemo from '@/components/ToastDemo/ToastDemo';
 import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
 import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
+import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
 
 const MainContent = () => {
     const {
@@ -32,6 +33,8 @@ const MainContent = () => {
                 return <ProductList />;
             case 'product-add':
                 return <ProductAdd />;
+            case 'product-update':
+                return <ProductUpdate />;
             case 'user-list':
                 return <UserList />;
             case 'user-update':

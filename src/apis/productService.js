@@ -14,4 +14,28 @@ export default class productService {
             params: { 'pageNo': pageNo, 'pageSize': pageSize, 'keyword': keyword }
         });
     };
+
+    static getById = async (id) => {
+        return await apiPrivate.get(`/products/${id}`);
+    };
+
+    static update = async (formData, id) => {
+        return await apiPrivate.put(`/products/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    };
+
+    static updateImages = async (formData, id) => {
+        return await apiPrivate.post(`/products/update-images/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+    };
+
+    static delete = async (id) => {
+        return await apiPrivate.delete(`/products/${id}`);
+    }
 }
