@@ -27,7 +27,7 @@ const ProductAdd = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await categoryService.getAll();
+            const response = await categoryService.getAllCategories();
             if (response.data.code === 0) {
                 setCategories(response.data.result);
             }

@@ -177,11 +177,8 @@ const ProductList = () => {
                 <table className={productTable}>
                     <thead>
                         <tr>
-                            <th>
-                                <input type='checkbox' />
-                            </th>
                             <th>Ảnh</th>
-                            <th>SẢN PHẨM</th>
+                            <th>TÊN SẢN PHẨM</th>
                             <th>DANH MỤC</th>
                             <th>GIÁ</th>
                             <th>GIÁ KHUYẾN MÃI</th>
@@ -205,9 +202,6 @@ const ProductList = () => {
                         ) : (
                             products.map((product) => (
                                 <tr key={product.id}>
-                                    <td>
-                                        <input type='checkbox' />
-                                    </td>
                                     <td>
                                         <div className={productInfo}>
                                             <div 

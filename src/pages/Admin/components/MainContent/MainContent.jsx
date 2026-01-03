@@ -13,6 +13,8 @@ import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
 
 import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryAdd';
 import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
+import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
+import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
 
 
 const MainContent = () => {
