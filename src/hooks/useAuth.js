@@ -35,7 +35,7 @@ export const useAuth = () => {
             Cookies.set('token', token);
             const user = (await userService.getMyInfo()).data.result;
             Cookies.set('userId', user.id);
-            if(user.roleName === 'ADMIN'){
+            if(user.role.name === 'ADMIN'){
                 navigate(ROUTES.ADMIN);
             }else{
                 navigate(ROUTES.HOME);

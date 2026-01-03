@@ -11,8 +11,8 @@ const AdvanceHeadling = () => {
                 <div className={container}>
                     <div className={headline}></div>
                     <div className={containerMiddleBox}>
-                        <p className={desc}>don't miss super offers</p>
-                        <p className={title}>Our best products</p>
+                        <p className={desc}>Không bỏ lỡ các ưu đãi siêu hấp dẫn</p>
+                        <p className={title}>Sản phẩm tốt nhất của chúng tôi</p>
                     </div>
                     <div className={headline}></div>
                 </div>

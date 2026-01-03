@@ -12,9 +12,9 @@ const CountdownBanner = () => {
             <div className={containerTimer}>
                 <CountdownTimer targetDate={targetDate}/>
             </div>
-            <p className={title}>The classics make a comeback</p>
+            <p className={title}> trở lại kinh điển</p>
             <div className={boxBtn}>
-                <Button content={'Buy now'}/>
+                <Button content={'Mua ngay'} onClick={() => window.location.href = '/shop'} />
             </div>
         </div>
     );

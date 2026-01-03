@@ -13,12 +13,16 @@ const Menu = ({ content, href }) => {
     const navigate = useNavigate();
 
     const handleClickShowLogin = () => {
-        if (content === 'Sign in' && !userInfo) {
+        if (content === 'Đăng nhập' && !userInfo) {
             navigate('/login');
         }
 
-        if (content === 'Our Shop') {
+        if (content === 'Sản phẩm') {
             navigate('/shop');
+        }
+
+        if (content === 'Trang chủ') {
+            navigate('/');
         }
     };
 

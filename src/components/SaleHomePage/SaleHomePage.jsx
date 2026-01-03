@@ -21,13 +21,13 @@ const SaleHomePage = () => {
                 />
             </div>
             <div className={boxContent}>
-                <h2 className={title}>Sale Of The Year</h2>
+                <h2 className={title}>Ưu đãi trong năm</h2>
                 <p className={desc}>
-                    Libero sed faucibus facilisis fermentum. Est nibh sed massa
-                    sodales.
+                    Khám phá bộ sưu tập mùa xuân mới nhất của chúng tôi với các
+                    thiết kế tươi sáng và phong cách để làm mới tủ quần áo của bạn.
                 </p>
                 <div className={boxBtn}>
-                    <Button content={'Read more'} isPrimary={false} />
+                    <Button content={'Tìm hiểu thêm'} isPrimary={false} onClick={() => window.location.href = '/shop'} />
                 </div>
             </div>
             <div

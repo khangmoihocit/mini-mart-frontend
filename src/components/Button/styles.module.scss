@@ -2,12 +2,25 @@
 @import '@styles/mixins.module.scss';
 
 .btn {
-    @include btn(100%, 42px, $primary_color, $radius_sm);
     font-size: 14px;
     font-weight: 300;
     cursor: pointer;
+    outline: none;
+    border: 1px solid #e1e1e1;
+    width: 100%;
+    height: 42px;
+    background-color: $primary_color;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    @include radius_common($radius_sm);
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 
     &:hover {
+        opacity: 0.8;
         transition: background-color 300ms;
     }
 }
@@ -24,8 +37,8 @@
 }
 
 .secondaryBtn {
-    background-color: #fff;
-    color: $primary_color;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     border: 1px solid $primary_color;
 
     &:hover {
