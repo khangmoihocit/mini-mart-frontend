@@ -8,6 +8,7 @@ import { SideBarContext } from '@/contexts/SidebarProvider';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Footer from '@/components/Footer/Footer';
 
 const Cart = () => {
     const {
@@ -91,7 +92,7 @@ const Cart = () => {
                             <p>{formatCurrency(subTotal)}</p>
                         </div>
                         <div className={boxButton}>
-                            <Button content={'XEM GIỎ HÀNG'} />
+                            <Button content={'XEM GIỎ HÀNG'} onClick={() => navigate('/cart')} />
                             <Button content={'THANH TOÁN'} isPrimary={false} />
                         </div>
                     </div>
@@ -100,11 +101,12 @@ const Cart = () => {
                 <div className={boxEmpty}>
                     <div className={textEmpty}>Chưa có sản phẩm trong giỏ hàng</div>
                     <div className={boxBtnEmpty}>
-                        <Button onClick={handleNavigateToShop} content={"TIẾP TỤC MUA SẮM"}/>
+                        <Button onClick={handleNavigateToShop} content={"TIẾP TỤC MUA SẮM"} />
                     </div>
                 </div>
             )}
         </div>
+
     );
 };
 

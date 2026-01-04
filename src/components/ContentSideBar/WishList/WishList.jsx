@@ -12,13 +12,13 @@ const WishList = () => {
             <div>
                 <HeaderSideBar
                     icon={<CiHeart style={{ fontSize: '30px' }} />}
-                    title={'WISHLIST'}
+                    title={'YÊU THÍCH'}
                 />
                 <ItemProduct />
             </div>
             <div className={boxButton}>
-                <Button content={'VIEW WISHLIST'} />
-                <Button content={'ADD TO CART'} />
+                <Button content={'XEM DANH SÁCH YÊU THÍCH'} />
+                <Button content={'THÊM VÀO GIỎ HÀNG'} />
             </div>
         </div>
     );
