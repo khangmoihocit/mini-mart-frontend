@@ -23,7 +23,6 @@ const ListProduct = () => {
                     <>
                         <div className={isShowGrid ? containerProduct : ''}>
                             {products.map(item => {
-                                // Handle case when there's only 1 image
                                 const firstImage = item.images[0]?.imageUrl;
                                 const secondImage = item.images[1]?.imageUrl || item.images[0]?.imageUrl;
                                 

@@ -13,9 +13,9 @@ const Banner = () => {
                 <div className={countdownBox}>
                     <CountdownTimer targetDate={targetDate} />
                 </div>
-                <div className={title}>The Classics Make A Comeback</div>
+                <div className={title}>Phong cách cổ điển Tái Xuất</div>
                 <div className={boxBtn}>
-                    <Button content={'Buy Now'} />
+                    <Button content={'Mua Ngay'} onClick={() => {}} />
                 </div>
             </div>
         </div>

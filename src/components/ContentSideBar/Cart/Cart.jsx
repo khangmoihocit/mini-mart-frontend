@@ -7,6 +7,7 @@ import Button from '@components/Button/Button';
 import { SideBarContext } from '@/contexts/SidebarProvider';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Cart = () => {
     const {
@@ -25,16 +26,31 @@ const Cart = () => {
 
     const navigate = useNavigate();
 
-    const { listProductCart, isLoading, setIsOpen } = useContext(SideBarContext);
+    const { listProductCart, isLoading, setIsOpen, handleGetListProducCart } = useContext(SideBarContext);
     
-    const subTotal = listProductCart.reduce((acc, item)=>{
-        return acc + item.total;
+    // Calculate subtotal from cart items
+    const subTotal = listProductCart.reduce((acc, item) => {
+        return acc + (item.subtotal || 0);
     }, 0);
 
-    const handleNavigateToShop = ()=>{
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(value);
+    };
+
+    const handleNavigateToShop = () => {
         navigate('/shop');
         setIsOpen(false);
-    }
+    };
+
+    useEffect(() => {
+        const userId = Cookies.get('userId');
+        if (userId) {
+            handleGetListProducCart(userId, 'cart');
+        }
+    }, []);
 
     return (
         <div className={classNames(container, {
@@ -42,24 +58,28 @@ const Cart = () => {
         })}>
             <HeaderSideBar
                 icon={<PiShoppingCart style={{ fontSize: '30px' }} />}
-                title={'CART'}
+                title={'GIỎ HÀNG'}
             />
-            {listProductCart.length ? (
+            {isLoading ? (
+                <div style={{ textAlign: 'center', padding: '40px' }}>
+                    Đang tải giỏ hàng...
+                </div>
+            ) : listProductCart.length ? (
                 <div className={containerListItem}>
                     <div className={productList}>
                         <div className={containerListProductCart}>
                             {listProductCart.map((item, index) => {
                                 return (
                                     <ItemProduct
-                                        src={item.images[0]}
-                                        nameProduct={item.name}
-                                        priceProduct={item.price}
-                                        skuProduct={item.sku}
-                                        sizeProduct={item.size}
+                                        key={item.id || index}
+                                        cartItemId={item.id}
+                                        imageUrl={item.imageUrl}
+                                        nameProduct={item.productName}
+                                        priceProduct={item.salePrice || item.price}
+                                        sizeProduct={item.sizeName}
                                         quantity={item.quantity}
-                                        key={index}
                                         productId={item.productId}
-                                        userId={item.userId}
+                                        userId={Cookies.get('userId')}
                                     />
                                 );
                             })}
@@ -67,20 +87,20 @@ const Cart = () => {
                     </div>
                     <div style={{ width: '100%' }}>
                         <div className={boxTotal}>
-                            <p>SUBTOTAL: </p>
-                            <p>${subTotal}</p>
+                            <p>TỔNG TIỀN: </p>
+                            <p>{formatCurrency(subTotal)}</p>
                         </div>
                         <div className={boxButton}>
-                            <Button content={'VIEW CART'} />
-                            <Button content={'CHECKOUT'} isPrimary={false} />
+                            <Button content={'XEM GIỎ HÀNG'} />
+                            <Button content={'THANH TOÁN'} isPrimary={false} />
                         </div>
                     </div>
                 </div>
             ) : (
                 <div className={boxEmpty}>
-                    <div className={textEmpty}>No products in the cart</div>
+                    <div className={textEmpty}>Chưa có sản phẩm trong giỏ hàng</div>
                     <div className={boxBtnEmpty}>
-                        <Button onClick={handleNavigateToShop} content={"RETURN TO SHOP"}/>
+                        <Button onClick={handleNavigateToShop} content={"TIẾP TỤC MUA SẮM"}/>
                     </div>
                 </div>
             )}

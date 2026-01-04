@@ -9,6 +9,8 @@ import Cookies from 'js-cookie';
 import { SideBarContext } from '@/contexts/SidebarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import cartService from '@/apis/cartService';
+import { formatErrorMessage } from '@/utils/helpers';
 
 const ProductItem = ({
     src,
@@ -52,39 +54,55 @@ const ProductItem = ({
         setSizeChoose('');
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!userId) {
             setIsOpen(true);
             setType('login');
-            toast.warning('Please login to add product to cart');
+            toast.warning('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
             return;
         }
 
-        if (!sizeChoose) {
-            toast.warning('Please choose size!');
+        if (details.sizes && details.sizes.length > 0 && !sizeChoose) {
+            toast.warning('Vui lòng chọn size sản phẩm');
             return;
+        }
+
+        let productSizeId = null;
+        if (sizeChoose && details.sizes) {
+            const selectedSize = details.sizes.find(s => s.sizeName === sizeChoose);
+            if (selectedSize) {
+                productSizeId = selectedSize.id;
+            }
         }
 
         const data = {
-            userId,
             productId: details.id,
-            quantity: 1,
-            size: sizeChoose
+            quantity: 1
         };
 
-        setIsLoading(true);
-        addProductToCart(data)
-            .then(response => {
-                toast.success(response.data.msg);
+        if (productSizeId) {
+            data.productSizeId = productSizeId;
+        }
+
+        try {
+            setIsLoading(true);
+            const response = await cartService.addToCart(data);
+            
+            if (response.data.code === 1000 || response.data.code === 0) {
+                toast.success('Thêm sản phẩm vào giỏ hàng thành công');
                 setIsOpen(true);
                 setType('cart');
                 handleGetListProducCart(userId, 'cart');
-                setIsLoading(false);
-            })
-            .catch(error => {
-                toast.error('Add product to cart fail');
-                setIsLoading(false);
-            });
+                setSizeChoose('');
+            } else {
+                toast.error(response.data.message || 'Có lỗi xảy ra');
+            }
+        } catch (error) {
+            const errorMessage = formatErrorMessage(error);
+            toast.error(errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const baseUrlImg = "http://localhost:8081/images/"
@@ -160,7 +178,7 @@ const ProductItem = ({
                         color: isHomePage ? '#333' : '#888'
                     }}
                 >
-                    ${price}
+                    {price}đ
                 </div>
                 {!isHomePage && (
                     <div
@@ -173,7 +191,7 @@ const ProductItem = ({
                                 isLoading ? (
                                     <LoadingTextCommon />
                                 ) : (
-                                    'ADD TO CART'
+                                    'THÊM GIỎ HÀNG'
                                 )
                             }
                             onClick={handleAddToCart}
