@@ -9,12 +9,12 @@ import UserList from '@/pages/Admin/components/User/UserList/UserList';
 import Login from '@/pages/Login/Login';
 import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
-
 import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryAdd';
 import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
 import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
 import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
 import FormLogin from '@/pages/Login/components/FormLogin';
+import ReviewManagement from '@/pages/Admin/components/Review/ReviewManagement';
 
 
 const MainContent = () => {
@@ -49,6 +49,8 @@ const MainContent = () => {
                 return <CategoryAdd />;
             case 'category-list':
                 return <CategoryList />;
+            case 'review':
+                return <ReviewManagement />;
             case 'setting-loading':
                 return <LoadingDemo />;
             default:

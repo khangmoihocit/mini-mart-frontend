@@ -75,8 +75,8 @@ function DetailProduct() {
         },
         {
             id: 2,
-            titleMenu: 'ĐÁNH GIÁ (0)',
-            content: <ReviewProduct />
+            titleMenu: 'ĐÁNH GIÁ',
+            content: <ReviewProduct productName={data?.name} />
         }
     ];
 

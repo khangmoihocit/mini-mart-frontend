@@ -1,0 +1,177 @@
+@import '@/assets/styles/variables.module.scss';
+
+.reviewManagement {
+    padding: 24px;
+    background: #f5f5f5;
+    min-height: 100vh;
+
+    .header {
+        background: white;
+        padding: 24px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        h1 {
+            margin: 0 0 16px 0;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stats {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: #666;
+
+            span {
+                padding: 8px 16px;
+                background: #f0f0f0;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .filters {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 16px;
+
+        .searchInput {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+
+            &:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+        }
+
+        .filterSelect {
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 180px;
+            cursor: pointer;
+
+            &:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+        }
+    }
+
+    .reviewsTable {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+            thead {
+                background: #f8f9fa;
+
+                tr {
+                    th {
+                        padding: 16px;
+                        text-align: left;
+                        font-weight: 600;
+                        color: #333;
+                        font-size: 14px;
+                        border-bottom: 2px solid #e0e0e0;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid #e0e0e0;
+                    transition: background-color 0.2s;
+
+                    &:hover {
+                        background-color: #f8f9fa;
+                    }
+
+                    td {
+                        padding: 16px;
+                        font-size: 14px;
+                        color: #555;
+                        vertical-align: top;
+
+                        .productName {
+                            font-weight: 500;
+                            color: #333;
+                            max-width: 200px;
+                        }
+
+                        .comment {
+                            max-width: 300px;
+                            max-height: 60px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            line-height: 1.4;
+                        }
+
+                        &.date {
+                            white-space: nowrap;
+                            color: #666;
+                            font-size: 13px;
+                        }
+
+                        .deleteBtn {
+                            padding: 8px 16px;
+                            background: #f44336;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 14px;
+                            transition: background-color 0.2s;
+
+                            &:hover {
+                                background: #da190b;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .emptyState {
+        background: white;
+        padding: 60px 20px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        p {
+            font-size: 16px;
+            color: #666;
+            margin: 0;
+        }
+    }
+
+    .loadingContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+}
