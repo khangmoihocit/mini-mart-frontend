@@ -1,15 +1,94 @@
-@mixin flex_box_custom($x, $y, $gap: 10px){
+@import '@styles/variables.module.scss';
+
+// Border radius mixin
+@mixin radius_common($radius: $radius_md) {
+    border-radius: $radius;
+}
+
+// Flexbox utilities
+@mixin flex_box_custom($justify: flex-start, $align: stretch, $gap: $spacing_md) {
     display: flex;
-    justify-content: $x;
-    align-items: $y;
+    justify-content: $justify;
+    align-items: $align;
     gap: $gap;
 }
 
-@mixin btn($w, $h, $color, $radius){
+@mixin flex_center {
+    @include flex_box_custom(center, center);
+}
+
+@mixin flex_between {
+    @include flex_box_custom(space-between, center);
+}
+
+@mixin flex_column($gap: $spacing_md) {
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+}
+
+// Button mixin
+@mixin btn($width: auto, $height: auto, $bg_color: $white_color, $radius: $radius_sm) {
     outline: none;
     border: 1px solid #e1e1e1;
-    width: $w;
-    height: $h;
-    background-color: $color;
-    border-radius: $radius;
+    width: $width;
+    height: $height;
+    background-color: $bg_color;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    @include radius_common($radius);
+    
+    &:hover {
+        opacity: 0.8;
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
+
+// Responsive mixins
+@mixin mobile {
+    @media (max-width: $breakpoint_mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $breakpoint_tablet) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $breakpoint_desktop) {
+        @content;
+    }
+}
+
+// Typography mixins
+@mixin text_truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin text_line_clamp($lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// Shadow mixins
+@mixin shadow($type: 'sm') {
+    @if $type == 'sm' {
+        box-shadow: $shadow_sm;
+    } @else if $type == 'md' {
+        box-shadow: $shadow_md;
+    } @else if $type == 'lg' {
+        box-shadow: $shadow_lg;
+    }   
+}
+

@@ -1,0 +1,11 @@
+@use '@styles/mixins.module.scss' as mixins;
+@use '@styles/variables.module.scss' as vars;
+
+.container{
+    @include mixins.flex_box_custom(center, center, 10px);
+    flex-direction: column;
+
+    div{
+        font-size: 18px;
+    }
+}

@@ -1,6 +1,4 @@
-@import '@styles/variables.module.scss';
-@import '@styles/mixins.module.scss';
-
-.text{
-    color: $color-secondary;
+.container{
+    position: relative;
+    // z-index: -1;
 }

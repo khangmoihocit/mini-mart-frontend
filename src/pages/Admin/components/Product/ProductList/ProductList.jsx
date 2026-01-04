@@ -5,10 +5,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import styles from './styles.module.scss';
 import productService from '@/apis/productService';
-import { showError, showSuccess } from '@/utils/toast';
 import { formatErrorMessage } from '@/utils/helpers';
 import { AdminContext } from '@/contexts/AdminProvider';
 import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { toast } from 'react-toastify';
 
 const ProductList = () => {
     const {
@@ -59,7 +59,7 @@ const ProductList = () => {
                 setTotalItems(totalElements);
             }
         } catch (error) {
-            showError(formatErrorMessage(error));
+            toast.error(formatErrorMessage(error));
         } finally {
             setLoading(false);
         }
@@ -90,12 +90,12 @@ const ProductList = () => {
         
         try {
             await productService.delete(productToDelete.id);
-            showSuccess('Xóa sản phẩm thành công');
+            toast.success('Xóa sản phẩm thành công');
             setIsDeleteModalOpen(false);
             setProductToDelete(null);
             fetchProducts();
         } catch (error) {
-            showError(formatErrorMessage(error));
+            toast.error(formatErrorMessage(error));
         }
     };
 

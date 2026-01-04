@@ -4,8 +4,9 @@ import InputCommon from '@/components/InputCommon/InputCommon';
 import Button from '@/pages/Admin/components/Button/Button';
 import styles from './styles.module.scss';
 import { AdminContext } from '@/contexts/AdminProvider';
-import toast from '@/utils/toast';
+
 import { CategoryContext } from '@/contexts/CategoryProvider';
+import { toast } from 'react-toastify';
 
 const CategoryAdd = () => {
     const { setType } = useContext(AdminContext);

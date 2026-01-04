@@ -1,7 +1,7 @@
 import categoryService from "@/apis/categoryService";
 import { formatErrorMessage } from "@/utils/helpers";
-import toast from "@/utils/toast";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const CategoryContext = createContext();
 export const CategoryProvider = ({ children }) => {

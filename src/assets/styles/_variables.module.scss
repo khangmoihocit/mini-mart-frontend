@@ -32,3 +32,37 @@ $--bs-warning: #ffc107;
 $--bs-danger: #dc3545;
 $--bs-light: #f8f9fa;
 $--bs-dark: #212529;
+
+// Color Variables
+$primary_color: #333;
+$secondary_color: #888;
+$thr_color: #555;
+$four_color: #222;
+$white_color: #ffffff;
+$sub_color: #404040;
+
+// Spacing Variables
+$spacing_xs: 4px;
+$spacing_sm: 8px;
+$spacing_md: 16px;
+$spacing_lg: 24px;
+$spacing_xl: 32px;
+
+// Typography
+$font_family_primary: "Roboto Mono", monospace;
+$font_family_secondary: "Roboto", sans-serif;
+
+// Breakpoints
+$breakpoint_mobile: 768px;
+$breakpoint_tablet: 1024px;
+$breakpoint_desktop: 1200px;
+
+// Border radius
+$radius_sm: 4px;
+$radius_md: 8px;
+$radius_lg: 16px;
+
+// Shadows
+$shadow_sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow_md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow_lg: 0 10px 15px rgba(0, 0, 0, 0.1);

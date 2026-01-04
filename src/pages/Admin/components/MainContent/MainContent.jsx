@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import ProductList from '@/pages/Admin/components/Product/ProductList/ProductList';
 import UserList from '@/pages/Admin/components/User/UserList/UserList';
 import Login from '@/pages/Login/Login';
-import ToastDemo from '@/components/ToastDemo/ToastDemo';
 import LoadingDemo from '@/components/LoadingDemo/LoadingDemo';
 import UserUpdate from '@/pages/Admin/components/User/UserUpdate/UserUpdate';
 
@@ -15,6 +14,7 @@ import CategoryAdd from '@/pages/Admin/components/Category/CategoryAdd/CategoryA
 import CategoryList from '@/pages/Admin/components/Category/CategoryList/CategoryList';
 import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
 import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
+import FormLogin from '@/pages/Login/components/FormLogin';
 
 
 const MainContent = () => {
@@ -44,13 +44,11 @@ const MainContent = () => {
             case 'user-update':
                 return <UserUpdate />;
             case 'user-login':
-                return <Login />;
+                return <FormLogin />;
             case 'category-add':
                 return <CategoryAdd />;
             case 'category-list':
                 return <CategoryList />;
-            case 'setting-toast':
-                return <ToastDemo />;
             case 'setting-loading':
                 return <LoadingDemo />;
             default:

@@ -9,6 +9,7 @@
             "@pages/*": ["src/pages/*"],
             "@apis/*": ["src/apis/*"],
             "@hooks/*": ["src/hooks/*"],
+            "@contexts/*": ["src/contexts/*"],
             "@utils/*": ["src/utils/*"],
             "@constants/*": ["src/constants/*"],
             "@validations/*": ["src/validations/*"]

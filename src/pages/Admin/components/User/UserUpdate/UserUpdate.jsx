@@ -6,9 +6,9 @@ import Button from '@/pages/Admin/components/Button/Button';
 import Message from '@/components/Message/Message';
 import { formatDateForInput, formatErrorMessage } from '@/utils/helpers';
 import userService from '@/apis/userService';
-import toast from '@/utils/toast';
 import HeaderMainContent from '@/pages/Admin/components/HeaderMainContent/HeaderMainContent';
 import { UserContext } from '@/contexts/UserProvider';
+import { toast } from 'react-toastify';
 
 const UserUpdate = () => {
     const { container, wrapForm, inputDate } = styles;
