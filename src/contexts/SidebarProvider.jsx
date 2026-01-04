@@ -17,10 +17,8 @@ export const SideBarProvider = ({ children }) => {
             setIsLoading(true);
             try {
                 const response = await cartService.getCart();
-                if (response.data.code === 1000 || response.data.code === 0) {
-                    setListProductCart(response.data.result.items || []);
-                    setCartCount(response.data.result.totalItems || 0);
-                }
+                setListProductCart(response.data.result.items || []);
+                setCartCount(response.data.result.totalItems || 0);
             } catch (error) {
                 console.error('Error loading cart:', error);
                 setListProductCart([]);

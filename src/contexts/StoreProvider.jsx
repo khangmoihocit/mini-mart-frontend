@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-// import { getInfo } from '@/apis/authService';
 import Cookies from 'js-cookie';
 import userService from '@/apis/userService';
 
