@@ -122,9 +122,10 @@ function ReviewCard({ review, onUpdate, onDelete, currentUserId, isAdmin }) {
 
             {showDeleteModal && (
                 <ConfirmationModal
+                    isOpen={showDeleteModal}
                     message="Bạn có chắc chắn muốn xóa đánh giá này?"
                     onConfirm={handleConfirmDelete}
-                    onCancel={() => setShowDeleteModal(false)}
+                    onClose={() => setShowDeleteModal(false)}
                 />
             )}
         </div>

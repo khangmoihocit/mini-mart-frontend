@@ -29,8 +29,8 @@ function ReviewManagement() {
         try {
             setIsLoading(true);
             const response = await reviewService.getAllReviews();
-            if (response?.result) {
-                setReviews(response.result);
+            if (response.data?.result) {
+                setReviews(response.data.result);
             }
         } catch (error) {
             const errorMsg = formatErrorMessage(error);
@@ -72,7 +72,7 @@ function ReviewManagement() {
     const handleConfirmDelete = async () => {
         try {
             const response = await reviewService.deleteReview(selectedReviewId);
-            if (response?.code === 1000) {
+            if (response.data?.code === 0) {
                 toast.success('Đã xóa đánh giá thành công');
                 loadAllReviews();
             }
@@ -194,9 +194,10 @@ function ReviewManagement() {
 
             {showDeleteModal && (
                 <ConfirmationModal
+                    isOpen={showDeleteModal}
                     message="Bạn có chắc chắn muốn xóa đánh giá này?"
                     onConfirm={handleConfirmDelete}
-                    onCancel={() => {
+                    onClose={() => {
                         setShowDeleteModal(false);
                         setSelectedReviewId(null);
                     }}
