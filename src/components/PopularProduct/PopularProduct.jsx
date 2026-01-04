@@ -11,11 +11,15 @@ const PopularProduct = ({data}) => {
             <MainLayout>
                 <div className={container}>
                     {data.map(item => {
+                        // Handle case when there's only 1 image
+                        const firstImage = item.images[0]?.imageUrl;
+                        const secondImage = item.images[1]?.imageUrl || item.images[0]?.imageUrl;
+                        
                         return (
                             <ProductItem
                                 key={item.id}
-                                src={item.images[0].imageUrl}
-                                preSrc={item.images[1].imageUrl}
+                                src={firstImage}
+                                preSrc={secondImage}
                                 name={item.name}
                                 price={item.price}
                                 details={item}

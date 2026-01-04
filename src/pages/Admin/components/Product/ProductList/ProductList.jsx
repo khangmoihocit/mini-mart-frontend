@@ -182,6 +182,7 @@ const ProductList = () => {
                             <th>DANH MỤC</th>
                             <th>GIÁ</th>
                             <th>GIÁ KHUYẾN MÃI</th>
+                            <th>SIZE</th>
                             <th>SỐ LƯỢNG KHO</th>
                             <th>HÀNH ĐỘNG</th>
                         </tr>
@@ -189,13 +190,13 @@ const ProductList = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>
+                                <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>
                                     Đang tải...
                                 </td>
                             </tr>
                         ) : products.length === 0 ? (
                             <tr>
-                                <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>
+                                <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>
                                     Không có sản phẩm nào
                                 </td>
                             </tr>
@@ -244,6 +245,19 @@ const ProductList = () => {
                                         {product.salePrice 
                                             ? formatCurrency(product.salePrice) 
                                             : '-'}
+                                    </td>
+                                    <td>
+                                        <div style={{ fontSize: '12px', lineHeight: '1.6' }}>
+                                            {product.sizes && product.sizes.length > 0 ? (
+                                                product.sizes.map((size, idx) => (
+                                                    <div key={idx}>
+                                                        <strong>{size.sizeName}:</strong> {size.quantity}
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <span>-</span>
+                                            )}
+                                        </div>
                                     </td>
                                     <td>
                                         <span className={product.stockQuantity > 0 ? inStock : outOfStock}>

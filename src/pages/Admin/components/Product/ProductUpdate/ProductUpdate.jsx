@@ -14,10 +14,10 @@ const ProductUpdate = () => {
         price: '',
         salePrice: '',
         description: '',
-        stockQuantity: 0,
         categoryId: '',
     });
 
+    const [sizes, setSizes] = useState([{ sizeName: '', quantity: '' }]);
     const [existingImages, setExistingImages] = useState([]);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
@@ -55,9 +55,9 @@ const ProductUpdate = () => {
                     price: product.price,
                     salePrice: product.salePrice || '',
                     description: product.description,
-                    stockQuantity: product.stockQuantity,
                     categoryId: product.category.id,
                 });
+                setSizes(product.sizes || [{ sizeName: '', quantity: '' }]);
                 setExistingImages(product.images || []);
             }
         } catch (error) {
@@ -96,6 +96,24 @@ const ProductUpdate = () => {
         URL.revokeObjectURL(preview);
     };
 
+    const handleSizeChange = (index, field, value) => {
+        const newSizes = [...sizes];
+        newSizes[index][field] = value;
+        setSizes(newSizes);
+    };
+
+    const addSize = () => {
+        setSizes([...sizes, { sizeName: '', quantity: '' }]);
+    };
+
+    const removeSize = (index) => {
+        setSizes(sizes.filter((_, i) => i !== index));
+    };
+
+    const calculateStockQuantity = () => {
+        return sizes.reduce((total, size) => total + (parseInt(size.quantity) || 0), 0);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -116,6 +134,12 @@ const ProductUpdate = () => {
             return;
         }
 
+        // Validate sizes
+        if (sizes.length === 0 || sizes.some(s => !s.sizeName.trim() || !s.quantity)) {
+            toast.error('Vui lòng nhập đầy đủ thông tin size và số lượng');
+            return;
+        }
+
         try {
             setLoading(true);
             
@@ -127,8 +151,14 @@ const ProductUpdate = () => {
                 productData.append('salePrice', formData.salePrice);
             }
             productData.append('description', formData.description);
-            productData.append('stockQuantity', formData.stockQuantity);
+            productData.append('stockQuantity', calculateStockQuantity());
             productData.append('categoryId', formData.categoryId);
+
+            // Add sizes
+            sizes.forEach((size, index) => {
+                productData.append(`sizes[${index}].sizeName`, size.sizeName);
+                productData.append(`sizes[${index}].quantity`, size.quantity);
+            });
 
             await productService.update(productData, selectedProductId);
             
@@ -210,19 +240,6 @@ const ProductUpdate = () => {
 
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="stockQuantity">Số lượng tồn kho</label>
-                        <input
-                            type="number"
-                            id="stockQuantity"
-                            name="stockQuantity"
-                            value={formData.stockQuantity}
-                            onChange={handleChange}
-                            placeholder="0"
-                            min="0"
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
                         <label htmlFor="categoryId">Danh mục <span className={styles.required}>*</span></label>
                         <select
                             id="categoryId"
@@ -250,6 +267,50 @@ const ProductUpdate = () => {
                         placeholder="Nhập mô tả sản phẩm"
                         rows="4"
                     />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>Size và số lượng <span className={styles.required}>*</span></label>
+                    <div className={styles.sizesContainer}>
+                        {sizes.map((size, index) => (
+                            <div key={index} className={styles.sizeRow}>
+                                <input
+                                    type="text"
+                                    placeholder="Tên size (S, M, L, XL...)"
+                                    value={size.sizeName}
+                                    onChange={(e) => handleSizeChange(index, 'sizeName', e.target.value)}
+                                    className={styles.sizeInput}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Số lượng"
+                                    value={size.quantity}
+                                    onChange={(e) => handleSizeChange(index, 'quantity', e.target.value)}
+                                    min="0"
+                                    className={styles.sizeInput}
+                                />
+                                {sizes.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className={styles.removeSizeBtn}
+                                        onClick={() => removeSize(index)}
+                                    >
+                                        Xóa
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <button
+                        type="button"
+                        className={styles.addSizeBtn}
+                        onClick={addSize}
+                    >
+                        + Thêm size
+                    </button>
+                    <div style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>
+                        <strong>Tổng số lượng:</strong> {calculateStockQuantity()} sản phẩm
+                    </div>
                 </div>
 
                 <div className={styles.formGroup}>

@@ -42,4 +42,5 @@ export default class productService {
     static delete = async (id) => {
         return await apiPrivate.delete(`/products/${id}`);
     }
+
 }

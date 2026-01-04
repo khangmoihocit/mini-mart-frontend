@@ -115,16 +115,16 @@ const ProductItem = ({
             <div className={isShowGrid ? '' : boxContent}>
                 {!isHomePage && (
                     <div className={boxSize}>
-                        {details.size.map((item, index) => {
+                        {details.sizes && details.sizes.map((item, index) => {
                             return (
                                 <div
                                     className={classNames(size, {
-                                        [isActiveSize]: item.name === sizeChoose
+                                        [isActiveSize]: item.sizeName === sizeChoose
                                     })}
                                     key={index}
-                                    onClick={() => handleChooseSize(item.name)}
+                                    onClick={() => handleChooseSize(item.sizeName)}
                                 >
-                                    {item.name}
+                                    {item.sizeName}
                                 </div>
                             );
                         })}

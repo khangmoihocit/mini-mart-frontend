@@ -14,11 +14,14 @@ const HeadlingListProduct = ({ data }) => {
                 <CountdownBanner />
                 <div className={containerItem}>
                     {data.map(item => {
+                        const firstImage = item.images[0]?.imageUrl;
+                        const secondImage = item.images[1]?.imageUrl || item.images[0]?.imageUrl;
+                        
                         return (
                             <ProductItem
                                 key={item.id}
-                                src={item.images[0].imageUrl}
-                                preSrc={item.images[1].imageUrl}
+                                src={firstImage}
+                                preSrc={secondImage}
                                 name={item.name}
                                 price={item.price}
                                 details={item}
