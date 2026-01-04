@@ -43,4 +43,8 @@ export default class productService {
         return await apiPrivate.delete(`/products/${id}`);
     }
 
+    static searchAdvanced = async (params) => {
+        return await apiPublic.get('/products/advanced-search', { params });
+    };
+
 }
