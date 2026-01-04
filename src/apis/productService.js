@@ -47,4 +47,8 @@ export default class productService {
         return await apiPublic.get('/products/advanced-search', { params });
     };
 
+    static getByCategoryId = async (categoryId) => {
+        return await apiPublic.get('/products/by-category', { params: { 'categoryId' : categoryId } });
+    };
+
 }

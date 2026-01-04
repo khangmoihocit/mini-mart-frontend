@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import heartIcon from '@icons/svgs/heartIcon.svg';
 import reloadIcon from '@icons/svgs/reloadIcon.svg';
@@ -45,6 +46,7 @@ const ProductItem = ({
     const [isLoading, setIsLoading] = useState(false);
     const { setIsOpen, setType, handleGetListProducCart } = useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
+    const navigate = useNavigate();
 
     const handleChooseSize = size => {
         setSizeChoose(size);
@@ -105,6 +107,12 @@ const ProductItem = ({
         }
     };
 
+    const handleNavigateToDetail = () => {
+        if (details?.id) {
+            navigate(`/product/${details.id}`);
+        }
+    };
+
     const baseUrlImg = "http://localhost:8081/images/"
 
     return (
@@ -112,7 +120,7 @@ const ProductItem = ({
             className={isShowGrid ? '' : container}
             style={{ marginTop: '20px' }}
         >
-            <div className={classNames(boxImg, { [largImg]: !isShowGrid })}>
+            <div className={classNames(boxImg, { [largImg]: !isShowGrid })} onClick={handleNavigateToDetail} style={{ cursor: 'pointer' }}>
                 <img src={`${baseUrlImg}${src}`} alt='' />
                 <img src={`${baseUrlImg}${preSrc}`} alt='' className={showImgWhenHover} />
                 <div className={showFuncWhenHover}>
@@ -159,6 +167,8 @@ const ProductItem = ({
                     className={classNames(innerTitle, {
                         [textCenter]: !isHomePage
                     })}
+                    onClick={handleNavigateToDetail}
+                    style={{ cursor: 'pointer' }}
                 >
                     {name}
                 </div>

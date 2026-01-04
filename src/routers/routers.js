@@ -3,15 +3,15 @@ import { lazy } from 'react';
 const routers = [
     {
         path: '/',
-        component: lazy(()=> import('@pages/HomePage/HomePage'))
+        component: lazy(() => import('@pages/HomePage/HomePage'))
     },
     {
         path: '/login',
-        component: lazy(()=> import('@pages/Login/Login'))
+        component: lazy(() => import('@pages/Login/Login'))
     },
     {
         path: '/admin',
-        component: lazy(()=> import('@pages/Admin/Admin'))
+        component: lazy(() => import('@pages/Admin/Admin'))
     },
     {
         path: '/shop',
@@ -20,6 +20,10 @@ const routers = [
     {
         path: '/cart',
         component: lazy(() => import('@pages/Cart/CartPage'))
+    },
+    {
+        path: '/product/:id',
+        component: lazy(() => import('@pages/ProductDetail/ProductDetail'))
     },
 ];
 

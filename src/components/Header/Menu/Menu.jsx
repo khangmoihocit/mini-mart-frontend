@@ -27,15 +27,15 @@ const Menu = ({ content, href }) => {
     };
 
     const handleRenderText = content => {
-        if (content === 'Sign in' && userInfo) {
-            return `Hello: ${userInfo?.username}`;
+        if (content === 'Đăng nhập' && userInfo) {
+            return `Xin chào, ${userInfo?.fullName || 'Người ẩn danh chưa điền tên khi đăng ý à'}`;
         } else {
             return content;
         }
     };
 
     const handleHover = () => {
-        if (content === 'Sign in' && userInfo) {
+        if (content === 'Đăng nhập' && userInfo) {
             setIsShowSubMenu(true);
         }
     };

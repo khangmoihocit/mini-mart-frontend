@@ -38,7 +38,7 @@ const HomePage = () => {
                 <AdvanceHeadling />
                 <HeadlingListProduct data={listProducts.slice(0, 2)} />
                 <PopularProduct
-                    data={listProducts.slice(2, listProducts.length)}
+                    data={listProducts.slice(2, 50)}
                 />
                 <SaleHomePage />
                 <Footer />

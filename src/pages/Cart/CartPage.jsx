@@ -119,6 +119,7 @@ const CartPage = () => {
                         />
                     </div>
                 </MainLayout>
+                <Footer />
             </>
         );
     }
