@@ -4,6 +4,7 @@ import { SideBarContext } from '@/contexts/SidebarProvider';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '@/contexts/StoreProvider';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
 const Menu = ({ content, href }) => {
     const { menu, subMenu } = styles;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from './styles.module.scss';
-import logo from '@icons/svgs/logo.svg';
+// import logo from '@icons/svgs/logo.svg';
 import { BiArrowToLeft } from 'react-icons/bi';
 import { AdminContext } from '@/contexts/AdminProvider';
 import classNames from 'classnames';
@@ -31,7 +31,8 @@ const Sidebar = () => {
         >
             <div className={sectionTop}>
                 <a href='/admin'>
-                    <img src={logo} alt='logo'/>
+                    {/* <img src={logo} alt='logo'/> */}
+                    Shop quần áo
                 </a>
                 <div className={iconToggle}>
                     {isOpenSidebar && (

@@ -224,6 +224,12 @@ function DetailProduct() {
     };
 
     useEffect(() => {
+        // Scroll to top khi vào trang
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
         if (param.id) {
             fetchDataDetail(param.id);
             fetchDataRelatedProduct(param.id);

@@ -11,6 +11,7 @@ export const SideBarProvider = ({ children }) => {
     const [listProductCart, setListProductCart] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [cartCount, setCartCount] = useState(0);
+    const [detailProduct, setDetailProduct] = useState(null);
 
     const handleGetListProducCart = async (userId, type) => {
         if (userId && type === 'cart') {       
@@ -49,7 +50,9 @@ export const SideBarProvider = ({ children }) => {
         listProductCart,
         isLoading,
         cartCount,
-        updateCartCount
+        updateCartCount,
+        detailProduct,
+        setDetailProduct
     };
 
     useEffect(() => {

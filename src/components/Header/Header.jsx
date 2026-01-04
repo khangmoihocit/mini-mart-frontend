@@ -11,6 +11,7 @@ import useScrollHandling from '@/hooks/useScrollHandling';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SidebarProvider';
 import { useNavigate } from 'react-router-dom';
+import { WishlistContext } from '@/contexts/WishlistProvider';
 
 const Header = () => {
     const {
@@ -30,7 +31,7 @@ const Header = () => {
 
     const { isOpen, setIsOpen, setType, listProductCart } =
         useContext(SideBarContext);
-
+    const { wishlist } = useContext(WishlistContext);
     const navigate = useNavigate();
 
     const handleOpenSideBar = type => {
@@ -92,10 +93,15 @@ const Header = () => {
                             style={{ fontSize: '20px' }}
                             onClick={() => handleOpenSideBar('compare')}
                         />
-                        <CiHeart
+                        <div className={boxCart}>
+                            <CiHeart
                             style={{ fontSize: '27px' }}
                             onClick={() => handleOpenSideBar('wishList')}
-                        />
+                            />
+                            <div className={quantity}>
+                                {wishlist.length}
+                            </div>
+                        </div>
                         <div className={boxCart}>
                             <PiShoppingCart
                                 style={{ fontSize: '25px' }}

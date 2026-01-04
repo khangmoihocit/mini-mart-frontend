@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import styles from './styles.module.scss';
 import { IoMdClose } from 'react-icons/io';
 import { SideBarContext } from '@/contexts/SidebarProvider';
+import { WishlistContext } from '@/contexts/WishlistProvider';
 import cartService from '@/apis/cartService';
 import { ToastContext } from '@/contexts/ToastProvider';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
@@ -22,12 +23,37 @@ const ItemProduct = ({
 }) => {
     const { container, boxContent, price, title, boxClose, size, overLoading } = styles;
     const { type, handleGetListProducCart } = useContext(SideBarContext);
+    const { removeFromWishlist } = useContext(WishlistContext);
     const isShowSize = type === 'cart' ? true : false;
     const { toast } = useContext(ToastContext);
     const [isDelete, setIsDelete] = useState(false);
     const baseUrlImg = "http://localhost:8081/images/";
 
     const handleRemoveItem = async () => {
+        // Xử lý xóa từ wishlist
+        if (type === 'wishList' || type === 'wishlist') {
+            if (!productId) {
+                toast.error('Không thể xóa sản phẩm');
+                return;
+            }
+
+            try {
+                setIsDelete(true);
+                const result = removeFromWishlist(productId);
+                if (result.success) {
+                    toast.success(result.message);
+                } else {
+                    toast.error(result.message);
+                }
+            } catch (error) {
+                toast.error('Có lỗi xảy ra khi xóa sản phẩm');
+            } finally {
+                setIsDelete(false);
+            }
+            return;
+        }
+
+        // Xử lý xóa từ cart
         if (!cartItemId) {
             toast.error('Không thể xóa sản phẩm');
             return;
