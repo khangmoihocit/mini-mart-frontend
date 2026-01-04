@@ -5,13 +5,32 @@
     @include mixins.flex_box_custom(space-between, center, 0px);
     flex-direction: column;
     padding: 30px 20px 0 20px;
-    height: 90%;
-    
+    height: 99%;
+
 
     .productList {
         flex-grow: 1;
-        overflow-y: auto; /* Tự động hiển thị thanh cuộn khi nội dung quá dài */
+        overflow-y: auto;
         overflow-x: hidden;
+        max-height: 100vh;
+        width: 100%;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     }
 
     .boxButton {
@@ -27,6 +46,10 @@
 
     .containerListProductCart {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        
+        justify-content: space-evenly;
 
         .overLoading {
             @include mixins.flex_box_custom(center, center, 0px);
@@ -39,29 +62,49 @@
         }
     }
 
-    .boxEmpty{
+    .boxEmpty {
         text-align: center;
         font-size: 14px;
         color: vars.$four_color;
         margin-top: 30px;
 
-        .textEmpty{
+        .textEmpty {
             // margin-bottom: 20px;
         }
 
-        .boxBtnEmpty{
+        .boxBtnEmpty {
             width: 162px;
             margin: 20px auto;
         }
     }
 
-    .containerListItem{
+    .containerListItem {
         @include mixins.flex_box_custom(space-between, unset, 0px);
         flex-direction: column;
         flex-grow: 1;
+        overflow-y: auto;
+        max-height: 100%;
+        width: 100%;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
     }
 }
 
-.isEmpty{
+.isEmpty {
     justify-content: unset;
 }
