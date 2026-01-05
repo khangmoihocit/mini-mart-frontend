@@ -8,6 +8,7 @@ import { ToastContext } from '@/contexts/ToastProvider';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 import { formatErrorMessage } from '@/utils/helpers';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const ItemProduct = ({
     src,
@@ -22,12 +23,13 @@ const ItemProduct = ({
     imageUrl
 }) => {
     const { container, boxContent, price, title, boxClose, size, overLoading } = styles;
-    const { type, handleGetListProducCart } = useContext(SideBarContext);
+    const { type, handleGetListProducCart, setIsOpen } = useContext(SideBarContext);
     const { removeFromWishlist } = useContext(WishlistContext);
     const isShowSize = type === 'cart' ? true : false;
     const { toast } = useContext(ToastContext);
     const [isDelete, setIsDelete] = useState(false);
     const baseUrlImg = "http://localhost:8081/images/";
+    const navigate = useNavigate();
 
     const handleRemoveItem = async () => {
         // Xử lý xóa từ wishlist
@@ -78,7 +80,10 @@ const ItemProduct = ({
     const displayImage = imageUrl || src;
 
     return (
-        <div className={container}>
+        <div className={container} onClick={()=> {
+            navigate(`/product/${productId}`);
+            setIsOpen(false);
+        }}>
             <img src={displayImage.startsWith('http') ? displayImage : `${baseUrlImg}${displayImage}`} alt='' />
             <div className={boxClose} onClick={handleRemoveItem}>
                 <IoMdClose style={{ fontSize: '20px', color: '#c1c1c1' }} />
