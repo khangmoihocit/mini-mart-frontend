@@ -32,7 +32,7 @@ export const sidebarMenu = [
                 icon: <LuClipboardList />,
                 children: [
                     {
-                        id: 'order-list',
+                        id: 'order-management',
                         label: 'Danh sách đơn hàng'
                     }
                 ]

@@ -15,6 +15,7 @@ import ProductAdd from '@/pages/Admin/components/Product/ProductAdd/ProductAdd';
 import ProductUpdate from '@/pages/Admin/components/Product/ProductUpdate/ProductUpdate';
 import FormLogin from '@/pages/Login/components/FormLogin';
 import ReviewManagement from '@/pages/Admin/components/Review/ReviewManagement';
+import OrderManagement from '@/pages/Admin/components/OrderManagement';
 
 
 const MainContent = () => {
@@ -33,6 +34,8 @@ const MainContent = () => {
         switch (type) {
             case 'dashboard':
                 return <DashBoard />;
+            case 'order-management':
+                return <OrderManagement />;
             case 'product-list':
                 return <ProductList />;
             case 'product-add':
