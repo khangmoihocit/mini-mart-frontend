@@ -25,6 +25,14 @@ const routers = [
         path: '/product/:id',
         component: lazy(() => import('@pages/DetailProduct/index'))
     },
+    {
+        path: '/my-orders',
+        component: lazy(() => import('@pages/MyOrders/MyOrders'))
+    },
+    {
+        path: '/order/:orderId',
+        component: lazy(() => import('@pages/OrderDetail/OrderDetail'))
+    },
 ];
 
 export default routers;

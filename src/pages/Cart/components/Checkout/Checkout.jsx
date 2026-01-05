@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import styles from './Styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+import { StepperContext } from '@/contexts/SteperProvider';
 import { toast } from 'react-toastify';
 
 const CN_BASE = 'https://countriesnow.space/api/v0.1';
@@ -24,6 +25,7 @@ function Checkout() {
   
   const navigate = useNavigate();
   const { cartData, setCartData } = useContext(SideBarContext);
+  const { setCurrentStep } = useContext(StepperContext);
 
   const {
     register,
@@ -75,8 +77,9 @@ function Checkout() {
       
       toast.success('Đặt hàng thành công!');
       
-      // Navigate đến trang chi tiết đơn hàng
-      navigate(`/order/${orderResult.id}`);
+      // Chuyển sang step 3 với orderId trong URL
+      setCurrentStep(3);
+      navigate(`/cart?step=3&orderId=${orderResult.id}`, { replace: true });
     } catch (error) {
       console.error('Error creating order:', error);
       const errorMessage = error.response?.data?.message || 'Đặt hàng thất bại. Vui lòng thử lại!';
