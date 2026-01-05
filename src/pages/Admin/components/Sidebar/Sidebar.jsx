@@ -6,6 +6,10 @@ import { AdminContext } from '@/contexts/AdminProvider';
 import classNames from 'classnames';
 import { sidebarMenu } from '../../../../constants/dataSidebar.jsx';
 import MenuItem from '../MenuItem/MenuItem';
+import Button from '@/components/Button/Button';
+import { toast } from 'react-toastify';
+import { formatErrorMessage } from '@/utils/helpers';
+import authService from '@/apis/authService';
 
 const Sidebar = () => {
     const {
@@ -23,6 +27,16 @@ const Sidebar = () => {
         setIsOpenSidebar(prev => !prev);
     }
 
+    const generateData = async () => {
+        try{
+            const response = await authService.fakeData();
+            toast.success(response.data.message);
+            window.location.reload();
+        }catch(err){
+            toast.error(formatErrorMessage(err));
+        }
+    }
+
     return (
         <div
             className={classNames(containerSidebarMain, {
@@ -34,6 +48,7 @@ const Sidebar = () => {
                     {/* <img src={logo} alt='logo'/> */}
                     Shop quần áo
                 </a>
+                <Button onClick={generateData} content={'Tạo nhanh 100 sản phẩm'}/>
                 <div className={iconToggle}>
                     {isOpenSidebar && (
                         <BiArrowToLeft
