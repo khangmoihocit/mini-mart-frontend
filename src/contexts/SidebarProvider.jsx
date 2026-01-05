@@ -9,6 +9,7 @@ export const SideBarProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [type, setType] = useState('');
     const [listProductCart, setListProductCart] = useState([]);
+    const [cartData, setCartData] = useState({ items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 });
     const [isLoading, setIsLoading] = useState(false);
     const [cartCount, setCartCount] = useState(0);
     const [detailProduct, setDetailProduct] = useState(null);
@@ -18,11 +19,14 @@ export const SideBarProvider = ({ children }) => {
             setIsLoading(true);
             try {
                 const response = await cartService.getCart();
-                setListProductCart(response.data.result.items || []);
-                setCartCount(response.data.result.totalItems || 0);
+                const result = response.data.result || { items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 };
+                setListProductCart(result.items || []);
+                setCartData(result);
+                setCartCount(result.totalItems || 0);
             } catch (error) {
                 console.error('Error loading cart:', error);
                 setListProductCart([]);
+                setCartData({ items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 });
                 setCartCount(0);
             } finally {
                 setIsLoading(false);
@@ -48,7 +52,10 @@ export const SideBarProvider = ({ children }) => {
         setType,
         handleGetListProducCart,
         listProductCart,
+        cartData,
+        setCartData,
         isLoading,
+        setIsLoading,
         cartCount,
         updateCartCount,
         detailProduct,

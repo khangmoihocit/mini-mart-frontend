@@ -19,7 +19,7 @@ const routers = [
     },
     {
         path: '/cart',
-        component: lazy(() => import('@pages/Cart/CartPage'))
+        component: lazy(() => import('@pages/Cart/Cart'))
     },
     {
         path: '/product/:id',

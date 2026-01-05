@@ -80,15 +80,18 @@ const ItemProduct = ({
     const displayImage = imageUrl || src;
 
     return (
-        <div className={container} onClick={()=> {
+        <div className={container} >
+            <img onClick={()=> {
             navigate(`/product/${productId}`);
             setIsOpen(false);
-        }}>
-            <img src={displayImage.startsWith('http') ? displayImage : `${baseUrlImg}${displayImage}`} alt='' />
+        }} src={displayImage.startsWith('http') ? displayImage : `${baseUrlImg}${displayImage}`} alt='' />
             <div className={boxClose} onClick={handleRemoveItem}>
                 <IoMdClose style={{ fontSize: '20px', color: '#c1c1c1' }} />
             </div>
-            <div className={boxContent}>
+            <div className={boxContent} onClick={()=> {
+            navigate(`/product/${productId}`);
+            setIsOpen(false);
+        }}>
                 <div className={title}>{nameProduct}</div>
                 {isShowSize && sizeProduct && <div className={size}>Size: {sizeProduct}</div>}
                 <div className={price}>

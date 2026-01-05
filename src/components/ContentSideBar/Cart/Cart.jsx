@@ -92,7 +92,9 @@ const Cart = () => {
                             <p>{formatCurrency(subTotal)}</p>
                         </div>
                         <div className={boxButton}>
-                            <Button content={'XEM GIỎ HÀNG'} onClick={() => navigate('/cart')} />
+                            <Button content={'XEM GIỎ HÀNG'} onClick={() => {navigate('/cart');
+                            setIsOpen(false);
+                            }} />
                             <Button content={'THANH TOÁN'} isPrimary={false} />
                         </div>
                     </div>

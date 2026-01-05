@@ -167,6 +167,9 @@ const ProductItem = ({
     };
 
     const baseUrlImg = "http://localhost:8081/images/"
+    // Ưu tiên salePrice nếu có, không thì dùng price
+    const displayPrice = details.salePrice || details.price;
+    const hasDiscount = details.salePrice && details.salePrice < details.price;
 
     return (
         <div
@@ -245,7 +248,16 @@ const ProductItem = ({
                         color: isHomePage ? '#333' : '#888'
                     }}
                 >
-                    {price}đ
+                    {/* {price.toLocaleString()} đ */}
+                    {hasDiscount && (
+                        <span style={{ textDecoration: 'line-through', color: '#999', marginRight: '8px' }}>
+                            {details.price.toLocaleString()} đ
+                        </span>
+                    )}
+                    <span style={{ color: hasDiscount ? '#e53935' : 'inherit', fontWeight: hasDiscount ? 'bold' : 'normal' }}>
+                        {displayPrice.toLocaleString()} đ
+                    </span>
+                    
                 </div>
                 {!isHomePage && (
                     <div
