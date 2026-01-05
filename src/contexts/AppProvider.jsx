@@ -5,9 +5,11 @@ import { CategoryProvider } from '@/contexts/CategoryProvider';
 import { SideBarProvider } from '@/contexts/SidebarProvider';
 import { StoreProvider } from '@/contexts/StoreProvider';
 import { OurShopProvider } from '@/contexts/OurShopProvider';
+import { StepperProvider } from '@/contexts/SteperProvider';
 
 export const AppProvider = ({ children }) => {
     return (
+        <StepperProvider>
         <StoreProvider>
             <OurShopProvider>
                 <SideBarProvider>
@@ -23,5 +25,6 @@ export const AppProvider = ({ children }) => {
             </SideBarProvider>
             </OurShopProvider>
         </StoreProvider>
+        </StepperProvider>
     );
 };

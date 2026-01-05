@@ -3,27 +3,27 @@ import RightBody from '@/pages/Cart/components/Checkout/RightBody';
 import InputCustom from '@components/InputCommon/InputCustom';
 import axios from 'axios';
 import cls from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './Styles.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { toast } from 'react-toastify';
 
 const CN_BASE = 'https://countriesnow.space/api/v0.1';
 
 function Checkout() {
-  const dataOptions = [
-    { value: '1', label: 'Option 1' },
-    { value: '2', label: 'Option 2' },
-    { value: '3', label: 'Option 3' },
-  ];
-
   const { container, title, coupon, leftBody, rightBody, row, row2Column } =
     styles;
 
-  const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [states, setStates] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState('Thanh toán khi nhận hàng');
+  const [shippingMethod] = useState('Giao hàng tiêu chuẩn');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const navigate = useNavigate();
+  const { cartData, setCartData } = useContext(SideBarContext);
 
   const {
     register,
@@ -34,50 +34,71 @@ function Checkout() {
   const formRef = useRef();
 
   const handleExternalSubmit = () => {
-    formRef.current.requestSubmit(); // hoặc formRef.current.dispatchEvent(new Event('submit'))
+    formRef.current.requestSubmit();
   };
 
   const onSubmit = async (data) => {
+    if (isSubmitting) return;
+    
+    // Kiểm tra giỏ hàng có sản phẩm không
+    if (!cartData?.items || cartData.items.length === 0) {
+      toast.error('Giỏ hàng của bạn trống!');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      const res = await createOrder(data);
-      navigate(
-        `/order?id=${res.data.data._id}&totalAmount=${res.data.data.totalAmount}`
-      );
+      // Map form data theo đúng format API
+      const orderData = {
+        fullName: `${data.firstName} ${data.lastName}`.trim(),
+        email: data.email,
+        phoneNumber: data.phone,
+        shippingAddress: [
+          data.street,
+          data.state,
+          data.cities,
+          'Việt Nam'
+        ].filter(Boolean).join(', '),
+        note: data.note || '',
+        shippingMethod: shippingMethod,
+        paymentMethod: paymentMethod
+      };
+
+      const res = await createOrder(orderData);
+      
+      // API trả về response.data.result
+      const orderResult = res.data.result;
+      
+      // Xóa giỏ hàng local (backend đã xóa)
+      setCartData({ items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 });
+      
+      toast.success('Đặt hàng thành công!');
+      
+      // Navigate đến trang chi tiết đơn hàng
+      navigate(`/order/${orderResult.id}`);
     } catch (error) {
-      console.log(error);
+      console.error('Error creating order:', error);
+      const errorMessage = error.response?.data?.message || 'Đặt hàng thất bại. Vui lòng thử lại!';
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  // Load danh sách tỉnh/thành phố Việt Nam
   useEffect(() => {
-    axios.get(`${CN_BASE}/countries/iso`).then((res) =>
-      setCountries(
-        res.data.data.map((c) => ({
-          value: c.name,
-          label: c.name,
-        }))
-      )
-    );
-  }, []);
-
-  useEffect(() => {
-    if (!watch('country')) return;
-
-    if (watch('country') === 'Vietnam' && !localStorage.getItem('listCities')) {
+    if (!localStorage.getItem('listCities')) {
       axios.get('https://provinces.open-api.vn/api/?depth=2').then((res) => {
         localStorage.setItem('listCities', JSON.stringify(res.data));
-
         setCities(
-          res.data.data.map((item) => ({
+          res.data.map((item) => ({
             label: item.name,
             value: item.codename,
           }))
         );
       });
-
-      return;
-    }
-
-    if (localStorage.getItem('listCities')) {
+    } else {
       const data = JSON.parse(localStorage.getItem('listCities'));
       setCities(
         data.map((item) => ({
@@ -86,7 +107,7 @@ function Checkout() {
         }))
       );
     }
-  }, [watch('country')]);
+  }, []);
 
   useEffect(() => {
     if (!watch('cities')) return;
@@ -107,16 +128,12 @@ function Checkout() {
   return (
     <div className={container}>
       <div className={leftBody}>
-        <p className={coupon}>
-          Have a coupon? <span>Click here to enter</span>
-        </p>
-
-        <p className={title}>BILLING DETAILS</p>
+        <p className={title}>THÔNG TIN GIẢO HÀNG</p>
 
         <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
           <div className={cls(row, row2Column)}>
             <InputCustom
-              label={'First Name'}
+              label={'Họ'}
               type={'text'}
               isRequired
               register={register('firstName', {
@@ -126,7 +143,7 @@ function Checkout() {
               isError={errors.firstName}
             />
             <InputCustom
-              label={'Last Name'}
+              label={'Tên'}
               type={'text'}
               isRequired
               register={register('lastName', {
@@ -137,30 +154,32 @@ function Checkout() {
             />
           </div>
 
-          <div className={row}>
+          <div className={cls(row, row2Column)}>
             <InputCustom
-              label={'Company Name (optional)'}
+              label={'Số điện thoại'}
               type={'text'}
-              register={register('companyName')}
-              // isError={errors.companyName}
-            />
-          </div>
-
-          <div className={row}>
-            <InputCustom
-              label={'Country / Region'}
-              dataOptions={countries}
               isRequired
-              register={register('country', {
+              register={register('phone', {
                 required: true,
+                pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
               })}
-              isError={errors.country}
+              isError={errors.phone}
+            />
+            <InputCustom
+              label={'Email'}
+              type={'email'}
+              isRequired
+              register={register('email', {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+              isError={errors.email}
             />
           </div>
 
           <div className={row}>
             <InputCustom
-              label={'Street address'}
+              label='Địa chỉ chi tiết (Số nhà, tên đường)'
               type={'text'}
               isRequired
               register={register('street', {
@@ -170,18 +189,9 @@ function Checkout() {
             />
           </div>
 
-          <div className={row}>
+          <div className={cls(row, row2Column)}>
             <InputCustom
-              label={'apartment'}
-              type={'text'}
-              isShowlabel={false}
-              register={register('apartment')}
-            />
-          </div>
-
-          <div className={row}>
-            <InputCustom
-              label={'Town / City'}
+              label={'Tỉnh / Thành phố'}
               dataOptions={cities}
               isRequired
               register={register('cities', {
@@ -189,11 +199,8 @@ function Checkout() {
               })}
               isError={errors.cities}
             />
-          </div>
-
-          <div className={row}>
             <InputCustom
-              label={'State'}
+              label={'Quận / Huyện'}
               dataOptions={states}
               isRequired
               register={register('state', {
@@ -205,37 +212,9 @@ function Checkout() {
 
           <div className={row}>
             <InputCustom
-              label={'Phone'}
+              label={'Ghi chú (đặt hàng)'}
               type={'text'}
-              isRequired
-              register={register('phone', {
-                required: true,
-              })}
-              isError={errors.phone}
-            />
-          </div>
-
-          <div className={row}>
-            <InputCustom
-              label={'ZIP code'}
-              type={'text'}
-              isRequired
-              register={register('zipCode', {
-                required: true,
-              })}
-              isError={errors.zipCode}
-            />
-          </div>
-
-          <div className={row}>
-            <InputCustom
-              label={'Email Address'}
-              type={'text'}
-              isRequired
-              register={register('email', {
-                required: true,
-              })}
-              isError={errors.email}
+              register={register('note')}
             />
           </div>
 
@@ -243,7 +222,12 @@ function Checkout() {
         </form>
       </div>
 
-      <RightBody handleExternalSubmit={handleExternalSubmit} />
+      <RightBody 
+        handleExternalSubmit={handleExternalSubmit} 
+        paymentMethod={paymentMethod}
+        setPaymentMethod={setPaymentMethod}
+        isSubmitting={isSubmitting}
+      />
     </div>
   );
 }

@@ -51,7 +51,7 @@ const CartSummary = () => {
           onClick={handleProcessCheckout}
         />
         <div className={space} />
-        <Button content={'TIẾP TỤC MUA SẮM'} isPriamry={false} />
+        <Button content={'TIẾP TỤC MUA SẮM'} onClick={() => window.location.href = '/shop'} isPrimary={false} />
         {isLoading && <LoadingCart />}
       </div>
 

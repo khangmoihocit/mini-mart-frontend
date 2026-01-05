@@ -2,9 +2,9 @@ import { apiPrivate } from '@apis/axiosClient';
 
 export default class orderService {
     /**
-     * Tạo đơn hàng mới
+     * Tạo đơn hàng mới từ giỏ hàng
      * POST /api/v1/orders
-     * @param {Object} data - Thông tin đơn hàng
+     * @param {Object} data - { fullName, email, phoneNumber, shippingAddress, note, shippingMethod, paymentMethod }
      * @returns {Promise}
      */
     static createOrder = async (data) => {
@@ -12,12 +12,14 @@ export default class orderService {
     };
 
     /**
-     * Lấy danh sách đơn hàng của user
-     * GET /api/v1/orders
+     * Lấy danh sách đơn hàng của tôi (có phân trang)
+     * GET /api/v1/orders/my-orders
+     * @param {number} page - Số trang (default 1)
+     * @param {number} size - Số items mỗi trang (default 10)
      * @returns {Promise}
      */
-    static getOrders = async () => {
-        return await apiPrivate.get('/orders');
+    static getMyOrders = async (page = 1, size = 10) => {
+        return await apiPrivate.get(`/orders/my-orders?page=${page}&size=${size}`);
     };
 
     /**
@@ -54,7 +56,7 @@ export default class orderService {
 
 // Export named function để tương thích với code cũ
 export const createOrder = orderService.createOrder;
-export const getOrders = orderService.getOrders;
+export const getMyOrders = orderService.getMyOrders;
 export const getOrderById = orderService.getOrderById;
 export const cancelOrder = orderService.cancelOrder;
 export const updateOrderStatus = orderService.updateOrderStatus;

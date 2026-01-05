@@ -9,6 +9,8 @@ import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Footer from '@/components/Footer/Footer';
+import { StepperContext } from '@/contexts/SteperProvider';
+import { set } from 'react-hook-form';
 
 const Cart = () => {
     const {
@@ -26,7 +28,7 @@ const Cart = () => {
     } = styles;
 
     const navigate = useNavigate();
-
+    const { setCurrentStep } = useContext(StepperContext);
     const { listProductCart, isLoading, setIsOpen, handleGetListProducCart } = useContext(SideBarContext);
     
     // Calculate subtotal from cart items
@@ -94,8 +96,13 @@ const Cart = () => {
                         <div className={boxButton}>
                             <Button content={'XEM GIỎ HÀNG'} onClick={() => {navigate('/cart');
                             setIsOpen(false);
+                            setCurrentStep(1);
                             }} />
-                            <Button content={'THANH TOÁN'} isPrimary={false} />
+                            <Button content={'THANH TOÁN'} isPrimary={false} onClick={() => {
+                                navigate('/cart');
+                                setCurrentStep(2);
+                                setIsOpen(false);
+                                }} />
                         </div>
                     </div>
                 </div>
