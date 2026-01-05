@@ -33,6 +33,10 @@ const routers = [
         path: '/order/:orderId',
         component: lazy(() => import('@pages/OrderDetail/OrderDetail'))
     },
+    {
+        path: '/profile',
+        component: lazy(() => import('@pages/Profile/Profile'))
+    },
 ];
 
 export default routers;

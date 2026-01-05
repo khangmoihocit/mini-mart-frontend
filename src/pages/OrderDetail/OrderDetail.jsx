@@ -32,6 +32,10 @@ function OrderDetail() {
     if (orderId) {
       fetchOrderDetail();
     }
+    window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
   }, [orderId]);
 
   const handleCancelOrder = () => {

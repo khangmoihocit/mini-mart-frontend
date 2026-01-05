@@ -1,0 +1,313 @@
+.profile {
+    padding: 40px 0;
+    min-height: 500px;
+
+    .title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .loading,
+    .error {
+        text-align: center;
+        padding: 60px 0;
+        font-size: 18px;
+        color: #666;
+    }
+}
+
+.userCard {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .avatarSection {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            svg {
+                color: #fff;
+            }
+        }
+
+        .userBasicInfo {
+            flex: 1;
+
+            h2 {
+                font-size: 28px;
+                font-weight: 700;
+                margin: 0 0 8px 0;
+                color: #333;
+            }
+
+            .email {
+                color: #666;
+                font-size: 16px;
+                margin-bottom: 12px;
+                display: block;
+            }
+
+            .badges {
+                display: flex;
+                gap: 12px;
+                align-items: center;
+
+                span {
+                    padding: 6px 14px;
+                    border-radius: 20px;
+                    font-size: 13px;
+                    font-weight: 600;
+                }
+
+                .role {
+                    background: #e3f2fd;
+                    color: #2196f3;
+                }
+
+                .active {
+                    background: #e8f5e9;
+                    color: #4caf50;
+                }
+
+                .inactive {
+                    background: #ffebee;
+                    color: #f44336;
+                }
+            }
+        }
+    }
+}
+
+.infoSection {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .sectionTitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 24px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .infoGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+
+        .infoItem {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: #f0f0f0;
+            }
+
+            .icon {
+                font-size: 24px;
+                color: #667eea;
+                margin-top: 2px;
+            }
+
+            div {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                .label {
+                    font-size: 13px;
+                    color: #666;
+                    font-weight: 500;
+                }
+
+                .value {
+                    font-size: 15px;
+                    color: #333;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.actionsSection {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .sectionTitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 24px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .actionGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+
+        .actionBtn {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+
+          
+
+            .actionIcon {
+                font-size: 28px;
+                color: #667eea;
+                flex-shrink: 0;
+            }
+
+            div {
+                flex: 1;
+
+                h4 {
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #333;
+                    margin: 0 0 4px 0;
+                }
+
+                p {
+                    font-size: 13px;
+                    color: #666;
+                    margin: 0;
+                }
+            }
+
+            &.logoutBtn {
+                border-color: #ffebee;
+                background: #fff5f5;
+
+                &:hover {
+                    border-color: #f44336;
+                    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.15);
+                }
+
+                .actionIcon {
+                    color: #f44336;
+                }
+            }
+        }
+    }
+}
+
+.accountDetails {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .detailItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .detailLabel {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detailValue {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .profile {
+        padding: 20px 0;
+
+        .title {
+            font-size: 24px;
+        }
+    }
+
+    .userCard {
+        padding: 20px;
+
+        .avatarSection {
+            flex-direction: column;
+            text-align: center;
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+
+                svg {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+
+            .userBasicInfo {
+                h2 {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+
+    .infoSection,
+    .actionsSection,
+    .accountDetails {
+        padding: 20px;
+    }
+
+    .infoSection .infoGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .actionsSection .actionGrid {
+        grid-template-columns: 1fr;
+    }
+}

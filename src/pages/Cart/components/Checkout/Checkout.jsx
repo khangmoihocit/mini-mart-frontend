@@ -1,4 +1,5 @@
 import { createOrder } from '@/apis/orderService';
+import userService from '@/apis/userService';
 import RightBody from '@/pages/Cart/components/Checkout/RightBody';
 import InputCustom from '@components/InputCommon/InputCustom';
 import axios from 'axios';
@@ -30,6 +31,7 @@ function Checkout() {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm();
@@ -51,7 +53,6 @@ function Checkout() {
     setIsSubmitting(true);
 
     try {
-      // Map form data theo đúng format API
       const orderData = {
         fullName: `${data.firstName} ${data.lastName}`.trim(),
         email: data.email,
@@ -69,15 +70,12 @@ function Checkout() {
 
       const res = await createOrder(orderData);
       
-      // API trả về response.data.result
       const orderResult = res.data.result;
       
-      // Xóa giỏ hàng local (backend đã xóa)
       setCartData({ items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 });
       
       toast.success('Đặt hàng thành công!');
       
-      // Chuyển sang step 3 với orderId trong URL
       setCurrentStep(3);
       navigate(`/cart?step=3&orderId=${orderResult.id}`, { replace: true });
     } catch (error) {
@@ -89,8 +87,48 @@ function Checkout() {
     }
   };
 
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const response = await userService.getMyInfo();
+        if (response.data.code === 0) {
+          const user = response.data.result;
+          
+          // Tách họ và tên
+          if (user.fullName) {
+            const nameParts = user.fullName.trim().split(' ');
+            if (nameParts.length >= 2) {
+              setValue('firstName', nameParts[0]);
+              setValue('lastName', nameParts.slice(1).join(' '));
+            } else {
+              setValue('firstName', user.fullName);
+            }
+          }
+          
+          // Điền email và số điện thoại
+          if (user.email) setValue('email', user.email);
+          if (user.phoneNumber) setValue('phone', user.phoneNumber);
+          
+          // Điền địa chỉ nếu có
+          if (user.address) {
+            setValue('street', user.address);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    };
+
+    fetchUserInfo();
+  }, [setValue]);
+
+  // Load 
   // Load danh sách tỉnh/thành phố Việt Nam
   useEffect(() => {
+    window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     if (!localStorage.getItem('listCities')) {
       axios.get('https://provinces.open-api.vn/api/?depth=2').then((res) => {
         localStorage.setItem('listCities', JSON.stringify(res.data));
@@ -146,17 +184,11 @@ function Checkout() {
               isError={errors.firstName}
             />
             <InputCustom
-              label={'Tên'}
+                label={'Ghi chú (đặt hàng)'}
               type={'text'}
-              isRequired
-              register={register('lastName', {
-                required: true,
-                maxLength: 25,
-              })}
-              isError={errors.lastName}
+              register={register('note')}
             />
           </div>
-
           <div className={cls(row, row2Column)}>
             <InputCustom
               label={'Số điện thoại'}
@@ -214,11 +246,7 @@ function Checkout() {
           </div>
 
           <div className={row}>
-            <InputCustom
-              label={'Ghi chú (đặt hàng)'}
-              type={'text'}
-              register={register('note')}
-            />
+            
           </div>
 
           {/* <button type="submit">Submit</button> */}

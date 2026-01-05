@@ -43,6 +43,10 @@ function MyOrders() {
 
   useEffect(() => {
     fetchOrders();
+    window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
   }, []);
 
   const handleViewDetail = (orderId) => {

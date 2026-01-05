@@ -18,6 +18,10 @@ const Menu = ({ content, href }) => {
             navigate('/login');
         }
 
+        if (content === 'Đăng nhập' && userInfo) {
+            navigate('/profile');
+        }
+
         if (content === 'Sản phẩm') {
             navigate('/shop');
         }
@@ -56,13 +60,16 @@ const Menu = ({ content, href }) => {
             className={menu}
             onClick={handleClickShowLogin}
             onMouseEnter={handleHover}
+            onMouseLeave={() => setIsShowSubMenu(false)}
         >
             {handleRenderText(content)}
             {isShowSubMenu && (
                 <div
-                    onMouseLeave={() => setIsShowSubMenu(false)}
                     className={subMenu}
-                    onClick={handleLogOut}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleLogOut();
+                    }}
                 >
                     LOG OUT
                 </div>
