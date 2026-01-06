@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '@/contexts/StoreProvider';
 import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
-const Menu = ({ content, href }) => {
+const Menu = ({ content, href, onSearchClick }) => {
     const { menu, subMenu } = styles;
     const [isShowSubMenu, setIsShowSubMenu] = useState(false);
     const { setIsOpen, setType } = useContext(SideBarContext);
@@ -36,6 +36,12 @@ const Menu = ({ content, href }) => {
 
         if(content === 'Liên hệ') {
             navigate('/contact');
+        }
+
+        if(content === 'Tìm kiếm'){
+            if (onSearchClick) {
+                onSearchClick();
+            }
         }
     };
 

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import BoxIcon from '@components/Header/BoxIcon/BoxIcon';
 import Menu from '@components/Header/Menu/Menu';
+import SearchBar from '@components/Header/SearchBar/SearchBar';
 import { dataBoxIcon, dataMenu } from '@components/Header/constants';
 import styles from './styles.module.scss';
 import Logo from '@/assets/icons/images/Logo-retina.webp';
@@ -29,6 +30,7 @@ const Header = () => {
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
 
     const { isOpen, setIsOpen, setType, listProductCart } =
         useContext(SideBarContext);
@@ -38,6 +40,14 @@ const Header = () => {
     const handleOpenSideBar = type => {
         setIsOpen(true);
         setType(type);
+    };
+
+    const handleOpenSearch = () => {
+        setIsSearchOpen(true);
+    };
+
+    const handleCloseSearch = () => {
+        setIsSearchOpen(false);
     };
 
     useEffect(() => {
@@ -60,9 +70,13 @@ const Header = () => {
                         })}
                     </div>
                     <div className={containerMenu}>
-                        {dataMenu.slice(0, 3).map(item => {
+                        {dataMenu.slice(0, 3).map((item, index) => {
                             return (
-                                <Menu content={item.content} href={item.href} />
+                                <Menu 
+                                    key={index}
+                                    content={item.content} 
+                                    href={item.href}
+                                />
                             );
                         })}
                     </div>
@@ -83,9 +97,14 @@ const Header = () => {
                 </div>
                 <div className={containerBox}>
                     <div className={containerMenu}>
-                        {dataMenu.slice(3, dataMenu.length).map(item => {
+                        {dataMenu.slice(3, dataMenu.length).map((item, index) => {
                             return (
-                                <Menu content={item.content} href={item.href} />
+                                <Menu 
+                                    key={index}
+                                    content={item.content} 
+                                    href={item.href}
+                                    onSearchClick={handleOpenSearch}
+                                />
                             );
                         })}
                     </div>
@@ -115,6 +134,8 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+            
+            <SearchBar isOpen={isSearchOpen} onClose={handleCloseSearch} />
         </div>
     );
 };
