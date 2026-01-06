@@ -1,5 +1,6 @@
 import { createOrder } from '@/apis/orderService';
 import userService from '@/apis/userService';
+import Cookies from 'js-cookie';
 import RightBody from '@/pages/Cart/components/Checkout/RightBody';
 import InputCustom from '@components/InputCommon/InputCustom';
 import axios from 'axios';
@@ -25,7 +26,7 @@ function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const navigate = useNavigate();
-  const { cartData, setCartData } = useContext(SideBarContext);
+  const { cartData, setCartData, setListProductCart, handleGetListProducCart, updateCartCount } = useContext(SideBarContext);
   const { setCurrentStep } = useContext(StepperContext);
 
   const {
@@ -72,7 +73,12 @@ function Checkout() {
       
       const orderResult = res.data.result;
       
-      setCartData({ items: [], totalAmount: 0, totalItems: 0, totalQuantity: 0 });
+      // Load lại giỏ hàng sau khi đặt hàng thành công
+      const userId = Cookies.get('userId');
+      if (userId) {
+        await handleGetListProducCart(userId, 'cart');
+        await updateCartCount();
+      }
       
       toast.success('Đặt hàng thành công!');
       
@@ -96,13 +102,8 @@ function Checkout() {
           
           // Tách họ và tên
           if (user.fullName) {
-            const nameParts = user.fullName.trim().split(' ');
-            if (nameParts.length >= 2) {
-              setValue('firstName', nameParts[0]);
-              setValue('lastName', nameParts.slice(1).join(' '));
-            } else {
               setValue('firstName', user.fullName);
-            }
+ 
           }
           
           // Điền email và số điện thoại

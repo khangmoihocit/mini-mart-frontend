@@ -74,6 +74,7 @@ const CartTable = ({ cartData, getData, isLoading, getDataDelete }) => {
                                 <td>{item.id}</td>
                                 <td>
                                     <SelectBox
+                                        key={`${item.id}-${item.quantity}`}
                                         options={showOptions}
                                         getValue={(newQty) => handleQuantityChange(item.id, newQty)}
                                         type='show'

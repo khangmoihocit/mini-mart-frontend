@@ -5,6 +5,7 @@ import MyHeader from '@components/Header/Header';
 import MainLayout from '@components/Layout/Layout';
 import ContentStep from '@/pages/Cart/components/ContentStep';
 import styles from './styles.module.scss';
+import { use, useEffect } from 'react';
 
 function Cart() {
   const { container } = styles;

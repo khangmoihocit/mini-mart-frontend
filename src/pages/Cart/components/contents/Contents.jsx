@@ -24,66 +24,59 @@ function Contents() {
         cartData,
         setCartData,
         isLoading,
-        setIsLoading
+        setIsLoading,
+        handleGetListProducCart,
+        updateCartCount
     } = useContext(SideBarContext);
     const navigate = useNavigate();
     const userId = Cookies.get('userId');
 
-    const fetchCart = () => {
+    const fetchCart = async () => {
         if (!userId) return;
-        setIsLoading(true);
-        cartService.getCart()
-            .then((res) => {
-                // API trả về: { code, message, result: { items: [], totalAmount, ... } }
-                setCartData(res.data.result || { items: [], totalAmount: 0, totalItems: 0 });
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setCartData({ items: [], totalAmount: 0, totalItems: 0 });
-                setIsLoading(false);
-                console.log(err);
-            });
+        await handleGetListProducCart(userId, 'cart');
+        await updateCartCount();
     };
 
-    const handleReplaceQuantity = (cartItemId, quantity) => {
+    const handleReplaceQuantity = async (cartItemId, quantity) => {
         setIsLoading(true);
-        cartService.updateCartItem(cartItemId, { quantity })
-            .then((res) => {
-                // API trả về cart đầy đủ sau khi update
-                setCartData(res.data.result || { items: [], totalAmount: 0, totalItems: 0 });
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setIsLoading(false);
-                console.log(err);
-            });
+        try {
+            await cartService.updateCartItem(cartItemId, { quantity });
+            // Đồng bộ giỏ hàng sau khi cập nhật
+            await handleGetListProducCart(userId, 'cart');
+            await updateCartCount();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleDeleteItemCart = (cartItemId) => {
+    const handleDeleteItemCart = async (cartItemId) => {
         setIsLoading(true);
-        cartService.removeFromCart(cartItemId)
-            .then((res) => {
-                // API trả về cart đầy đủ sau khi xóa
-                setCartData(res.data.result || { items: [], totalAmount: 0, totalItems: 0 });
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setIsLoading(false);
-                console.log(err);
-            });
+        try {
+            await cartService.removeFromCart(cartItemId);
+            // Đồng bộ giỏ hàng sau khi xóa
+            await handleGetListProducCart(userId, 'cart');
+            await updateCartCount();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
-    const handleDeleteCart = () => {
+    const handleDeleteCart = async () => {
         setIsLoading(true);
-        cartService.clearCart()
-            .then((res) => {
-                setCartData({ items: [], totalAmount: 0, totalItems: 0 });
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setIsLoading(false);
-                console.log(err);
-            });
+        try {
+            await cartService.clearCart();
+            // Đồng bộ giỏ hàng sau khi xóa toàn bộ
+            await handleGetListProducCart(userId, 'cart');
+            await updateCartCount();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleNavigateToShop = () => {
