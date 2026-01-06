@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyHeader from '@components/Header/Header';
 import MyFooter from '@components/Footer/Footer';
 import MainLayout from '@components/Layout/Layout';
@@ -73,6 +73,13 @@ const Contact = () => {
       setTimeout(() => setSuccessMessage(''), 5000);
     }, 1000);
   };
+
+   useEffect(()=>{
+          window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+          });
+      }, []);
 
   return (
     <>

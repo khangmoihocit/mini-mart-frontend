@@ -126,16 +126,16 @@ function DetailProduct() {
         }
     };
 
-    const fetchDataRelatedProduct = async (id) => {
-        setIsLoading(true);
+    const fetchDataRelatedProduct = async (categoryId, currentProductId) => {
         try {
-            const data = await productService.getByCategoryId(id);
-            setRelatedData(data);
-            setIsLoading(false);
+            const response = await productService.getByCategoryId(categoryId);
+            // Lọc bỏ sản phẩm hiện tại khỏi danh sách sản phẩm liên quan
+            const filteredData = response.data.result.filter(product => product.id !== parseInt(currentProductId));
+            setRelatedData(filteredData);
+            console.log('relatedData', filteredData);
         } catch (error) {
             setRelatedData([]);
-            toast.error('Có lỗi khi tải dữ liệu');
-            setIsLoading(false);
+            toast.error('Có lỗi khi tải dữ liệu sản phẩm liên quan');
         }
     };
 
@@ -232,9 +232,15 @@ function DetailProduct() {
 
         if (param.id) {
             fetchDataDetail(param.id);
-            fetchDataRelatedProduct(param.id);
         }
     }, [param]);
+
+    useEffect(() => {
+        // Lấy sản phẩm liên quan khi có dữ liệu sản phẩm và categoryId
+        if (data?.category?.id && param.id) {
+            fetchDataRelatedProduct(data.category.id, param.id);
+        }
+    }, [data?.category?.id, param.id]);
 
     return (
         <div>
@@ -454,9 +460,9 @@ function DetailProduct() {
                         </>
                     )}
 
-                    {relatedData.length ? (
-                        <div>
-                            <h2>Related products</h2>
+                    {relatedData.length > 0 && (
+                        <div className={styles.relatedProducts}>
+                            <h2 className={styles.relatedTitle}>Sản Phẩm Liên Quan</h2>
 
                             <SliderCommon
                                 data={relatedData}
@@ -464,8 +470,6 @@ function DetailProduct() {
                                 showItem={4}
                             />
                         </div>
-                    ) : (
-                        <></>
                     )}
                 </MainLayout>
             </div>

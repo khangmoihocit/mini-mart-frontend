@@ -431,3 +431,18 @@
     align-items: center;
     background-color: #f7f7f7;
 }
+
+.relatedProducts {
+    margin-top: 60px;
+    padding: 40px 0;
+
+    .relatedTitle {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 40px;
+        color: $four_color;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}

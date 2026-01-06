@@ -3,6 +3,7 @@ import MyHeader from '@components/Header/Header';
 import MainLayout from '@components/Layout/Layout';
 import styles from './styles.module.scss';
 import Logos from '@/pages/AboutUs/components/Logos';
+import { use, useEffect } from 'react';
 
 function AboutUs() {
   const {
@@ -36,6 +37,13 @@ function AboutUs() {
       des: 'Với những năm kinh nghiệm trong ngành, Marseille04 Shop tự hào là địa chỉ tin cậy của hàng triệu khách hàng Việt Nam.',
     },
   ];
+
+ useEffect(()=>{
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
 
   return (
     <>
