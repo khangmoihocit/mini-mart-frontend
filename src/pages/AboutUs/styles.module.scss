@@ -1,0 +1,74 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+  padding-top: 83px;
+  height: 100vh;
+  
+  .functionBox {
+    @include flex_box_custom(space-between, center, 0px);
+    color: $seconddary_color;
+    font-size: 14px;
+    font-weight: 300;
+
+    .specialText {
+      color: $primary_color;
+      font-weight: 400;
+    }
+
+    .btnBack {
+      cursor: pointer;
+    }
+  }
+
+  .containerTitle {
+    margin-top: 66px;
+
+    .line {
+      width: 100%;
+      height: 2px;
+      border-top: 1px solid #e1e1e1;
+      border-bottom: 1px solid #e1e1e1;
+      position: relative;
+    }
+
+    .title {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      background-color: white;
+      padding: 0px 60px;
+
+      .textS {
+        font-size: 14px;
+        color: $thr_color;
+        text-transform: uppercase;
+      }
+
+      .textL {
+        font-size: 24px;
+        color: $primary_color;
+      }
+    }
+  }
+
+  .containerContent {
+    display: flex;
+    gap: 30px;
+    margin-top: 70px;
+
+    img {
+      width: 100%;
+      height: 390px;
+    }
+
+    .des {
+      font-size: 16px;
+      color: $thr_color;
+      margin-top: 25px;
+      font-weight: 300;
+    }
+  }
+}

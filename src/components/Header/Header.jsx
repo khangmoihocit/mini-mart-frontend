@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SidebarProvider';
 import { useNavigate } from 'react-router-dom';
 import { WishlistContext } from '@/contexts/WishlistProvider';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const {
@@ -91,7 +92,7 @@ const Header = () => {
                     <div className={containerBoxIcon}>
                         <TfiReload
                             style={{ fontSize: '20px' }}
-                            onClick={() => handleOpenSideBar('compare')}
+                            onClick={() => toast.info('Tinh năng đang phát triển')}
                         />
                         <div className={boxCart}>
                             <CiHeart

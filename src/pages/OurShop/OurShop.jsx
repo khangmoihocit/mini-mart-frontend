@@ -1,6 +1,6 @@
 import Header from '@components/Header/Header';
 import MainLayout from '@components/Layout/Layout';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from './styles.module.scss';
 import { useNavigate } from 'react-router-dom';
 import Banner from '@pages/OurShop/components/Banner';
@@ -15,6 +15,13 @@ const OurShop = () => {
     const handleBackPreviourPage = () => {
         navigate(-1);
     };
+
+    useEffect(()=>{
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
     return (
         <OurShopProvider>
             <Header />

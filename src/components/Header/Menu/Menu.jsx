@@ -29,6 +29,10 @@ const Menu = ({ content, href }) => {
         if (content === 'Trang chủ') {
             navigate('/');
         }
+
+        if(content === 'Về chúng tôi') {
+            navigate('/about-us');
+        }
     };
 
     const handleRenderText = content => {

@@ -46,7 +46,7 @@ const ListProduct = () => {
                             >
                                 <Button
                                     onClick={handleLoadMore}
-                                    content={isLoadMore ? <LoadingTextCommon /> : 'LOAD MORE PRODUCT'}
+                                    content={isLoadMore ? <LoadingTextCommon /> : 'TẢI THÊM SẢN PHẨM'}
                                 />
                             </div>
                         )}
