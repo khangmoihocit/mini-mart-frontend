@@ -33,6 +33,10 @@ const Menu = ({ content, href }) => {
         if(content === 'Về chúng tôi') {
             navigate('/about-us');
         }
+
+        if(content === 'Liên hệ') {
+            navigate('/contact');
+        }
     };
 
     const handleRenderText = content => {

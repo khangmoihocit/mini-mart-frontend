@@ -44,7 +44,7 @@ const InputCustom = ({
             )}
             
             {isError && (
-                <span className={error}>This field is required</span>
+                <span className={error}>Đây là trường bắt buộc</span>
             )}
         </div>
     );
