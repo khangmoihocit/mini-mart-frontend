@@ -32,7 +32,7 @@ export const sidebarMenu = [
                 icon: <LuClipboardList />,
                 children: [
                     {
-                        id: 'order-list',
+                        id: 'order-management',
                         label: 'Danh sách đơn hàng'
                     }
                 ]
@@ -85,17 +85,17 @@ export const sidebarMenu = [
                     }
                 ]
             },
-            {
-                id: 'role',
-                label: 'Quản lý Vai trò',
-                icon: <LuShieldCheck />,
-                children: [
-                    {
-                        id: 'role-list',
-                        label: 'Danh sách vai trò'
-                    }
-                ]
-            },
+            // {
+            //     id: 'role',
+            //     label: 'Quản lý Vai trò',
+            //     icon: <LuShieldCheck />,
+            //     children: [
+            //         {
+            //             id: 'role-list',
+            //             label: 'Danh sách vai trò'
+            //         }
+            //     ]
+            // },
             {
                 id: 'review',
                 label: 'Quản lý Đánh giá',
@@ -103,26 +103,26 @@ export const sidebarMenu = [
             }
         ]
     },
-    {
-        title: 'MARKETING',
-        items: [
-            {
-                id: 'coupon',
-                label: 'Quản lý Mã giảm giá',
-                icon: <LuTicket />,
-                children: [
-                    {
-                        id: 'coupon-list',
-                        label: 'Danh sách mã giảm giá'
-                    },
-                    {
-                        id: 'coupon-add',
-                        label: 'Tạo mã mới'
-                    }
-                ]
-            }
-        ]
-    },
+    // {
+    //     title: 'MARKETING',
+    //     items: [
+    //         {
+    //             id: 'coupon',
+    //             label: 'Quản lý Mã giảm giá',
+    //             icon: <LuTicket />,
+    //             children: [
+    //                 {
+    //                     id: 'coupon-list',
+    //                     label: 'Danh sách mã giảm giá'
+    //                 },
+    //                 {
+    //                     id: 'coupon-add',
+    //                     label: 'Tạo mã mới'
+    //                 }
+    //             ]
+    //         }
+    //     ]
+    // },
     {
         title: 'HỆ THỐNG',
         items: [

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles.module.scss';
 
-const SelectBox = ({options, getValue, type}) => {
+const SelectBox = ({options, getValue, type, defaultValue}) => {
     const {selectBox} = styles;
     return (
         <select
@@ -9,6 +9,7 @@ const SelectBox = ({options, getValue, type}) => {
                 getValue(e.target.value, type);
             }}
             className={selectBox}
+            defaultValue={defaultValue}
         >
             {options.map(option => {
                 return (

@@ -1,0 +1,448 @@
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    padding-top: 83px;
+
+    .navigateSection {
+        @include flex_box_custom(space-between, center, 0px);
+        color: $seconddary_color;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 10px 0px;
+    }
+
+    .contentSection {
+        @include flex_box_custom(unset, flex-start, 20px);
+
+        .imageBox {
+            max-width: 610px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .mainImageContainer {
+                width: 100%;
+                height: 450px;
+                overflow: hidden;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .mainImage {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    cursor: pointer;
+                }
+            }
+
+            .thumbnailsContainer {
+                display: flex;
+                gap: 10px;
+                overflow-x: auto;
+                padding: 5px 0;
+
+                &::-webkit-scrollbar {
+                    height: 5px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: #ddd;
+                    border-radius: 5px;
+                }
+
+                .thumbnail {
+                    min-width: 80px;
+                    width: 80px;
+                    height: 80px;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    transition: border-color 0.3s;
+
+                    &:hover {
+                        border-color: #999;
+                    }
+
+                    &.activeThumbnail {
+                        border-color: #333;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+
+        .infoBox {
+            flex-grow: 1;
+
+            h1 {
+                font-size: 24px;
+                margin-top: 0px;
+                font-weight: 400;
+                color: $four_color;
+            }
+
+            .price {
+                font-size: 20px;
+                color: $seconddary_color;
+            }
+
+            .description {
+                color: $thr_color;
+                font-weight: 400;
+            }
+
+            .titleSize {
+                margin-bottom: 8px;
+                font-weight: 400;
+                color: $thr_color;
+            }
+
+            .boxSize {
+                @include flex_box_custom(flex-start, center, 10px);
+
+                .size {
+                    @include flex_box_custom(center, center, 0px);
+
+                    border: 1px solid #e1e1e1;
+                    padding: 6px 10px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    color: $thr_color;
+                }
+
+                .active {
+                    border: 1px solid #555;
+                }
+            }
+
+            .functionInfo {
+                @include flex_box_custom(space-between, center, 20px);
+                margin-top: 20px;
+
+                .boxBtn {
+                    flex-grow: 1;
+                }
+
+                .incrementAmount {
+                    @include flex_box_custom(center, center, 0px);
+
+                    div {
+                        border: 1px solid #e1e1e1;
+                        padding: 8px 5px;
+                        color: $seconddary_color;
+                        cursor: pointer;
+                    }
+
+                    div:nth-child(2) {
+                        padding: 8px 10px;
+                        color: $thr_color;
+                        cursor: unset;
+                    }
+                }
+            }
+
+            .orSection {
+                @include flex_box_custom(center, center, 0px);
+                margin: 20px 0px;
+
+                div {
+                    width: 100%;
+                    height: 1px;
+                    background-color: #e1e1e1;
+                }
+
+                span {
+                    padding: 0px 10px;
+                    font-size: 12px;
+                    color: $four_color;
+                }
+            }
+
+            .addFunc {
+                @include flex_box_custom(unset, center, 10px);
+                margin: 30px 0px;
+
+                div {
+                    @include flex_box_custom(center, center, 0px);
+
+                    cursor: pointer;
+                    border: 1px solid #e1e1e1;
+                    border-radius: 50%;
+                    padding: 10px;
+
+                    svg {
+                        font-size: 30px;
+                    }
+                }
+
+                div:last-child {
+                    padding: 13px;
+
+                    svg {
+                        font-size: 25px;
+                    }
+                }
+            }
+
+            .info {
+                @include flex_box_custom(unset, flex-start, 10px);
+
+                margin: 20px 0px;
+                flex-direction: column;
+                color: $four_color;
+
+                span {
+                    color: $seconddary_color;
+                }
+            }
+        }
+    }
+}
+
+.containerInfo {
+    font-weight: 300;
+
+    div:last-child {
+        border-bottom: unset;
+    }
+
+    .itemInfo {
+        @include flex_box_custom(flex-start, center, 0px);
+
+        border-bottom: 1px solid #e1e1e1;
+        padding: 15px 0px;
+
+        div {
+            width: 50%;
+        }
+
+        .title {
+            color: $seconddary_color;
+        }
+
+        .content {
+            color: $thr_color;
+        }
+    }
+}
+
+.containerReview {
+    .reviews {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e1e1e1;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .noreview {
+        font-size: 14px;
+        color: $thr_color;
+        margin: 20px 0;
+    }
+
+    .statsContainer {
+        display: flex;
+        gap: 40px;
+        padding: 30px 0;
+        border-bottom: 1px solid #e1e1e1;
+        margin-bottom: 30px;
+
+        .statsLeft {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+        }
+
+        .statsRight {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+
+            .ratingBar {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 14px;
+
+                span:first-child {
+                    min-width: 50px;
+                    color: #666;
+                }
+
+                span:last-child {
+                    min-width: 40px;
+                    text-align: right;
+                    color: #666;
+                }
+
+                .ratingBarFill {
+                    flex: 1;
+                    height: 8px;
+                    background: #e0e0e0;
+                    border-radius: 4px;
+                    overflow: hidden;
+
+                    .fill {
+                        height: 100%;
+                        background: #ffc107;
+                        transition: width 0.3s ease;
+                    }
+                }
+            }
+        }
+    }
+
+    .reviewsList {
+        margin-bottom: 30px;
+    }
+
+    .loadingText {
+        text-align: center;
+        padding: 40px 0;
+        color: #666;
+        font-size: 16px;
+    }
+
+    .replyForm {
+        padding-top: 30px;
+        border-top: 1px solid #e1e1e1;
+
+        .commentReplyTitle {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e1e1e1;
+            color: $thr_color;
+        }
+
+        .commentTotes {
+            font-size: 14px;
+            color: $thr_color;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .commentFormCookiesConsent {
+                display: flex;
+                align-items: flex-start;
+                gap: 5px;
+
+                input {
+                    margin-top: 3px;
+                }
+
+                span {
+                    color: $thr_color;
+                }
+            }
+
+            .btnSubmit {
+                width: 100%;
+                max-width: 150px;
+            }
+        }
+    }
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .boxItemStar {
+        display: flex;
+        gap: 25px;
+    }
+
+    label {
+        color: $thr_color;
+
+        span {
+            color: #c62828;
+        }
+    }
+
+    input,
+    textarea {
+        border: 1px solid #e1e1e1;
+        padding: 8px 15px;
+        outline: none;
+
+        &:focus {
+            border: 1px solid $seconddary_color;
+        }
+    }
+}
+
+.clear {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.activeDisabledBtn {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.activeDisabledBtn:hover {
+    background-color: #333 !important;
+    color: #fff;
+}
+
+.emptyData {
+    height: 977px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-size: 24px;
+    }
+}
+
+.loading {
+    height: 977px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+.relatedProducts {
+    margin-top: 60px;
+    padding: 40px 0;
+
+    .relatedTitle {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 400;
+        margin-bottom: 40px;
+        color: $four_color;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}

@@ -1,0 +1,197 @@
+@import '@/assets/styles/variables.module.scss';
+@import '@/assets/styles/mixins.module.scss';
+
+.container {
+    margin-top: 100px;
+    width: 100%;
+    padding: 40px 0;
+
+    .mapImage {
+        width: 100%;
+        margin-bottom: 60px;
+        overflow: hidden;
+
+        iframe {
+            width: 100%;
+            height: 400px;
+            display: block;
+            border: none;
+        }
+    }
+
+    .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        margin-bottom: 60px;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+    }
+
+    .informationSection,
+    .contactSection {
+        .heading {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: $primary_color;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background-color: $color-primary;
+            margin-bottom: 30px;
+        }
+    }
+
+    .infoBox {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 15px;
+
+        .icon {
+            font-size: 24px;
+            color: $primary_color;
+            min-width: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            flex: 1;
+            display: block;
+
+            .title {
+                font-size: 16px;
+                font-weight: 600;
+                color: $primary_color;
+                margin-bottom: 8px;
+            }
+
+            .text {
+                font-size: 14px;
+                color: $primary_color;
+                line-height: 1.6;
+                margin: 0;
+            }
+        }
+    }
+
+    .socialLinks {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            color: $primary_color;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: $primary_color;
+                border-color: $color-primary;
+                color: white;
+            }
+
+            svg {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .contactForm {
+        .description {
+            font-size: 14px;
+            color: $secondary_color;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .formGroup {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .inputWrapper {
+            width: 100%;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: $color-primary;
+            }
+
+            &::placeholder {
+                color: #999;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .submitButton {
+            background-color: $color-primary;
+            color: white;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: darken($color-primary, 10%);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
+
+        .error {
+            color: #ff4444;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .successMessage {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    }
+}

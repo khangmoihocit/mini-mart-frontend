@@ -42,4 +42,13 @@ export default class productService {
     static delete = async (id) => {
         return await apiPrivate.delete(`/products/${id}`);
     }
+
+    static searchAdvanced = async (params) => {
+        return await apiPublic.get('/products/advanced-search', { params });
+    };
+
+    static getByCategoryId = async (categoryId) => {
+        return await apiPublic.get('/products/by-category', { params: { 'categoryId' : categoryId } });
+    };
+
 }

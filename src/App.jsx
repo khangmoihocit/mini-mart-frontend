@@ -5,6 +5,7 @@ import routers from '@/routers/routers';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { AppProvider } from '@/contexts/AppProvider';
 import { ToastProvider } from '@/contexts/ToastProvider';
+import WishlistProvider from '@/contexts/WishlistProvider';
 import Sidebar from '@/components/Sidebar/Sidebar';
 
 const LoadingSpinner = () => (
@@ -22,24 +23,26 @@ const LoadingSpinner = () => (
 function App() {
     return (
         <ToastProvider>
-            <AppProvider>
-            <ErrorBoundary>
-                <BrowserRouter>
-                <Sidebar />
-                    <Suspense fallback={<LoadingSpinner />}>
-                        <Routes>
-                            {routers.map((item, index) => (
-                                <Route
-                                    key={index}
-                                    path={item.path}
-                                    element={<item.component />}
-                                />
-                            ))}
-                        </Routes>
-                    </Suspense>
-                </BrowserRouter>
-            </ErrorBoundary>
-        </AppProvider>
+            <WishlistProvider>
+                <AppProvider>
+                    <ErrorBoundary>
+                        <BrowserRouter>
+                            <Sidebar />
+                            <Suspense fallback={<LoadingSpinner />}>
+                                <Routes>
+                                    {routers.map((item, index) => (
+                                        <Route
+                                            key={index}
+                                            path={item.path}
+                                            element={<item.component />}
+                                        />
+                                    ))}
+                                </Routes>
+                            </Suspense>
+                        </BrowserRouter>
+                    </ErrorBoundary>
+                </AppProvider>
+            </WishlistProvider>
         </ToastProvider>
     );
 }

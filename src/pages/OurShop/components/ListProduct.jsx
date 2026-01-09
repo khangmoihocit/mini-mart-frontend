@@ -9,25 +9,30 @@ import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 
 const ListProduct = () => {
     const { containerProduct, sectionListProduct, loading } = styles;
-    const { products, isShowGrid, isLoading, handleLoadMore, total, isLoadMore } =
+    const { products, isShowGrid, isLoading, handleLoadMore, totalPages, pageNo, isLoadMore } =
         useContext(OurShopConText);
 
     return (
         <div className={sectionListProduct}>
             <MainLayout>
                 {isLoading ? (
-                    <div>Loading ... ?</div>
+                    <div style={{ textAlign: 'center', padding: '40px' }}>Đang tải sản phẩm...</div>
+                ) : products.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '40px' }}>Không tìm thấy sản phẩm</div>
                 ) : (
                     <>
                         <div className={isShowGrid ? containerProduct : ''}>
                             {products.map(item => {
+                                const firstImage = item.images[0]?.imageUrl;
+                                const secondImage = item.images[1]?.imageUrl || item.images[0]?.imageUrl;
+                                
                                 return (
                                     <ProductItem
-                                        key={item._id}
-                                        src={item.images[0]}
-                                        preSrc={item.images[1]}
+                                        key={item.id}
+                                        src={firstImage}
+                                        preSrc={secondImage}
                                         name={item.name}
-                                        price={item.price}
+                                        price={item.salePrice || item.price}
                                         details={item}
                                         isHomePage={false}
                                         isShowGrid={isShowGrid}
@@ -35,13 +40,13 @@ const ListProduct = () => {
                                 );
                             })}
                         </div>
-                        {products.length < total && (
+                        {pageNo < totalPages && (
                             <div
                                 style={{ width: '180px', margin: '50px auto' }}
                             >
                                 <Button
                                     onClick={handleLoadMore}
-                                    content={isLoadMore ? <LoadingTextCommon /> : 'LOAD MORE PRODUCT'}
+                                    content={isLoadMore ? <LoadingTextCommon /> : 'TẢI THÊM SẢN PHẨM'}
                                 />
                             </div>
                         )}

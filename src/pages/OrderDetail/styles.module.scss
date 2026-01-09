@@ -1,0 +1,270 @@
+.orderDetail {
+    padding: 40px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e0e0e0;
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .orderId {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .status {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .statusPending {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .statusProcessing {
+            background: #e3f2fd;
+            color: #2196f3;
+        }
+
+        .statusShipping {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .statusDelivered {
+            background: #e8f5e9;
+            color: #4caf50;
+        }
+
+        .statusCancelled {
+            background: #ffebee;
+            color: #f44336;
+        }
+    }
+
+    .orderInfo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+
+        .section {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+
+            h3 {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: #333;
+            }
+
+            .infoGrid {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .infoItem {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                .label {
+                    font-size: 13px;
+                    color: #666;
+                    font-weight: 500;
+                }
+
+                .value {
+                    font-size: 15px;
+                    color: #333;
+                }
+            }
+        }
+    }
+
+    .products {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 30px;
+
+        h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .productsList {
+            margin-bottom: 30px;
+
+            .productItem {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                padding: 20px 0;
+                border-bottom: 1px solid #e0e0e0;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                img {
+                    width: 100px;
+                    height: 100px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                }
+
+                .productInfo {
+                    flex: 1;
+
+                    .productName {
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                        color: #333;
+                    }
+
+                    .productSize {
+                        font-size: 14px;
+                        color: #666;
+                        margin-bottom: 8px;
+                    }
+
+                    .productPrice {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+
+                .quantity {
+                    text-align: center;
+                    padding: 0 20px;
+
+                    span {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+
+                .total {
+                    min-width: 150px;
+                    text-align: right;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #e53935;
+                }
+            }
+        }
+
+        .orderSummary {
+            border-top: 2px solid #e0e0e0;
+            padding-top: 20px;
+
+            .summaryRow {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                font-size: 15px;
+
+                &.total {
+                    margin-top: 10px;
+                    padding-top: 15px;
+                    border-top: 1px solid #e0e0e0;
+                    font-size: 18px;
+                    font-weight: bold;
+
+                    .totalAmount {
+                        color: #e53935;
+                        font-size: 24px;
+                    }
+                }
+            }
+        }
+    }
+
+    .actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+    }
+
+    .loading,
+    .error {
+        text-align: center;
+        padding: 60px 0;
+        font-size: 18px;
+        color: #666;
+
+        p {
+            margin-bottom: 20px;
+        }
+    }
+
+    .error {
+        color: #e53935;
+    }
+}
+
+@media (max-width: 992px) {
+    .orderDetail {
+        .orderInfo {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .orderDetail {
+        padding: 20px 15px;
+
+        .header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .products {
+            .productsList {
+                .productItem {
+                    flex-wrap: wrap;
+
+                    img {
+                        width: 80px;
+                        height: 80px;
+                    }
+
+                    .quantity,
+                    .total {
+                        width: 100%;
+                        text-align: left;
+                        padding: 10px 0 0 0;
+                    }
+                }
+            }
+        }
+
+        .actions {
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+}

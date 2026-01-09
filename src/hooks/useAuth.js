@@ -39,6 +39,7 @@ export const useAuth = () => {
                 navigate(ROUTES.ADMIN);
             }else{
                 navigate(ROUTES.HOME);
+                window.location.reload();
             }
             setToken(token);
         } catch (error) {

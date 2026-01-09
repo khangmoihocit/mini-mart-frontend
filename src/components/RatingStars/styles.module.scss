@@ -1,0 +1,66 @@
+@import '@/assets/styles/variables.module.scss';
+
+.ratingStars {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .stars {
+        display: flex;
+        gap: 4px;
+    }
+
+    .star {
+        color: #ddd;
+        transition: color 0.2s ease;
+
+        &.filled {
+            color: #ffc107;
+        }
+
+        &.interactive {
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .ratingText {
+        font-size: 14px;
+        color: #666;
+        margin-left: 4px;
+    }
+
+    // Size variants
+    &.small {
+        .star {
+            font-size: 16px;
+        }
+
+        .ratingText {
+            font-size: 12px;
+        }
+    }
+
+    &.medium {
+        .star {
+            font-size: 24px;
+        }
+
+        .ratingText {
+            font-size: 14px;
+        }
+    }
+
+    &.large {
+        .star {
+            font-size: 32px;
+        }
+
+        .ratingText {
+            font-size: 16px;
+        }
+    }
+}

@@ -1,16 +1,41 @@
-@use '@styles/mixins.module.scss' as mixins;
-@use '@styles/variables.module.scss' as vars;
+@import '@styles/variables.module.scss';
+@import '@styles/mixins.module.scss';
 
 .container {
-    @include mixins.flex_box_custom(space-between, unset, 0px);
+    @include flex_box_custom(space-between, unset, 0px);
     flex-direction: column;
     padding: 30px 20px 0 20px;
-    height: 90%;
+    height: 99%;
+
+    .productList {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-bottom: 20px;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    }
 
     .boxButton {
-        @include mixins.flex_box_custom(space-between, unset, 10px);
+        @include flex_box_custom(space-between, unset, 10px);
         flex-direction: column;
-
         width: 100%;
+        flex-shrink: 0;
     }
 }

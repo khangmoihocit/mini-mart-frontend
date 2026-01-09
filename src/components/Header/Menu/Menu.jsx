@@ -4,8 +4,9 @@ import { SideBarContext } from '@/contexts/SidebarProvider';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '@/contexts/StoreProvider';
+import { UserInfoContext } from '@/contexts/UserInfoProvider';
 
-const Menu = ({ content, href }) => {
+const Menu = ({ content, href, onSearchClick }) => {
     const { menu, subMenu } = styles;
     const [isShowSubMenu, setIsShowSubMenu] = useState(false);
     const { setIsOpen, setType } = useContext(SideBarContext);
@@ -17,6 +18,10 @@ const Menu = ({ content, href }) => {
             navigate('/login');
         }
 
+        if (content === 'Đăng nhập' && userInfo) {
+            navigate('/profile');
+        }
+
         if (content === 'Sản phẩm') {
             navigate('/shop');
         }
@@ -24,18 +29,32 @@ const Menu = ({ content, href }) => {
         if (content === 'Trang chủ') {
             navigate('/');
         }
+
+        if(content === 'Về chúng tôi') {
+            navigate('/about-us');
+        }
+
+        if(content === 'Liên hệ') {
+            navigate('/contact');
+        }
+
+        if(content === 'Tìm kiếm'){
+            if (onSearchClick) {
+                onSearchClick();
+            }
+        }
     };
 
     const handleRenderText = content => {
-        if (content === 'Sign in' && userInfo) {
-            return `Hello: ${userInfo?.username}`;
+        if (content === 'Đăng nhập' && userInfo) {
+            return `Xin chào, ${userInfo?.fullName || 'Người ẩn danh chưa điền tên khi đăng ý à'}`;
         } else {
             return content;
         }
     };
 
     const handleHover = () => {
-        if (content === 'Sign in' && userInfo) {
+        if (content === 'Đăng nhập' && userInfo) {
             setIsShowSubMenu(true);
         }
     };
@@ -55,13 +74,16 @@ const Menu = ({ content, href }) => {
             className={menu}
             onClick={handleClickShowLogin}
             onMouseEnter={handleHover}
+            onMouseLeave={() => setIsShowSubMenu(false)}
         >
             {handleRenderText(content)}
             {isShowSubMenu && (
                 <div
-                    onMouseLeave={() => setIsShowSubMenu(false)}
                     className={subMenu}
-                    onClick={handleLogOut}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleLogOut();
+                    }}
                 >
                     LOG OUT
                 </div>

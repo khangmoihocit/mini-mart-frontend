@@ -11,10 +11,10 @@ const ProductAdd = () => {
         price: '',
         salePrice: '',
         description: '',
-        stockQuantity: 0,
         categoryId: '',
     });
 
+    const [sizes, setSizes] = useState([{ sizeName: '', quantity: '' }]);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -64,6 +64,24 @@ const ProductAdd = () => {
         URL.revokeObjectURL(imagePreviews[index]);
     };
 
+    const handleSizeChange = (index, field, value) => {
+        const newSizes = [...sizes];
+        newSizes[index][field] = value;
+        setSizes(newSizes);
+    };
+
+    const addSize = () => {
+        setSizes([...sizes, { sizeName: '', quantity: '' }]);
+    };
+
+    const removeSize = (index) => {
+        setSizes(sizes.filter((_, i) => i !== index));
+    };
+
+    const calculateStockQuantity = () => {
+        return sizes.reduce((total, size) => total + (parseInt(size.quantity) || 0), 0);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -85,6 +103,12 @@ const ProductAdd = () => {
             return;
         }
 
+        // Validate sizes
+        if (sizes.length === 0 || sizes.some(s => !s.sizeName.trim() || !s.quantity)) {
+            toast.error('Vui lòng nhập đầy đủ thông tin size và số lượng');
+            return;
+        }
+
         try {
             setLoading(true);
             const submitData = new FormData();
@@ -94,8 +118,14 @@ const ProductAdd = () => {
                 submitData.append('salePrice', formData.salePrice);
             }
             submitData.append('description', formData.description);
-            submitData.append('stockQuantity', formData.stockQuantity);
+            submitData.append('stockQuantity', calculateStockQuantity());
             submitData.append('categoryId', formData.categoryId);
+            
+            // Add sizes
+            sizes.forEach((size, index) => {
+                submitData.append(`sizes[${index}].sizeName`, size.sizeName);
+                submitData.append(`sizes[${index}].quantity`, size.quantity);
+            });
             
             images.forEach(image => {
                 submitData.append('images', image);
@@ -110,9 +140,9 @@ const ProductAdd = () => {
                 price: '',
                 salePrice: '',
                 description: '',
-                stockQuantity: 0,
                 categoryId: '',
             });
+            setSizes([{ sizeName: '', quantity: '' }]);
             setImages([]);
             setImagePreviews([]);
         } catch (error) {
@@ -170,19 +200,6 @@ const ProductAdd = () => {
 
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="stockQuantity">Số lượng tồn kho</label>
-                        <input
-                            type="number"
-                            id="stockQuantity"
-                            name="stockQuantity"
-                            value={formData.stockQuantity}
-                            onChange={handleChange}
-                            placeholder="0"
-                            min="0"
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
                         <label htmlFor="categoryId">Danh mục <span className={styles.required}>*</span></label>
                         <select
                             id="categoryId"
@@ -210,6 +227,50 @@ const ProductAdd = () => {
                         placeholder="Nhập mô tả sản phẩm"
                         rows="4"
                     />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>Size và số lượng <span className={styles.required}>*</span></label>
+                    <div className={styles.sizesContainer}>
+                        {sizes.map((size, index) => (
+                            <div key={index} className={styles.sizeRow}>
+                                <input
+                                    type="text"
+                                    placeholder="Tên size (S, M, L, XL...)"
+                                    value={size.sizeName}
+                                    onChange={(e) => handleSizeChange(index, 'sizeName', e.target.value)}
+                                    className={styles.sizeInput}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Số lượng"
+                                    value={size.quantity}
+                                    onChange={(e) => handleSizeChange(index, 'quantity', e.target.value)}
+                                    min="0"
+                                    className={styles.sizeInput}
+                                />
+                                {sizes.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className={styles.removeSizeBtn}
+                                        onClick={() => removeSize(index)}
+                                    >
+                                        Xóa
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <button
+                        type="button"
+                        className={styles.addSizeBtn}
+                        onClick={addSize}
+                    >
+                        + Thêm size
+                    </button>
+                    <div style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>
+                        <strong>Tổng số lượng:</strong> {calculateStockQuantity()} sản phẩm
+                    </div>
                 </div>
 
                 <div className={styles.formGroup}>

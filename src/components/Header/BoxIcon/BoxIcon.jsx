@@ -19,7 +19,7 @@ const BoxIcon = ({ type, href }) => {
 
     return (
         <div className={boxIcon}>
-            <img src={handleRenderIcon(type)} alt={type} />
+            <a href={href}> <img src={handleRenderIcon(type)} alt={type} /> </a>
         </div>
     );
 };

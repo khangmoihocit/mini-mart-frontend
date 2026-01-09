@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
-// import { getInfo } from '@/apis/authService';
 import Cookies from 'js-cookie';
+import userService from '@/apis/userService';
 
 export const StoreContext = createContext();
 
@@ -10,13 +10,14 @@ export const StoreProvider = ({ children }) => {
 
     useEffect(() => {
         if (userId) {
-            // getInfo(userId)
-            //     .then(res => {
-            //         setUserInfo(res.data.data);
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     });
+            userService.getMyInfo()
+                .then(res => {
+                    setUserInfo(res.data.result);
+                    console.log('User info loaded:', res.data.result);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
     }, [userId]);
 
