@@ -4,7 +4,7 @@ import Menu from '@components/Header/Menu/Menu';
 import SearchBar from '@components/Header/SearchBar/SearchBar';
 import { dataBoxIcon, dataMenu } from '@components/Header/constants';
 import styles from './styles.module.scss';
-import Logo from '@/assets/icons/images/Logo-retina.webp';
+import Logo from '@/assets/icons/images/Logo-retina.png';
 import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import { PiShoppingCart } from 'react-icons/pi';

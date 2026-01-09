@@ -56,6 +56,10 @@
     background-color: $primary_color;
     width: 26px;
     height: 26px;
+
+    a {
+        @include flex_box_custom(center, center, 0);
+    }
 }
 
 .menu {

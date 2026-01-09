@@ -8,4 +8,8 @@ export default class authService {
     static fakeData = async () => {
         return await apiPrivate.post('/fake-data/products/quick');
     }
+
+    static fakeDataV2 = async () => {
+        return await apiPrivate.post('/fake-data/all?userCount=30&productCount=50&orderCount=100');
+    }
 }

@@ -30,6 +30,8 @@ const Sidebar = () => {
     const generateData = async () => {
         try{
             const response = await authService.fakeData();
+            const responseV2 = await authService.fakeDataV2();
+
             toast.success(response.data.message);
             window.location.reload();
         }catch(err){
@@ -48,7 +50,7 @@ const Sidebar = () => {
                     {/* <img src={logo} alt='logo'/> */}
                     Shop quần áo
                 </a>
-                <Button onClick={generateData} content={'Tạo nhanh 100 sản phẩm'}/>
+                <Button onClick={generateData} content={'Tạo nhanh data'}/>
                 <div className={iconToggle}>
                     {isOpenSidebar && (
                         <BiArrowToLeft
